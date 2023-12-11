@@ -19,6 +19,11 @@ int main()
 		while (window.pollEvent(event))
 		{
 			if (event.type == sf::Event::Closed) window.close();
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::R))
+			{
+				settings.update();
+				window.setSize(sf::Vector2u(settings.getScreensize().x, settings.getScreensize().y));
+			}
 		}
 
 		window.clear();
