@@ -1,8 +1,11 @@
 
 #include <SFML/Graphics.hpp>
+#include "Player.h"
 
 int main()
 {
+	sf::Vector2f position(10, 10);
+	Player p(position);
 
 	sf::RenderWindow window(sf::VideoMode(800, 800), "Excellia");
 
@@ -15,7 +18,7 @@ int main()
 		}
 
 		window.clear();
-
+		window.draw(p.render_shape());
 		window.display();
 
 	}
