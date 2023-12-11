@@ -1,13 +1,17 @@
 
 #include <SFML/Graphics.hpp>
+#include "Settings.h"
 #include "Player.h"
 
 int main()
 {
-	sf::Vector2f position(10, 10);
+	Settings settings;
+	settings.update();
+
+	sf::Vector2f position(100, 100);
 	Player p(position);
 
-	sf::RenderWindow window(sf::VideoMode(800, 800), "Excellia");
+	sf::RenderWindow window(sf::VideoMode(settings.getScreensize().x, settings.getScreensize().y), "Excellia");
 
 	while (window.isOpen())
 	{
