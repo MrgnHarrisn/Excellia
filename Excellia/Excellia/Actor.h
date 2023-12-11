@@ -26,7 +26,9 @@ public:
 	/// Creates a drawable shape for SFML
 	/// </summary>
 	/// <returns>Drawable shape for SFML</returns>
-	virtual sf::Drawable render_shape();
+	virtual sf::Drawable& render_shape();
+	void set_position(sf::Vector2f position);
+	sf::Vector2f get_position();
 private:
 	sf::Vector2f m_position;
 
