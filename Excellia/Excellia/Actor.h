@@ -2,6 +2,7 @@
 
 #include <SFML/Graphics/Transform.hpp>
 #include <SFML/Graphics/Drawable.hpp>
+#include <SFML/Graphics/CircleShape.hpp>
 
 /// <summary>
 /// Player/Enemy/NPC class
@@ -9,8 +10,18 @@
 class Actor
 {
 public:
+
+	/// <summary>
+	/// Constructor for Actor
+	/// </summary>
 	Actor();
+
+	/// <summary>
+	/// Update function for an actor
+	/// </summary>
+	/// <param name="dt"Delta time></param>
 	virtual void update(float dt);
+
 	/// <summary>
 	/// Creates a drawable shape for SFML
 	/// </summary>
