@@ -14,8 +14,6 @@ int main()
 
 	sf::RenderWindow window(sf::VideoMode(settings.getScreensize().x, settings.getScreensize().y), "Excellia");
 
-	printf("%f",f);
-
 	while (window.isOpen())
 	{
 		sf::Event event;
