@@ -1,7 +1,7 @@
 #pragma once
 
-#include <fstream>
 #include <SFML/System/Vector2.hpp>
+#include <fstream>
 
 /// <summary>
 /// Imports settings from file
