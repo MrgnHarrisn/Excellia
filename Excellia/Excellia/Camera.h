@@ -46,5 +46,5 @@ private:
 	sf::View m_view;
 	sf::Vector2f m_position;
 	Actor& m_follow;
-	float m_cam_speed = 0.008;
+	float m_cam_speed = 0.001;
 };

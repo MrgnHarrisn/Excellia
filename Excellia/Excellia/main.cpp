@@ -14,6 +14,7 @@ int main()
 	// Creates player
 	sf::Vector2f position(100, 100);
 	
+	Player temp(position);
 	Player p(position);
 	Camera cam(position, settings.getScreensize(), p);
 	sf::Clock clock;
@@ -25,6 +26,7 @@ int main()
 	// Main loop
 	while (window.isOpen())
 	{
+
 		// Delta time
 		dt = clock.restart().asSeconds();
 
@@ -56,6 +58,7 @@ int main()
 		// Reset and render
 		cam.update();
 		window.clear();
+		window.draw(temp.render_shape());
 		window.draw(p.render_shape());
 		window.display();
 
