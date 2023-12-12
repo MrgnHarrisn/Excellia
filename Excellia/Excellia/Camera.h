@@ -42,7 +42,7 @@ public:
 	sf::View& get_view();
 
 private:
-	float m_zoom = 1.f;
+	int m_zoom = 0;
 	sf::View m_view;
 	sf::Vector2f m_position;
 	Actor& m_follow;
