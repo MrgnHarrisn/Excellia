@@ -16,6 +16,8 @@ int main()
 	
 	Player p(position);
 	Camera cam(position, settings.getScreensize(), p);
+	sf::Clock clock;
+	float dt = 0;
 
 	// Creates window
 	sf::RenderWindow window(sf::VideoMode(settings.getScreensize().x, settings.getScreensize().y), "Pixellia");
@@ -23,6 +25,9 @@ int main()
 	// Main loop
 	while (window.isOpen())
 	{
+		// Delta time
+		dt = clock.restart().asSeconds();
+
 		// Events and inputs
 		sf::Event event;
 		while (window.pollEvent(event))
@@ -46,7 +51,7 @@ int main()
 				}
 			}
 		}
-		p.update(0.005);
+		p.update(dt);
 		window.setView(cam.get_view());
 		// Reset and render
 		cam.update();
@@ -54,6 +59,9 @@ int main()
 		window.draw(p.render_shape());
 		window.display();
 
+		// fps and ms
+		if (1 / dt > 1000) printf("fps: %.4f    ms: %.4f\n", 1 / dt, dt);
+		else printf("fps: %.4f     ms: %.4f\n", 1 / dt, dt);
 	}
 
 	return 0;
