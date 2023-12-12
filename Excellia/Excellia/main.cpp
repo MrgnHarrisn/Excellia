@@ -35,6 +35,16 @@ int main()
 			{
 				window.setSize(sf::Vector2u(settings.getScreensize().x, settings.getScreensize().y));
 			}
+			if (event.type == sf::Event::MouseWheelScrolled) {
+				if (event.mouseWheelScroll.wheel == sf::Mouse::VerticalWheel) {
+					if (event.mouseWheelScroll.delta > 0) {
+						cam.zoom_in();
+					}
+					else if (event.mouseWheelScroll.delta < 0) {
+						cam.zoom_out();
+					}
+				}
+			}
 		}
 		p.update(0.005);
 		window.setView(cam.get_view());

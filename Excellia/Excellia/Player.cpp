@@ -34,5 +34,6 @@ void Player::update(float dt)
 sf::Drawable& Player::render_shape()
 {
 	m_shape.setPosition(get_position());
+	m_shape.setOrigin(m_shape.getSize().x / 2, m_shape.getSize().y / 2);
 	return m_shape;
 }
