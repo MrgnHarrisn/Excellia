@@ -27,5 +27,5 @@ public:
 
 private:
 	sf::RectangleShape m_shape;
-	float m_move_speed = 100;
+	float m_move_speed = 20;
 };

@@ -15,7 +15,10 @@ void Camera::attach(Actor& actor)
 
 void Camera::update()
 {
-	m_position = m_follow.get_position();
+
+	sf::Vector2f newPosition = m_position + (m_follow.get_position() - m_position) * m_cam_speed;
+
+	m_position = newPosition;
 	m_view.zoom(m_zoom);
 	m_view.setCenter(m_position);
 }
