@@ -135,6 +135,8 @@
     <ClInclude Include="Actor.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Settings.h" />
+    <ClInclude Include="TerrainGeneration.h" />
+    <ClInclude Include="Utils.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Settings.conf" />
