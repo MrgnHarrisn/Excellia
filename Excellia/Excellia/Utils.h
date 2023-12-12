@@ -5,6 +5,13 @@
 #include <cmath>
 #include <random>
 
+/// <summary>
+/// Clips a number to be one of two
+/// </summary>
+/// <param name="n">Input number</param>
+/// <param name="lower">Lowest possible number</param>
+/// <param name="upper">Largest possible number</param>
+/// <returns>Clipped number</returns>
 float clip(float n, float lower, float upper) {
 	return std::max(lower, std::min(n, upper));
 }
