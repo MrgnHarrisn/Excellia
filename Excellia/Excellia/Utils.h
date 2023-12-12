@@ -30,25 +30,46 @@ float random(float min, float max)
 	return dist(gen);
 }
 
+// Base case for dot product, multiplying two numbers
+
 /// <summary>
-/// Get's dot product of 2 numbers
+/// Base case for multiplying two Vectors to get dot product
 /// </summary>
+/// <typeparam name="T">Type of variable</typeparam>
 /// <param name="a">Vector a</param>
 /// <param name="b">Vector b</param>
-/// <returns>Resulting float</returns>
-float dot_product_2(sf::Vector2f a, sf::Vector2f b)
-{
+/// <returns>resulting dot product</returns>
+template<typename T>
+float dot_product(const T& a, const T& b) {
 	return (a.x * b.x + a.y * b.y);
 }
 
+// Recursive variadic template for dot product calculation
+
 /// <summary>
-/// Get's dot product of 3 numbers
+/// Recursive template for dot product calculation
 /// </summary>
-/// <param name="a">Vector a</param>
-/// <param name="b">Vector b</param>
-/// <param name="c">Vector c</param>
-/// <returns>Resulting float</returns>
-float dot_product_3(sf::Vector2f a, sf::Vector2f b, sf::Vector2f c)
-{
-	return a.x * b.x * c.x + a.y * b.y * c.y;
+/// <typeparam name="T"></typeparam>
+/// <typeparam name="...Args"></typeparam>
+/// <param name="a"></param>
+/// <param name="...args"></param>
+/// <returns></returns>
+template<typename T, typename... Args>
+float dot_product(const T& a, const Args&... args) {
+	return a * dot_product(args...);
+}
+
+// Function to calculate dot product of vectors
+
+/// <summary>
+/// Function to calculate dot product of a series of Vectors
+/// </summary>
+/// <typeparam name="T">Type</typeparam>
+/// <typeparam name="...Args">all Vectors to calculate</typeparam>
+/// <param name="a">vector a</param>
+/// <param name="...args">all other Vectors</param>
+/// <returns>resulting dot product</returns>
+template<typename T, typename... Args>
+float dot_product_vectors(const T& a, const Args&... args) {
+	return dot_product(a, args...);
 }
