@@ -12,10 +12,10 @@
 class Settings
 {
 public:
-	sf::Vector2i getScreensize() { return m_screen_size; };
+	sf::Vector2u getScreensize() { return m_screen_size; };
 	void update();
 private:
-	sf::Vector2i m_screen_size = sf::Vector2i(800, 800);
+	sf::Vector2u m_screen_size = sf::Vector2u(800, 800);
 };
 
 /// <summary>
