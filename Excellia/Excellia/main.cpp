@@ -2,6 +2,7 @@
 #include <SFML/Graphics.hpp>
 #include "Settings.h"
 #include "Player.h"
+#include "Utils.h"
 
 int main()
 {
@@ -12,6 +13,8 @@ int main()
 	Player p(position);
 
 	sf::RenderWindow window(sf::VideoMode(settings.getScreensize().x, settings.getScreensize().y), "Excellia");
+
+	printf("%f",f);
 
 	while (window.isOpen())
 	{
