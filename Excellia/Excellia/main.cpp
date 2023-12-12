@@ -15,7 +15,7 @@ int main()
 	Player p(position);
 
 	// Creates window
-	sf::RenderWindow window(sf::VideoMode(settings.getScreensize().x, settings.getScreensize().y), "Excellia");
+	sf::RenderWindow window(sf::VideoMode(settings.getScreensize().x, settings.getScreensize().y), "Pixcellia");
 
 	// Main loop
 	while (window.isOpen())
