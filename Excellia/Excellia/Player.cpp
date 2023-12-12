@@ -13,10 +13,26 @@ Player::Player(sf::Vector2f position)
 
 void Player::update(float dt)
 {
-	// TODO
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
+		/* Move Right */
+		sf::Vector2f new_pos = get_position();
+		new_pos.x += m_move_speed * dt;
+		set_position(new_pos);
+	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
+		/* Move Left */
+		sf::Vector2f new_pos = get_position();
+		new_pos.x -= m_move_speed * dt;
+		set_position(new_pos);
+	}
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
+		/* Move Up */
+	}
 }
 
 sf::Drawable& Player::render_shape()
 {
+	m_shape.setPosition(get_position());
 	return m_shape;
 }

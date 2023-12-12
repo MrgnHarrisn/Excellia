@@ -2,6 +2,7 @@
 
 #include "Actor.h"
 #include <SFML/Graphics/RectangleShape.hpp>
+#include <SFML/Window/Keyboard.hpp>
 
 class Player : public Actor {
 public:
@@ -26,4 +27,5 @@ public:
 
 private:
 	sf::RectangleShape m_shape;
+	float m_move_speed = 100;
 };

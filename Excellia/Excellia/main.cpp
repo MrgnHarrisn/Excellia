@@ -3,6 +3,7 @@
 #include "Settings.h"
 #include "Player.h"
 #include "Utils.h"
+#include "Camera.h"
 
 int main()
 {
@@ -12,10 +13,12 @@ int main()
 
 	// Creates player
 	sf::Vector2f position(100, 100);
+	
 	Player p(position);
+	Camera cam(position, settings.getScreensize(), p);
 
 	// Creates window
-	sf::RenderWindow window(sf::VideoMode(settings.getScreensize().x, settings.getScreensize().y), "Pixcellia");
+	sf::RenderWindow window(sf::VideoMode(settings.getScreensize().x, settings.getScreensize().y), "Pixellia");
 
 	// Main loop
 	while (window.isOpen())
@@ -33,8 +36,10 @@ int main()
 				window.setSize(sf::Vector2u(settings.getScreensize().x, settings.getScreensize().y));
 			}
 		}
-		
+		p.update(0.005);
+		window.setView(cam.get_view());
 		// Reset and render
+		cam.update();
 		window.clear();
 		window.draw(p.render_shape());
 		window.display();

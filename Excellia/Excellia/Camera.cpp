@@ -1,14 +1,25 @@
 #include "Camera.h"
 
-Camera::Camera(sf::Vector2f position, sf::Vector2i size)
-{
+Camera::Camera(sf::Vector2f position, sf::Vector2u size, Actor& actor) : m_follow(actor) {
 	m_position = position;
 	m_view.setSize(position);
+	m_view.zoom(m_zoom);
 }
 
 void Camera::zoom_in()
 {
 	m_zoom += 0.5;
+}
+
+void Camera::attach(Actor& actor)
+{
+	m_follow = actor;
+}
+
+void Camera::update()
+{
+	m_position = m_follow.get_position();
+	m_view.setCenter(m_position);
 }
 
 void Camera::zoom_out()
