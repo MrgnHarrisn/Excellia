@@ -3,6 +3,8 @@
 #include <SFML/System/Vector2.hpp>
 #include "Utils.h"
 
+using namespace sf;
+
 /// <summary>
 /// Interpolates the values of a set of vectors
 /// </summary>
@@ -54,4 +56,26 @@ std::vector<float> generate_heights(int map_width, float epsilon)
 
 	return interpolate(heights, 400);
 
+}
+
+/// <summary>
+/// Generates caves at a random position
+/// </summary>
+/// <param name="min">Minimum position of the cave</param>
+/// <param name="max">Maximum position of the cave</param>
+/// <returns>A set of caves</returns>
+std::vector<Vector2f> generate_caves(Vector2f min, Vector2f max)
+{
+	std::vector<Vector2f> caves;
+	for (int i = 0; i < 10; i++) {
+		Vector2f cave_pos;
+		cave_pos.x = random(min.x, max.x);
+		cave_pos.y = random(min.y, max.y);
+		do {
+			cave_pos.x = random(min.x, max.x);
+			cave_pos.y = random(min.y, max.y);
+		} while ((cave_pos.x < 10) || (cave_pos.x > max.x - 10) || (cave_pos.y < 10) || (cave_pos.y > max.y - 10));
+		caves.push_back(cave_pos);
+	}
+	return caves;
 }
