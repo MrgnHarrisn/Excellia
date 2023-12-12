@@ -1,7 +1,6 @@
 #pragma once
 
 #include <SFML/System/Vector2.hpp>
-
 #include <cmath>
 #include <random>
 
@@ -31,24 +30,13 @@ float random(float min, float max)
 }
 
 /// <summary>
-/// Get's dot product of 2 numbers
+/// Get's dot product of 2 or 3 vector2f's
 /// </summary>
 /// <param name="a">Vector a</param>
-/// <param name="b">Vector b</param>
+/// <param name="b">Vector b</param
+/// <param name="c">Vector c (optional)</param>
 /// <returns>Resulting float</returns>
-float dot_product_2(sf::Vector2f a, sf::Vector2f b)
+float dot_product(sf::Vector2f a, sf::Vector2f b, sf::Vector2f c = sf::Vector2f(std::numeric_limits<float>::quiet_NaN(), std::numeric_limits<float>::quiet_NaN()))
 {
-	return (a.x * b.x + a.y * b.y);
-}
-
-/// <summary>
-/// Get's dot product of 3 numbers
-/// </summary>
-/// <param name="a">Vector a</param>
-/// <param name="b">Vector b</param>
-/// <param name="c">Vector c</param>
-/// <returns>Resulting float</returns>
-float dot_product_3(sf::Vector2f a, sf::Vector2f b, sf::Vector2f c)
-{
-	return a.x * b.x * c.x + a.y * b.y * c.y;
+	return (std::isnan(c.x) || std::isnan(c.y)) ? (a.x * b.x + a.y * b.y) : (a.x * b.x * c.x + a.y * b.y * c.y);
 }

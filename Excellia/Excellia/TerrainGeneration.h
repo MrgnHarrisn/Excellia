@@ -16,17 +16,17 @@ std::vector<float> interpolate(std::vector<sf::Vector2f> heights, int max_height
 	std::vector<float> new_heights;
 	for (int i = 0; i < heights.size(); i++) {
 		if (i > 0 && i < heights.size() - 1) {
-			float sum = dot_product_3(heights[i], heights[i - 1], heights[i + 1]);
+			float sum = dot_product(heights[i], heights[i - 1], heights[i + 1]);
 			new_heights.push_back(static_cast<int>(sum * max_height));
 		}
 		else {
 			/* Check for edge spot */
 			if (i == 0) {
-				float sum = dot_product_2(heights[i], heights[i + 1]);
+				float sum = dot_product(heights[i], heights[i + 1]);
 				new_heights.push_back(static_cast<int>(sum * max_height));
 			}
 			else {
-				float sum = dot_product_2(heights[i], heights[i - 1]);
+				float sum = dot_product(heights[i], heights[i - 1]);
 				new_heights.push_back(static_cast<int>(sum * max_height));
 			}
 		}
