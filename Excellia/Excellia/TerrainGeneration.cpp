@@ -31,13 +31,13 @@ std::vector<int> TerrainGeneration::generate_heights(int map_width, float epsilo
 	std::vector<sf::Vector2f> heights;
 	heights.push_back(first);
 	for (int i = 1; i < map_width; i++) {
-		float nx = r.random(Utils::clip(heights[i - 1].x - epsilon, 0.0f, 1.0f), Utils::clip(heights[i - 1].x + epsilon, 0.0f, 1.0f));
-		float ny = r.random(Utils::clip(heights[i - 1].y - epsilon, 0.0f, 1.0f), Utils::clip(heights[i - 1].y + epsilon, 0.0f, 1.0f));
+		float nx = r.random(Utils::clip(heights[i - 1].x - epsilon, 0.6f, 0.8f), Utils::clip(heights[i - 1].x + epsilon, 0.6f, 0.8f));
+		float ny = r.random(Utils::clip(heights[i - 1].y - epsilon, 0.6f, 0.8f), Utils::clip(heights[i - 1].y + epsilon, 0.6f, 0.8f));
 		sf::Vector2f nh(nx, ny);
 		heights.push_back(nh);
 	}
 
-	return interpolate(heights, height * 0.85);
+	return interpolate(heights, height * 0.5);
 
 }
 
@@ -55,7 +55,7 @@ std::vector<int> TerrainGeneration::generate_heights(int map_width, float epsilo
 		heights.push_back(nh);
 	}
 
-	return interpolate(heights, height * 0.85);
+	return interpolate(heights, height * 0.5);
 
 }
 
