@@ -21,7 +21,8 @@ int main()
 	float dt = 0;
 
 	WorldManager wm;
-	wm.create(573849);
+	/* 782315 is the main testing seed */
+	wm.create(782315);
 
 	sf::Vector2f position(400, wm.place_player(400));
 	Player p(position);
