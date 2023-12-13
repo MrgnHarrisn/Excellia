@@ -33,11 +33,13 @@ public:
 	/// <param name="seed">Selected seed</param>
 	void create(long int seed);
 
+	int place_player(int x);
+
 	sf::Sprite get_render(RenderWindow& w);
 
 private:
 	Random m_random;
-	std::vector<int> m_dirt_heights;
+	std::vector<int> m_dirt_heights;	/* This is howm uch dirt should be on top */
 	std::vector<int> m_heights;
 	std::vector<sf::Vector2f> m_caves;
 	int m_width = 800;

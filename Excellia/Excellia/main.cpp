@@ -13,16 +13,21 @@ int main()
 	settings.update();
 
 	// Creates player
-	sf::Vector2f position(400, 400);
 	
-	Player temp(position);
-	Player p(position);
-	Camera cam(position, settings.getScreensize(), p, 10);
+	
+	
+	
 	sf::Clock clock;
 	float dt = 0;
 
 	WorldManager wm;
-	wm.create();
+	wm.create(573849);
+
+	sf::Vector2f position(400, wm.place_player(400));
+	Player p(position);
+	
+
+	Camera cam(position, settings.getScreensize(), p, 10);
 
 	// Creates window
 	sf::RenderWindow window(sf::VideoMode(settings.getScreensize().x, settings.getScreensize().y), "Pixellia");
@@ -63,14 +68,13 @@ int main()
 		cam.update(dt);
 		window.clear();
 		wm.get_render(window);
-		window.draw(temp.render_shape());
 		window.draw(p.render_shape());
 		
 		window.display();
 
 		// fps and ms
-		/*if (1 / dt > 1000) printf("fps: %.4f    ms: %.4f\n", 1 / dt, dt);
-		else printf("fps: %.4f     ms: %.4f\n", 1 / dt, dt);*/
+		if (1 / dt > 1000) printf("fps: %.4f    ms: %.4f\n", 1 / dt, dt);
+		else printf("fps: %.4f     ms: %.4f\n", 1 / dt, dt);
 	}
 
 	return 0;

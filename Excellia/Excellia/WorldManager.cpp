@@ -17,7 +17,12 @@ void WorldManager::create()
 
 void WorldManager::create(long int seed)
 {
-
+	m_heights = TerrainGeneration::generate_heights(m_width, 0.005f, m_height, seed);
+	m_dirt_heights = TerrainGeneration::generate_dirt(m_heights, 800, seed);
+	sf::Vector2f min, max;
+	min.x = 0, min.y = 0;
+	max.x = 800, max.y = 800;
+	m_caves = TerrainGeneration::generate_caves(min, max, seed);
 }
 
 sf::Sprite WorldManager::get_render(RenderWindow& w)
@@ -43,4 +48,9 @@ sf::Sprite WorldManager::get_render(RenderWindow& w)
 
 	return sprite;
 
+}
+
+int WorldManager::place_player(int x)
+{
+	return m_heights[x] - m_dirt_heights[x];
 }

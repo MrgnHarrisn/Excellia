@@ -32,9 +32,10 @@ public:
 	/// <param name="epsilon">The largest possible offset of a float</param>
 	/// <param name="seed">Seed we want to use</param>
 	/// <returns>a vector of floats representing the height</returns>
-	static std::vector<int> generate_heights(int map_width, float epsilon, int height, Random& r, long int seed);
+	static std::vector<int> generate_heights(int map_width, float epsilon, int height, long int seed);
 
 	static std::vector<int> generate_dirt(std::vector<int>& heights, int height_limit, Random& random);
+	static std::vector<int> generate_dirt(std::vector<int>& heights, int height_limit, long int seed);
 
 	/// <summary>
 	/// Generates caves at a random position
@@ -43,6 +44,7 @@ public:
 	/// <param name="max">Maximum position of the cave</param>
 	/// <returns>A set of caves</returns>
 	static std::vector<Vector2f> generate_caves(Vector2f min, Vector2f max, Random& r);
+	static std::vector<Vector2f> generate_caves(Vector2f min, Vector2f max, long int seed);
 
 private:
 };
