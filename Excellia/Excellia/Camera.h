@@ -36,9 +36,9 @@ public:
 	void zoom_out();
 
 	/// <summary>
-	/// 
+	/// Returns a reference to the camera view
 	/// </summary>
-	/// <returns></returns>
+	/// <returns>Returns camera view</returns>
 	sf::View& get_view();
 
 private:
