@@ -28,4 +28,6 @@ public:
 private:
 	sf::RectangleShape m_shape;
 	float m_move_speed = 15;
+	float m_sprint_speed = 25;
+	float m_speed = m_move_speed;
 };
