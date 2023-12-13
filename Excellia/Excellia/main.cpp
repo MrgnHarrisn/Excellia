@@ -4,6 +4,7 @@
 #include "Player.h"
 #include "Utils.h"
 #include "Camera.h"
+#include "WorldManager.h"
 
 int main()
 {
@@ -19,6 +20,9 @@ int main()
 	Camera cam(position, settings.getScreensize(), p, 10);
 	sf::Clock clock;
 	float dt = 0;
+
+	WorldManager wm;
+	wm.create();
 
 	// Creates window
 	sf::RenderWindow window(sf::VideoMode(settings.getScreensize().x, settings.getScreensize().y), "Pixellia");
