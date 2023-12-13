@@ -43,6 +43,8 @@ private:
 	std::vector<int> m_heights;
 	std::vector<sf::Vector2f> m_caves;
 	sf::Image m_image;
+	sf::Texture m_texture;
+	sf::Sprite m_sprite;
 	int m_width = 800;
 	int m_height = 800;
 };
