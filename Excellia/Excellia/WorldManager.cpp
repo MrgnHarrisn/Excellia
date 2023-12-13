@@ -40,7 +40,7 @@ sf::Sprite WorldManager::get_render()
 
 		// Set other pixels above dirt_height
 		for (int j = 799; j > dirt_height + dirt_range; j--) {
-			image.setPixel(i, j, sf::Color(100, 100, 100));
+			image.setPixel(i, j, sf::Color(100, 100, 100)); 
 		}
 
 		/*for (int i = 0; i < caves.size(); i++) {

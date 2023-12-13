@@ -62,9 +62,10 @@ int main()
 		// Reset and render
 		cam.update(dt);
 		window.clear();
+		window.draw(wm.get_render());
 		window.draw(temp.render_shape());
 		window.draw(p.render_shape());
-		window.draw(wm.get_render());
+		
 		window.display();
 
 		// fps and ms
