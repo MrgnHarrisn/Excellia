@@ -1,12 +1,37 @@
 #pragma once
-#include "TerrainGeneration.h"
 
+#include <SFML/System/Vector2.hpp>
+
+#include "TerrainGeneration.h"
+#include "Random.h"
+
+/// <summary>
+/// Manages a world
+/// </summary>
 class WorldManager
 {
 public:
+	/// <summary>
+	/// Constructor for WorldManager
+	/// </summary>
 	WorldManager();
+
+	/// <summary>
+	/// Creates a world with a random seed
+	/// </summary>
+	void create();
+
+	/// <summary>
+	/// Creates a world with a specific seed
+	/// </summary>
+	/// <param name="seed">Selected seed</param>
+	void create(long int seed);
+
 private:
-	unsigned int seed;
-	std::vector<int> dirt_heights;
-	std::vector<int> heights;
+	Random m_random;
+	std::vector<int> m_dirt_heights;
+	std::vector<int> m_heights;
+	std::vector<sf::Vector2f> m_caves;
+	int m_width = 800;
+	int m_height = 800;
 };
