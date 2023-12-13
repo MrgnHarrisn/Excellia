@@ -1,6 +1,11 @@
 #pragma once
 
 #include <SFML/System/Vector2.hpp>
+#include <SFML/Graphics/Image.hpp>
+#include <SFML/Graphics/Texture.hpp>
+#include <SFML/Graphics/Sprite.hpp>
+
+#include <SFML/Graphics/Color.hpp>
 
 #include "TerrainGeneration.h"
 #include "Random.h"
@@ -26,6 +31,8 @@ public:
 	/// </summary>
 	/// <param name="seed">Selected seed</param>
 	void create(long int seed);
+
+	sf::Sprite get_render();
 
 private:
 	Random m_random;

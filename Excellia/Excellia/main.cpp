@@ -64,6 +64,7 @@ int main()
 		window.clear();
 		window.draw(temp.render_shape());
 		window.draw(p.render_shape());
+		window.draw(wm.get_render());
 		window.display();
 
 		// fps and ms
