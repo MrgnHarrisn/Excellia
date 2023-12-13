@@ -59,6 +59,31 @@ std::vector<float> generate_heights(int map_width, float epsilon)
 }
 
 /// <summary>
+/// Generates a set of heights for the terrain
+/// </summary>
+/// <param name="map_width">How many heights we wish to generate</param>
+/// <param name="epsilon">The largest possible offset of a float</param>
+/// <param name="seed">Seed we want to use</param>
+/// <returns>a vector of floats representing the height</returns>
+std::vector<float> generate_heights(int map_width, float epsilon, int seed)
+{
+
+	sf::Vector2f first(random(0.0, 1.0, seed), random(0.0, 1.0, seed));
+
+	std::vector<sf::Vector2f> heights;
+	heights.push_back(first);
+	for (int i = 1; i < map_width; i++) {
+		float nx = random(clip(heights[i - 1].x - epsilon, 0.0, 1.0), clip(heights[i - 1].x + epsilon, 0.0, 1.0), seed);
+		float ny = random(clip(heights[i - 1].y - epsilon, 0.0, 1.0), clip(heights[i - 1].y + epsilon, 0.0, 1.0), seed);
+		sf::Vector2f nh(nx, ny);
+		heights.push_back(nh);
+	}
+
+	return interpolate(heights, 400);
+
+}
+
+/// <summary>
 /// Generates caves at a random position
 /// </summary>
 /// <param name="min">Minimum position of the cave</param>

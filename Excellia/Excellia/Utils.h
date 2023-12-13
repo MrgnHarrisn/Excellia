@@ -30,6 +30,21 @@ float random(float min, float max)
 }
 
 /// <summary>
+/// Generates a random number between 2 numbers with a specific seed
+/// </summary>
+/// <param name="min">smallest possible vlaue</param>
+/// <param name="max">largest possible value</param>
+/// <param name="seed">Seed we want to use to generate numbers</param>
+/// <returns>resulting float</returns>
+float random(float min, float max, int seed)
+{
+	std::random_device rd;
+	std::mt19937 gen(seed);
+	std::uniform_real_distribution<float> dist(min, max);
+	return dist(gen);
+}
+
+/// <summary>
 /// Get's dot product of 2 or 3 vector2f's
 /// </summary>
 /// <param name="a">Vector a</param>
