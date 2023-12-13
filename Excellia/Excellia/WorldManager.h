@@ -4,6 +4,7 @@
 #include <SFML/Graphics/Image.hpp>
 #include <SFML/Graphics/Texture.hpp>
 #include <SFML/Graphics/Sprite.hpp>
+#include <SFML/Graphics/RenderWindow.hpp>
 
 #include <SFML/Graphics/Color.hpp>
 
@@ -32,7 +33,7 @@ public:
 	/// <param name="seed">Selected seed</param>
 	void create(long int seed);
 
-	sf::Sprite get_render();
+	sf::Sprite get_render(RenderWindow& w);
 
 private:
 	Random m_random;

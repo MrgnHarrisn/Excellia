@@ -13,7 +13,7 @@ int main()
 	settings.update();
 
 	// Creates player
-	sf::Vector2f position(100, 100);
+	sf::Vector2f position(400, 400);
 	
 	Player temp(position);
 	Player p(position);
@@ -62,7 +62,7 @@ int main()
 		// Reset and render
 		cam.update(dt);
 		window.clear();
-		window.draw(wm.get_render());
+		wm.get_render(window);
 		window.draw(temp.render_shape());
 		window.draw(p.render_shape());
 		
