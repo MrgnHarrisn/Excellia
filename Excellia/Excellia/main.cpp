@@ -16,7 +16,7 @@ int main()
 	
 	Player temp(position);
 	Player p(position);
-	Camera cam(position, settings.getScreensize(), p);
+	Camera cam(position, settings.getScreensize(), p, 10);
 	sf::Clock clock;
 	float dt = 0;
 
@@ -56,7 +56,7 @@ int main()
 		p.update(dt);
 		window.setView(cam.get_view());
 		// Reset and render
-		cam.update();
+		cam.update(dt);
 		window.clear();
 		window.draw(temp.render_shape());
 		window.draw(p.render_shape());

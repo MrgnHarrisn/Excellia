@@ -12,12 +12,12 @@ public:
 	/// </summary>
 	/// <param name="position">Position of the camera</param>
 	/// <param name="size">Size of the view/perspective</param>
-	Camera(sf::Vector2f position, sf::Vector2u size, Actor& actor);
+	Camera(sf::Vector2f position, sf::Vector2u size, Actor& actor, float d_zoom);
 
 	/// <summary>
 	/// Updates the camera
 	/// </summary>
-	void update();
+	void update(float dt);
 
 	/// <summary>
 	/// Sets an Actor for the camera to follow
@@ -46,5 +46,5 @@ private:
 	sf::View m_view;
 	sf::Vector2f m_position;
 	Actor& m_follow;
-	float m_cam_speed = 0.001;
+	float m_cam_speed = 100;
 };
