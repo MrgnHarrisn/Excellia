@@ -24,6 +24,9 @@ void WorldManager::create()
 		}
 	}
 
+	m_texture.loadFromImage(m_image);
+	m_sprite.setTexture(m_texture);
+
 }
 
 void WorldManager::create(long int seed)
@@ -45,20 +48,17 @@ void WorldManager::create(long int seed)
 		}
 	}
 
+	m_texture.loadFromImage(m_image);
+	m_sprite.setTexture(m_texture);
+
 }
 
 sf::Sprite WorldManager::get_render(RenderWindow& w)
 {
 
-	
+	w.draw(m_sprite);
 
-	sf::Texture texture;
-	texture.loadFromImage(m_image);
-	sf::Sprite sprite(texture);
-
-	w.draw(sprite);
-
-	return sprite;
+	return m_sprite;
 
 }
 
