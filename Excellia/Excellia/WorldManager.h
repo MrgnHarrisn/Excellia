@@ -22,6 +22,8 @@ public:
 	/// </summary>
 	WorldManager();
 
+	WorldManager(Vector2u size);
+
 	/// <summary>
 	/// Creates a world with a random seed
 	/// </summary>

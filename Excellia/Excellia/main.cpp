@@ -11,19 +11,15 @@ int main()
 	// Creates and loads settings
 	Settings settings;
 	settings.update();
-
-	// Creates player
-	
-	
 	
 	
 	sf::Clock clock;
 	float dt = 0;
 
-	WorldManager wm;
+	WorldManager wm(settings.getScreensize());
 	wm.create(573849);
 
-	sf::Vector2f position(400, wm.place_player(400));
+	sf::Vector2f position(settings.getScreensize().x / 2, wm.place_player(settings.getScreensize().x / 2));
 	Player p(position);
 	
 
