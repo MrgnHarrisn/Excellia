@@ -24,7 +24,7 @@ void Camera::update(float dt)
 
 void Camera::zoom_out()
 {
-	if (m_zoom < 5)
+	if (m_zoom < 100)
 	{
 		m_zoom++;
 		m_view.zoom(1.2);

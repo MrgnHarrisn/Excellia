@@ -37,7 +37,7 @@ std::vector<int> TerrainGeneration::generate_heights(int map_width, float epsilo
 		heights.push_back(nh);
 	}
 
-	return interpolate(heights, 400);
+	return interpolate(heights, height * 0.5);
 
 }
 
@@ -55,7 +55,7 @@ std::vector<int> TerrainGeneration::generate_heights(int map_width, float epsilo
 		heights.push_back(nh);
 	}
 
-	return interpolate(heights, height);
+	return interpolate(heights, height * 0.5);
 
 }
 

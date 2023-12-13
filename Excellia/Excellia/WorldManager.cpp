@@ -7,7 +7,7 @@ WorldManager::WorldManager()
 
 void WorldManager::create()
 {
-	m_heights = TerrainGeneration::generate_heights(m_width, 0.001f, m_height, m_random);
+	m_heights = TerrainGeneration::generate_heights(m_width, 0.005f, m_height, m_random);
 	m_dirt_heights = TerrainGeneration::generate_dirt(m_heights, 800, m_random);
 	sf::Vector2f min, max;
 	min.x = 0, min.y = 0;
