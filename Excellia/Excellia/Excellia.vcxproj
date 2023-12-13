@@ -132,6 +132,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Random.cpp" />
+    <ClCompile Include="TerrainGeneration.cpp" />
     <ClCompile Include="Utils.cpp" />
     <ClCompile Include="WorldManager.cpp" />
   </ItemGroup>
