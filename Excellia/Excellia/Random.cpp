@@ -13,13 +13,13 @@ Random::Random(long int seed)
 	m_gen.seed(seed);
 }
 
-long int Random::random(int min, int max)
+float Random::random(float min, float max)
 {
 	std::uniform_real_distribution<float> dist(min, max);
 	return dist(m_gen);
 }
 
-long int Random::random(int min, int max, long int seed)
+float Random::random(float min, float max, long int seed)
 {
 	std::mt19937 gen(seed);
 	std::uniform_real_distribution<float> dist(min, max);

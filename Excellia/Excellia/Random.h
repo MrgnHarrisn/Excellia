@@ -21,7 +21,7 @@ public:
 	/// <param name="min">smallest output number</param>
 	/// <param name="max">largest output number</param>
 	/// <returns>random number</returns>
-	long int random(int min, int max);
+	float random(float min, float max);
 
 	/// <summary>
 	/// Generates a random number with a given seed (not stored)
@@ -30,7 +30,7 @@ public:
 	/// <param name="max">largest number</param>
 	/// <param name="seed">seed to use</param>
 	/// <returns>random number</returns>
-	long int random(int min, int max, long int seed);
+	float random(float min, float max, long int seed);
 
 private:
 	long int m_seed;
