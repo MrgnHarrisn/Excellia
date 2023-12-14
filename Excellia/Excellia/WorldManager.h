@@ -59,6 +59,8 @@ public:
 	/// <returns>world position</returns>
 	Vector2f screen_pos_to_world_pos(RenderWindow& window, Vector2i mouse_pos);
 
+	void break_block(RenderWindow& window, Vector2i mouse_pos);
+
 private:
 	Random m_random;
 	std::vector<int> m_dirt_heights;	/* This is how much dirt should be on top */

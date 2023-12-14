@@ -62,6 +62,11 @@ int main()
 					}
 				}
 			}
+			else if (event.type == sf::Event::MouseButtonPressed) {
+				if (event.mouseButton.button == Mouse::Left) {
+					wm.break_block(window, sf::Mouse::getPosition(window));
+				}
+			}
 		}
 
 		RectangleShape shape;
