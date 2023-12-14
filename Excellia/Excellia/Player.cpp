@@ -64,6 +64,10 @@ Vector2f Player::can_move_pos(Vector2f &position, Vector2f velocity)
     top_right.x += m_shape.getSize().x;
     Vector2i bottom_right = top_right;
     bottom_right.y += m_shape.getSize().y;
+    Vector2i middle_left = top_left;
+    middle_left.y++;
+    Vector2i middle_right = top_right;
+    middle_right.y++;
 
     if (velocity.y > 0)
     {
@@ -71,8 +75,8 @@ Vector2f Player::can_move_pos(Vector2f &position, Vector2f velocity)
         {
             velocity.y = 0; // Stop movement in the positive y direction (falling down)
             position.y = bottom_left.y - 0.01;
-            bottom_left.y -= 1;
-            bottom_right.y -= 1;
+            bottom_left.y--;
+            bottom_right.y--;
         }
     }
     else
@@ -81,21 +85,26 @@ Vector2f Player::can_move_pos(Vector2f &position, Vector2f velocity)
         {
             velocity.y = 0; // Stop movement in the negative y direction (jumping)
             position.y = static_cast<int>(position.y);
+
         }
     }
 
-    if (velocity.y > 0)
+    if (velocity.x > 0)
     {
-        if (!BlockManager::can_move_through((Block)m_wm.get_block(bottom_right)) || !BlockManager::can_move_through((Block)m_wm.get_block(top_right)))
+        if (!BlockManager::can_move_through((Block)m_wm.get_block(bottom_right)) || !BlockManager::can_move_through((Block)m_wm.get_block(top_right)) || !BlockManager::can_move_through((Block)m_wm.get_block(middle_right)))
         {
             velocity.x = 0; // Stop movement in the negative x direction
+            bottom_right.x--;
+            top_right.x--;
         }
     }
     else
     {
-        if (!BlockManager::can_move_through((Block)m_wm.get_block(bottom_right)) || !BlockManager::can_move_through((Block)m_wm.get_block(bottom_left)))
+        if (!BlockManager::can_move_through((Block)m_wm.get_block(bottom_left)) || !BlockManager::can_move_through((Block)m_wm.get_block(top_left)) || !BlockManager::can_move_through((Block)m_wm.get_block(middle_left)))
         {
             velocity.x = 0; // Stop movement in the positive x direction
+            bottom_left.x++;
+            top_left.x++;
         }
     }
 
