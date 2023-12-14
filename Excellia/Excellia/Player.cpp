@@ -48,7 +48,7 @@ Vector2f Player::can_move_pos(Vector2f velocity)
     Vector2f new_velocity = velocity;
 
     /* Get all 4 spots */
-    Vector2f new_pos = get_position() + velocity;
+    Vector2f new_pos = Vector2f(get_position().x, get_position().y - 1.0f) + velocity;
     Vector2i bottom_left = static_cast<Vector2i>(new_pos);
     Vector2i top_left = bottom_left;
     top_left.y -= m_shape.getSize().y;
