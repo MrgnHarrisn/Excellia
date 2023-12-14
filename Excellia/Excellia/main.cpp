@@ -18,6 +18,10 @@ int main()
 	float dt = 0;
 
 	WorldManager wm(settings.get_world_size(), 573849);
+	/* 573849 test seed */
+	/* Crashes with 83875675 */
+	/* 42069 is a good seed */
+	/* Spawning inside dirt 6911 */
 	wm.create();
 
 	sf::Vector2f position(settings.get_world_size().x / 2, wm.place_player(settings.get_world_size().x / 2));
