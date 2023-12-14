@@ -75,9 +75,12 @@ Vector2f  WorldManager::screen_pos_to_world_pos(RenderWindow& window, Vector2i m
 void WorldManager::break_block(RenderWindow& window, Vector2i mouse_pos)
 {
 	Vector2f block = screen_pos_to_world_pos(window, mouse_pos);
-	m_image.setPixel(block.x, block.y, BlockManager::hex_to_color(Block::Void));
 
-	/* Update image */
-	m_texture.loadFromImage(m_image);
-	m_sprite.setTexture(m_texture);
+	if (block.x >= 0 && block.x <= m_width && block.y >= 0 && block.y < m_height) {
+		m_image.setPixel(block.x, block.y, BlockManager::hex_to_color(Block::Void));
+
+		/* Update image */
+		m_texture.loadFromImage(m_image);
+		m_sprite.setTexture(m_texture);
+	}
 }
