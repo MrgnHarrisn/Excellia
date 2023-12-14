@@ -6,9 +6,11 @@ Player::Player(sf::Vector2f position, WorldManager& wm) : m_wm(wm)
 	set_position(position);
 	sf::RectangleShape shape;
 	shape.setSize(sf::Vector2f{ 1, 3 });
-	shape.setOrigin(0, shape.getSize().y);
+	shape.setOrigin(0, 3);
 	shape.setPosition(get_position());
-	shape.setFillColor(sf::Color::Magenta);
+    m_texture.loadFromFile("player.png");
+    shape.setTexture(&m_texture);
+
 	m_shape = shape;
 }
 
@@ -114,5 +116,5 @@ Vector2f Player::can_move_pos(Vector2f &position, Vector2f velocity)
 
 sf::Drawable& Player::render_shape()
 {
-	return m_shape;
+    return m_shape;
 }

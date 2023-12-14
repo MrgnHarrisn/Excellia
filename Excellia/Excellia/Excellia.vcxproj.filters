@@ -84,4 +84,9 @@
   <ItemGroup>
     <None Include="Settings.conf" />
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="player.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+  </ItemGroup>
 </Project>

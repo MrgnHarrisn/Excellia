@@ -35,5 +35,6 @@ private:
 	float m_move_speed = 15;
 	float m_sprint_speed = 25;
 	float m_speed = m_move_speed;
+	Texture m_texture;
 	WorldManager& m_wm;
 };
