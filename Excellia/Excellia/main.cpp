@@ -20,7 +20,7 @@ int main()
 	/* 573849 test seed */
 	wm.create(573849);
 
-	sf::Vector2f position(settings.get_screen_size().x / 2, wm.place_player(settings.get_screen_size().x / 2));
+	sf::Vector2f position(settings.get_world_size().x / 2, wm.place_player(settings.get_world_size().x / 2));
 	Player p(position);
 	
 
