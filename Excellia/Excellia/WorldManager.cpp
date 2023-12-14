@@ -21,7 +21,7 @@ void WorldManager::create()
 	max.x = m_width, max.y = m_height;
 	m_caves = TerrainGeneration::generate_caves(min, max, m_random);
 
-	printf("Pixels: %i\n", m_heights.size());
+	// printf("Pixels: %i\n", m_heights.size());
 
 	for (int i = 0; i < m_heights.size(); i++) {
 		/* Do dirt for column */
@@ -81,5 +81,10 @@ sf::Sprite WorldManager::get_render(RenderWindow& w)
 
 int WorldManager::place_player(int x)
 {
-	return m_heights[x - 1] - 3; // Height of ground + height of player
+	return m_heights[x - 1]; // Height of ground + height of player
+}
+
+unsigned int WorldManager::get_block(sf::Vector2i pos)
+{
+	return BlockManager::color_to_hex(m_image.getPixel(pos.x, pos.y));
 }

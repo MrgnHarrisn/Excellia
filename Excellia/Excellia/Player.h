@@ -1,17 +1,20 @@
 #pragma once
 
-#include "Actor.h"
 #include <SFML/Graphics/RectangleShape.hpp>
 #include <SFML/Window/Keyboard.hpp>
+
+#include "WorldManager.h"
+#include "BlockManager.h"
+#include "Actor.h"
 
 class Player : public Actor {
 public:
 
 	/// <summary>
-	/// COnstructor for player
+	/// Constructor for player
 	/// </summary>
 	/// <param name="position">Position the player starts at</param>
-	Player(sf::Vector2f position);
+	Player(sf::Vector2f position, WorldManager& wm);
 
 	/// <summary>
 	/// Override of the update function
@@ -25,9 +28,12 @@ public:
 	/// <returns>sf::Drawable& of player's shape</returns>
 	sf::Drawable& render_shape() override;
 
+	Vector2f can_move_pos(Vector2f velocity);
+
 private:
 	sf::RectangleShape m_shape;
 	float m_move_speed = 15;
 	float m_sprint_speed = 25;
 	float m_speed = m_move_speed;
+	WorldManager& m_wm;
 };

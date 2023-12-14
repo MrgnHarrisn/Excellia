@@ -5,6 +5,7 @@
 #include "Utils.h"
 #include "Camera.h"
 #include "WorldManager.h"
+#include "BlockManager.h"
 
 int main()
 {
@@ -21,7 +22,7 @@ int main()
 	wm.create(573849);
 
 	sf::Vector2f position(settings.get_world_size().x / 2, wm.place_player(settings.get_world_size().x / 2));
-	Player p(position);
+	Player p(position, wm);
 	
 
 	Camera cam(position, settings.get_screen_size(), p, 10);
