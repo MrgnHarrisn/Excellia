@@ -12,10 +12,12 @@
 class Settings
 {
 public:
-	sf::Vector2u getScreensize() { return m_screen_size; };
+	sf::Vector2u get_screen_size()	{ return m_screen_size; };
+	sf::Vector2u get_world_size ()	{ return m_world_size ; };
 	void update();
 private:
 	sf::Vector2u m_screen_size = sf::Vector2u(800, 800);
+	sf::Vector2u m_world_size = sf::Vector2u(800, 800);
 };
 
 /// <summary>
@@ -45,6 +47,14 @@ void Settings::update()
 		else if (setting_name == "screenh")
 		{
 			settings_file >> m_screen_size.y;
+		}
+		else if (setting_name == "worldw")
+		{
+			settings_file >> m_world_size.x;
+		}
+		else if (setting_name == "worldh")
+		{
+			settings_file >> m_world_size.y;
 		}
 	}
 }

@@ -16,18 +16,18 @@ int main()
 	sf::Clock clock;
 	float dt = 0;
 
-	WorldManager wm(settings.getScreensize());
+	WorldManager wm(settings.get_world_size());
 	/* 573849 test seed */
 	wm.create(573849);
 
-	sf::Vector2f position(settings.getScreensize().x / 2, wm.place_player(settings.getScreensize().x / 2));
+	sf::Vector2f position(settings.get_screen_size().x / 2, wm.place_player(settings.get_screen_size().x / 2));
 	Player p(position);
 	
 
-	Camera cam(position, settings.getScreensize(), p, 10);
+	Camera cam(position, settings.get_screen_size(), p, 10);
 
 	// Creates window
-	sf::RenderWindow window(sf::VideoMode(settings.getScreensize().x, settings.getScreensize().y), "Pixellia");
+	sf::RenderWindow window(sf::VideoMode(settings.get_screen_size().x, settings.get_screen_size().y), "Pixellia");
 
 	// Main loop
 	while (window.isOpen())
@@ -46,7 +46,7 @@ int main()
 			}
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::R))
 			{
-				window.setSize(sf::Vector2u(settings.getScreensize().x, settings.getScreensize().y));
+				window.setSize(sf::Vector2u(settings.get_screen_size().x, settings.get_screen_size().y));
 			}
 			if (event.type == sf::Event::MouseWheelScrolled) {
 				if (event.mouseWheelScroll.wheel == sf::Mouse::VerticalWheel) {
