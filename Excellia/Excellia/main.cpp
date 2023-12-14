@@ -27,7 +27,7 @@ int main()
 	Camera cam(position, settings.get_screen_size(), p, 10);
 
 	// Creates window
-	sf::RenderWindow window(sf::VideoMode(settings.get_screen_size().x, settings.get_screen_size().y), "Pixellia");
+	sf::RenderWindow window(sf::VideoMode(settings.get_screen_size().x, settings.get_screen_size().y), "Pixellia", sf::Style::None);
 
 	// Main loop
 	while (window.isOpen())

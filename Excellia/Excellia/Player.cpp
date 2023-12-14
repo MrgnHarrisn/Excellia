@@ -8,6 +8,7 @@ Player::Player(sf::Vector2f position)
 	shape.setSize(sf::Vector2f{ 1, 3 });
 	shape.setPosition(get_position());
 	shape.setFillColor(sf::Color::Magenta);
+	m_shape.setOrigin(0, m_shape.getSize().y);
 	m_shape = shape;
 }
 
@@ -37,11 +38,11 @@ void Player::update(float dt)
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
 		/* Move Up */
 	}
+	m_shape.setPosition(get_position());
+
 }
 
 sf::Drawable& Player::render_shape()
 {
-	m_shape.setPosition(get_position());
-	m_shape.setOrigin(m_shape.getSize().x, 0);
 	return m_shape;
 }
