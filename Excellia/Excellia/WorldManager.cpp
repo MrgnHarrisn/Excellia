@@ -59,3 +59,15 @@ unsigned int WorldManager::get_block(sf::Vector2i pos)
 {
 	return BlockManager::color_to_hex(m_image.getPixel(pos.x, pos.y));
 }
+
+Vector2f  WorldManager::screen_pos_to_world_pos(RenderWindow& window, Vector2i mouse_pos)
+
+{
+	
+	sf::Vector2f world_pos = window.mapPixelToCoords(mouse_pos, window.getView());
+
+	Vector2f image_pos(world_pos.x, world_pos.y); /* Not really needed */
+
+	return image_pos;
+
+}
