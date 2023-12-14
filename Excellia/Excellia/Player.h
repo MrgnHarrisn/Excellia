@@ -28,7 +28,7 @@ public:
 	/// <returns>sf::Drawable& of player's shape</returns>
 	sf::Drawable& render_shape() override;
 
-	Vector2f can_move_pos(Vector2f velocity);
+	Vector2f can_move_pos(Vector2f &position, Vector2f velocity);
 
 private:
 	sf::RectangleShape m_shape;

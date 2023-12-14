@@ -43,20 +43,20 @@ void Player::update(float dt)
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
 		/* Move Up */
 	}
-	velocity = can_move_pos(velocity);
+
+    auto pos = get_position();
+	velocity = can_move_pos(pos, velocity);
 	set_position(get_position() + velocity);
 
-	m_shape.setPosition(get_position());
+	m_shape.setPosition(pos + velocity);
 
 }
 
-Vector2f Player::can_move_pos(Vector2f velocity)
+Vector2f Player::can_move_pos(Vector2f &position, Vector2f velocity)
 {
-    Vector2f new_velocity = velocity;
 
     /* Get all 4 spots */
     Vector2f new_pos = get_position() + velocity;
-
     Vector2i bottom_left = static_cast<Vector2i>(new_pos);
     Vector2i top_left = bottom_left;
     top_left.y -= m_shape.getSize().y;
@@ -65,41 +65,41 @@ Vector2f Player::can_move_pos(Vector2f velocity)
     Vector2i bottom_right = top_right;
     bottom_right.y += m_shape.getSize().y;
 
-    // Check collision in y-axis directions
-    if ((!BlockManager::can_move_through((Block)m_wm.get_block(bottom_left)) ||
-        !BlockManager::can_move_through((Block)m_wm.get_block(bottom_right))) && velocity.y > 0)
+    if (velocity.y > 0)
     {
-        new_velocity.y = 0; // Stop movement in the positive y direction (falling down)
+        if (!BlockManager::can_move_through((Block)m_wm.get_block(bottom_left)) || !BlockManager::can_move_through((Block)m_wm.get_block(bottom_right)))
+        {
+            velocity.y = 0; // Stop movement in the positive y direction (falling down)
+            position.y = bottom_left.y - 0.01;
+            bottom_left.y -= 1;
+            bottom_right.y -= 1;
+        }
+    }
+    else
+    {
+        if (!BlockManager::can_move_through((Block)m_wm.get_block(top_left)) || !BlockManager::can_move_through((Block)m_wm.get_block(top_right)))
+        {
+            velocity.y = 0; // Stop movement in the negative y direction (jumping)
+            position.y = static_cast<int>(position.y);
+        }
     }
 
-    if ((!BlockManager::can_move_through((Block)m_wm.get_block(top_left)) ||
-        !BlockManager::can_move_through((Block)m_wm.get_block(top_right))) && velocity.y < 0)
+    if (velocity.y > 0)
     {
-        new_velocity.y = 0; // Stop movement in the negative y direction (jumping)
+        if (!BlockManager::can_move_through((Block)m_wm.get_block(bottom_right)) || !BlockManager::can_move_through((Block)m_wm.get_block(top_right)))
+        {
+            velocity.x = 0; // Stop movement in the negative x direction
+        }
+    }
+    else
+    {
+        if (!BlockManager::can_move_through((Block)m_wm.get_block(bottom_right)) || !BlockManager::can_move_through((Block)m_wm.get_block(bottom_left)))
+        {
+            velocity.x = 0; // Stop movement in the positive x direction
+        }
     }
 
-    if (static_cast<int>(10*new_pos.y) == 10*static_cast<int>(new_pos.y))
-    {
-        top_left.y--;
-        top_right.y--;
-        bottom_left.y--;
-        bottom_right.y--;
-    }
-
-    // Check collision in x-axis directions
-    if ((!BlockManager::can_move_through((Block)m_wm.get_block(bottom_left)) ||
-        !BlockManager::can_move_through((Block)m_wm.get_block(top_left))) && velocity.x < 0)
-    {
-        new_velocity.x = 0; // Stop movement in the negative x direction
-    }
-
-    if ((!BlockManager::can_move_through((Block)m_wm.get_block(bottom_right)) ||
-        !BlockManager::can_move_through((Block)m_wm.get_block(top_right))) && velocity.x > 0)
-    {
-        new_velocity.x = 0; // Stop movement in the positive x direction
-    }
-
-    return new_velocity;
+    return velocity;
 }
 
 
