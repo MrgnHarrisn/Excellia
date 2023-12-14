@@ -45,42 +45,47 @@ void Player::update(float dt)
 
 Vector2f Player::can_move_pos(Vector2f velocity)
 {
+    Vector2f new_velocity = velocity;
 
-	Vector2f new_velocity = velocity;
+    /* Get all 4 spots */
+    Vector2f new_pos = get_position() + velocity;
+    Vector2i bottom_left = static_cast<Vector2i>(new_pos);
+    Vector2i top_left = bottom_left;
+    top_left.y -= m_shape.getSize().y;
+    Vector2i top_right = top_left;
+    top_right.x += m_shape.getSize().x;
+    Vector2i bottom_right = top_right;
+    bottom_right.y += m_shape.getSize().y;
 
-	/* Get all 4 spots fuck you */
-	Vector2f new_pos = get_position() + velocity;
-	Vector2i bottom_left = static_cast<Vector2i>(new_pos);
-	Vector2i top_left = bottom_left;
-	top_left.y -= m_shape.getSize().y;
-	Vector2i top_right = top_left;
-	top_left.x += m_shape.getSize().x;
-	Vector2i bottom_right = top_right;
-	bottom_right.y += m_shape.getSize().y;
+    // Check collision in x-axis directions
+    if ((!BlockManager::can_move_through((Block)m_wm.get_block(bottom_left)) ||
+        !BlockManager::can_move_through((Block)m_wm.get_block(top_left))) && velocity.x < 0)
+    {
+        new_velocity.x = 0; // Stop movement in the negative x direction
+    }
 
-	if (!BlockManager::can_move_through((Block)m_wm.get_block(bottom_left)) && !BlockManager::can_move_through((Block)m_wm.get_block(top_left)) && velocity.x < 0)
-	{
-		velocity.x = 0;
-	}
+    if ((!BlockManager::can_move_through((Block)m_wm.get_block(bottom_right)) ||
+        !BlockManager::can_move_through((Block)m_wm.get_block(top_right))) && velocity.x > 0)
+    {
+        new_velocity.x = 0; // Stop movement in the positive x direction
+    }
 
-	if (!BlockManager::can_move_through((Block)m_wm.get_block(bottom_right)) && !BlockManager::can_move_through((Block)m_wm.get_block(top_right)) && velocity.x > 0)
-	{
-		velocity.x = 0;
-	}
+    // Check collision in y-axis directions
+    if ((!BlockManager::can_move_through((Block)m_wm.get_block(bottom_left)) ||
+        !BlockManager::can_move_through((Block)m_wm.get_block(bottom_right))) && velocity.y > 0)
+    {
+        new_velocity.y = 0; // Stop movement in the positive y direction (falling down)
+    }
 
-	if (!BlockManager::can_move_through((Block)m_wm.get_block(bottom_left)) && !BlockManager::can_move_through((Block)m_wm.get_block(bottom_right)) && velocity.y > 0)
-	{
-		velocity.y = 0;
-	}
+    if ((!BlockManager::can_move_through((Block)m_wm.get_block(top_left)) ||
+        !BlockManager::can_move_through((Block)m_wm.get_block(top_right))) && velocity.y < 0)
+    {
+        new_velocity.y = 0; // Stop movement in the negative y direction (jumping)
+    }
 
-	if (!BlockManager::can_move_through((Block)m_wm.get_block(top_left)) && !BlockManager::can_move_through((Block)m_wm.get_block(top_right)) && velocity.x < 0)
-	{
-		velocity.y = 0;
-	}
-
-	return new_velocity;
-	
+    return new_velocity;
 }
+
 
 sf::Drawable& Player::render_shape()
 {

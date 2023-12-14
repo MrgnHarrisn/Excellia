@@ -10,7 +10,6 @@
 #include "TerrainGeneration.h"
 #include "BlockManager.h"
 #include "Random.h"
-#include "Player.h"
 
 /// <summary>
 /// Manages a world

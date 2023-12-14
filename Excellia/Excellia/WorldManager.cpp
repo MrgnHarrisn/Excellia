@@ -81,7 +81,7 @@ sf::Sprite WorldManager::get_render(RenderWindow& w)
 
 int WorldManager::place_player(int x)
 {
-	return m_heights[x - 1]; // Height of ground + height of player
+	return m_heights[x - 1] - 1; // Height of ground + height of player
 }
 
 unsigned int WorldManager::get_block(sf::Vector2i pos)
