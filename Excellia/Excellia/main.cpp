@@ -17,7 +17,8 @@ int main()
 	float dt = 0;
 
 	WorldManager wm(settings.getScreensize());
-	wm.create();
+	/* 573849 test seed */
+	wm.create(573849);
 
 	sf::Vector2f position(settings.getScreensize().x / 2, wm.place_player(settings.getScreensize().x / 2));
 	Player p(position);
