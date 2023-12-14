@@ -70,9 +70,10 @@ int main()
 		}
 
 		RectangleShape shape;
-		shape.setPosition(wm.screen_pos_to_world_pos(window, sf::Mouse::getPosition(window)));
+		Vector2i world_pos = static_cast<Vector2i>(wm.screen_pos_to_world_pos(window, sf::Mouse::getPosition(window)));
+		shape.setPosition(static_cast<Vector2f>(world_pos));
 		// shape.setPosition(window.mapPixelToCoords(sf::Mouse::getPosition(), cam.get_view()));
-		shape.setSize({ 10, 10 });
+		shape.setSize({ 1, 1 });
 		shape.setFillColor(sf::Color::White);
 
 		p.update(dt);
