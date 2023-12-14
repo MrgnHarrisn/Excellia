@@ -4,6 +4,7 @@
 class Random
 {
 public:
+
 	/// <summary>
 	/// Default constructor
 	/// </summary>

@@ -8,7 +8,6 @@
 /// screenw -> width of screen
 /// screenh -> height of screen
 /// </summary>
-
 class Settings
 {
 public:
@@ -17,13 +16,12 @@ public:
 	void update();
 private:
 	sf::Vector2u m_screen_size = sf::Vector2u(800, 800);
-	sf::Vector2u m_world_size = sf::Vector2u(800, 800);
+	sf::Vector2u m_world_size  = sf::Vector2u(800, 800);
 };
 
 /// <summary>
 /// Updates the current settings
 /// </summary>
-
 void Settings::update()
 {
 	std::fstream settings_file;
@@ -48,11 +46,11 @@ void Settings::update()
 		{
 			settings_file >> m_screen_size.y;
 		}
-		else if (setting_name == "worldw")
+		else if (setting_name == "worldw") // Temp
 		{
 			settings_file >> m_world_size.x;
 		}
-		else if (setting_name == "worldh")
+		else if (setting_name == "worldh") // Temp
 		{
 			settings_file >> m_world_size.y;
 		}

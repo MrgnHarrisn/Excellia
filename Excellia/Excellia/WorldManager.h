@@ -3,9 +3,10 @@
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Graphics/Texture.hpp>
 #include <SFML/Graphics/Sprite.hpp>
-#include <SFML/System/Vector2.hpp>
 #include <SFML/Graphics/Image.hpp>
 #include <SFML/Graphics/Color.hpp>
+
+#include <SFML/System/Vector2.hpp>
 
 #include "TerrainGeneration.h"
 #include "BlockManager.h"
@@ -17,23 +18,16 @@
 class WorldManager
 {
 public:
+
 	/// <summary>
 	/// Constructor for WorldManager
 	/// </summary>
-	WorldManager();
-
-	WorldManager(Vector2u size);
+	WorldManager(Vector2u size = Vector2u(0, 0), long int seed = -1);
 
 	/// <summary>
 	/// Creates a world with a random seed
 	/// </summary>
 	void create();
-
-	/// <summary>
-	/// Creates a world with a specific seed
-	/// </summary>
-	/// <param name="seed">Selected seed</param>
-	void create(long int seed);
 
 	/// <summary>
 	/// Calcualtes a valid y position for player at given x position
@@ -53,7 +47,7 @@ public:
 
 private:
 	Random m_random;
-	std::vector<int> m_dirt_heights;	/* This is howm uch dirt should be on top */
+	std::vector<int> m_dirt_heights;	/* This is how much dirt should be on top */
 	std::vector<int> m_heights;
 	std::vector<sf::Vector2f> m_caves;
 	sf::Image m_image;

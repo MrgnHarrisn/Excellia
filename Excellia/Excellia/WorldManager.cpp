@@ -1,28 +1,31 @@
 #include "WorldManager.h"
 
-WorldManager::WorldManager()
+WorldManager::WorldManager(Vector2u size, long int seed)
 {
-	m_image.create(m_width, m_height, sf::Color::Black);
-}
+	if (size.x != 0 && size.y != 0)
+	{
+		m_width = size.x;
+		m_height = size.y;
+	}
 
-WorldManager::WorldManager(Vector2u size)
-{
-	m_width = size.x;
-	m_height = size.y;
+	if (seed != -1)
+	{
+		Random r(seed);
+		m_random = r;
+	}
+
 	m_image.create(m_width, m_height, sf::Color::Black);
 }
 
 void WorldManager::create()
 {
 	m_heights = TerrainGeneration::generate_heights(m_width, 0.005f, m_height, m_random);
-	m_dirt_heights = TerrainGeneration::generate_dirt(m_heights, m_height, m_random);
+	m_dirt_heights = TerrainGeneration::generate_dirt(m_width, m_random);
 	sf::Vector2f min, max;
 	min.x = 0, min.y = 0;
 	max.x = m_width, max.y = m_height;
 	m_caves = TerrainGeneration::generate_caves(min, max, m_random);
 
-	// printf("Pixels: %i\n", m_heights.size());
-
 	for (int i = 0; i < m_heights.size(); i++) {
 		/* Do dirt for column */
 		for (int j = m_heights[i]; j <= m_heights[i] + m_dirt_heights[i]; j++) {
@@ -36,38 +39,6 @@ void WorldManager::create()
 
 	m_texture.loadFromImage(m_image);
 	m_sprite.setTexture(m_texture);
-
-	
-
-}
-
-void WorldManager::create(long int seed)
-{
-	m_heights = TerrainGeneration::generate_heights(m_width, 0.005f, m_height, seed);
-	m_dirt_heights = TerrainGeneration::generate_dirt(m_heights, m_height, seed);
-	sf::Vector2f min, max;
-	min.x = 0, min.y = 0;
-	max.x = m_width, max.y = m_height;
-	m_caves = TerrainGeneration::generate_caves(min, max, seed);
-
-	
-
-	for (int i = 0; i < m_heights.size(); i++) {
-		/* Do dirt for column */
-		for (int j = m_heights[i]; j <= m_heights[i] + m_dirt_heights[i]; j++) {
-			m_image.setPixel(i, j, Color(150, 75, 0));
-		}
-
-		for (int j = m_heights[i] + m_dirt_heights[i]; j < m_height; j++) {
-			m_image.setPixel(i, j, Color(100, 100, 100));
-		}
-	}
-
-	
-
-	m_texture.loadFromImage(m_image);
-	m_sprite.setTexture(m_texture);
-
 }
 
 sf::Sprite WorldManager::get_render(RenderWindow& w)

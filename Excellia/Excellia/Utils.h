@@ -8,6 +8,7 @@
 class Utils
 {
 public:
+
 	/// <summary>
 	/// Clips a number to be one of two
 	/// </summary>
@@ -16,7 +17,6 @@ public:
 	/// <param name="upper">Largest possible number</param>
 	/// <returns>Clipped number</returns>
 	static float clip(float n, float lower, float upper);
-
 
 	/// <summary>
 	/// Get's dot product of 2 or 3 vector2f's

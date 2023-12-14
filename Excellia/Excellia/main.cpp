@@ -17,9 +17,8 @@ int main()
 	sf::Clock clock;
 	float dt = 0;
 
-	WorldManager wm(settings.get_world_size());
-	/* 573849 test seed */
-	wm.create(573849);
+	WorldManager wm(settings.get_world_size(), 573849);
+	wm.create();
 
 	sf::Vector2f position(settings.get_world_size().x / 2, wm.place_player(settings.get_world_size().x / 2));
 	Player p(position, wm);
