@@ -3,6 +3,7 @@
 
 Player::Player(sf::Vector2f position)
 {
+	//m_shape.setOrigin(0, 100);
 	set_position(position);
 	sf::RectangleShape shape;
 	shape.setSize(sf::Vector2f{ 1, 3 });
@@ -42,6 +43,5 @@ void Player::update(float dt)
 sf::Drawable& Player::render_shape()
 {
 	m_shape.setPosition(get_position());
-	m_shape.setOrigin(m_shape.getSize().x, 0);
 	return m_shape;
 }
