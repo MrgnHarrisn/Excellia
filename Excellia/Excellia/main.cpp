@@ -32,13 +32,14 @@ int main()
 
 	// Creates window
 	sf::RenderWindow window(sf::VideoMode(settings.get_screen_size().x, settings.get_screen_size().y), "Pixellia", sf::Style::None);
-
+	bool is_mouse_pressed = false;
 	// Main loop
 	while (window.isOpen())
 	{
 
 		// Delta time
 		dt = clock.restart().asSeconds();
+		
 
 		// Events and inputs
 		sf::Event event;
@@ -63,10 +64,19 @@ int main()
 				}
 			}
 			else if (event.type == sf::Event::MouseButtonPressed) {
-				if (event.mouseButton.button == Mouse::Left) {
-					wm.break_block(window, sf::Mouse::getPosition(window));
+				if (event.mouseButton.button == sf::Mouse::Left) {
+					is_mouse_pressed = true;
 				}
 			}
+			else if (event.type == sf::Event::MouseButtonReleased) {
+				if (event.mouseButton.button == sf::Mouse::Left) {
+					is_mouse_pressed = false;
+				}
+			}
+		}
+
+		if (is_mouse_pressed) {
+			wm.break_block(window, sf::Mouse::getPosition(window));
 		}
 
 		RectangleShape shape;
@@ -74,7 +84,7 @@ int main()
 		shape.setPosition(static_cast<Vector2f>(world_pos));
 		// shape.setPosition(window.mapPixelToCoords(sf::Mouse::getPosition(), cam.get_view()));
 		shape.setSize({ 1, 1 });
-		shape.setFillColor(sf::Color::White);
+		shape.setFillColor(sf::Color(255, 255, 255, 50));
 
 		p.update(dt);
 		window.setView(cam.get_view());
