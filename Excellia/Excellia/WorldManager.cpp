@@ -81,5 +81,5 @@ sf::Sprite WorldManager::get_render(RenderWindow& w)
 
 int WorldManager::place_player(int x)
 {
-	return m_heights[x - 1] - m_dirt_heights[x - 1];
+	return m_heights[x - 1] - 3;
 }
