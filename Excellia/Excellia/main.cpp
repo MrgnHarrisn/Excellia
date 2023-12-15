@@ -37,9 +37,10 @@ int main()
 	// Create camera attached to player
 	Camera cam(position, settings.get_screen_size(), p, 10);
 
-	// Set mouse bools
+	// Set build/destroy defaults
 	bool is_block_placed = false;
 	bool is_placing_block = false;
+	Block current_block = Block::Wood;
 
 	// Main loop
 	while (window.isOpen())
@@ -77,6 +78,11 @@ int main()
 				else if (event.mouseButton.button == sf::Mouse::Right) {
 					is_placing_block = true;
 				}
+				else if (event.mouseButton.button == sf::Mouse::Middle)
+				{
+					Block temp_block = static_cast<Block>(wm.get_block(static_cast<sf::Vector2i>(wm.screen_pos_to_world_pos(sf::Mouse::getPosition(window)))));
+					if (temp_block != Block::Void) current_block = temp_block;
+				}
 			}
 
 			// Place and break stop
@@ -88,16 +94,31 @@ int main()
 					is_placing_block = false;
 				}
 			}
+
+			// Change current_block
+			 if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num1)) {
+				 current_block = Block::Stone;
+			 } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num2)) {
+				 current_block = Block::Dirt;
+			 } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num3)) {
+				 current_block = Block::Wood;
+			 } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num4)) {
+				 current_block = Block::Water;
+			 } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num5)) {
+				 current_block = Block::Lava;
+			 } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num6)) {
+				 current_block = Block::Diamond;
+			 }
 		}
 
 		// Break blocks
 		if (is_block_placed) {
-			wm.break_block(window, sf::Mouse::getPosition(window));
+			wm.break_block(sf::Mouse::getPosition(window));
 		}
 
 		// Place blocks
 		if (is_placing_block) {
-			wm.place_block(sf::Mouse::getPosition(window));
+			wm.place_block(current_block, sf::Mouse::getPosition(window));
 		}
 
 		// Create cursor

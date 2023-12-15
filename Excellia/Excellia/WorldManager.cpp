@@ -72,7 +72,7 @@ sf::Vector2f WorldManager::screen_pos_to_world_pos(sf::Vector2i mouse_pos)
 	return m_window.mapPixelToCoords(mouse_pos, m_window.getView());
 }
 
-void WorldManager::break_block(sf::RenderWindow& window, sf::Vector2i mouse_pos)
+void WorldManager::break_block(sf::Vector2i mouse_pos)
 {
 	sf::Vector2f block = screen_pos_to_world_pos(mouse_pos);
 
@@ -90,7 +90,7 @@ void WorldManager::break_block(sf::RenderWindow& window, sf::Vector2i mouse_pos)
 	}
 }
 
-void WorldManager::place_block(sf::Vector2i mouse_pos)
+void WorldManager::place_block(Block material, sf::Vector2i mouse_pos)
 {
 	sf::Vector2f block = screen_pos_to_world_pos(mouse_pos);
 
@@ -101,7 +101,7 @@ void WorldManager::place_block(sf::Vector2i mouse_pos)
 		if (BlockManager::color_to_hex(m_image.getPixel(block.x, block.y)) == Block::Void) {
 
 			// Update Image
-			m_image.setPixel(block.x, block.y, BlockManager::hex_to_color(Block::Wood));
+			m_image.setPixel(block.x, block.y, BlockManager::hex_to_color(material));
 			m_texture.loadFromImage(m_image);
 			m_sprite.setTexture(m_texture);
 		}

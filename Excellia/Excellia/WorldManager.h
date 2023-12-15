@@ -64,13 +64,14 @@ public:
 	/// </summary>
 	/// <param name="window">Current renderwindow</param>
 	/// <param name="mouse_pos">Position of mouse</param>
-	void break_block(sf::RenderWindow& window, sf::Vector2i mouse_pos);
+	void break_block(sf::Vector2i mouse_pos);
 
 	/// <summary>
 	/// Replaces void with a block
 	/// </summary>
 	/// <param name="mouse_pos">Position of mouse</param>
-	void place_block(sf::Vector2i mouse_pos);
+	/// <param name="material">Block type to place</param>
+	void place_block(Block material, sf::Vector2i mouse_pos);
 
 	/// <summary>
 	/// Creates a sprite of the current view
