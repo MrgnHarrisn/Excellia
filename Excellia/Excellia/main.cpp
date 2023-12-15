@@ -70,6 +70,9 @@ int main()
 				if (event.mouseButton.button == sf::Mouse::Left) {
 					is_mouse_pressed = true;
 				}
+				else if (event.mouseButton.button == sf::Mouse::Right) {
+					wm.place_block(sf::Mouse::getPosition(window));
+				}
 			}
 			else if (event.type == sf::Event::MouseButtonReleased) {
 				if (event.mouseButton.button == sf::Mouse::Left) {

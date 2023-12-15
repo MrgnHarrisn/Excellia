@@ -62,6 +62,8 @@ public:
 
 	void break_block(RenderWindow& window, Vector2i mouse_pos);
 
+	void place_block(Vector2i mouse_pos);
+
 	sf::Sprite get_view_sprite();
 
 private:

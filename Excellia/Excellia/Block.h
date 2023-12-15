@@ -2,10 +2,11 @@
 
 enum Block
 {
-	Stone = 0x646464FF,	// Grey	color
-	Dirt = 0x964800FF,	// Orange color
-	Lava = 0xFF5000FF,	// OrangeyRed color
-	Water = 0x2389DAFF,	// Bluey Color
+	Stone =		0x646464FF,	// Grey	color
+	Dirt =		0x5D3A1AFF,		// Orange color
+	Lava =		0xFF5000FF,		// OrangeyRed color
+	Water =		0x2389DAFF,		// Bluey Color
+	Wood =		0xBA8C63FF,		// Wood
 
-	Void = 0x00000050,	// Emptyness
+	Void =	 0x00000050,		// Emptyness
 };
