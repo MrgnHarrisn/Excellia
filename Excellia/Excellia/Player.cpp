@@ -48,9 +48,8 @@ void Player::update(float dt)
 
     auto pos = get_position();
 	velocity = can_move_pos(pos, velocity);
-	set_position(get_position() + velocity);
-
-	m_shape.setPosition(pos + velocity);
+	set_position(pos + velocity);
+	m_shape.setPosition(get_position());
 
 }
 
@@ -76,7 +75,7 @@ Vector2f Player::can_move_pos(Vector2f &position, Vector2f velocity)
         if (!BlockManager::can_move_through((Block)m_wm.get_block(bottom_left)) || !BlockManager::can_move_through((Block)m_wm.get_block(bottom_right)))
         {
             velocity.y = 0; // Stop movement in the positive y direction (falling down)
-            position.y = bottom_left.y - 0.01;
+            //position.y = bottom_left.y - 0.01;
             bottom_left.y--;
             bottom_right.y--;
         }
@@ -86,7 +85,7 @@ Vector2f Player::can_move_pos(Vector2f &position, Vector2f velocity)
         if (!BlockManager::can_move_through((Block)m_wm.get_block(top_left)) || !BlockManager::can_move_through((Block)m_wm.get_block(top_right)))
         {
             velocity.y = 0; // Stop movement in the negative y direction (jumping)
-            position.y = static_cast<int>(position.y);
+            //position.y = static_cast<int>(position.y);
 
         }
     }
@@ -95,18 +94,33 @@ Vector2f Player::can_move_pos(Vector2f &position, Vector2f velocity)
     {
         if (!BlockManager::can_move_through((Block)m_wm.get_block(bottom_right)) || !BlockManager::can_move_through((Block)m_wm.get_block(top_right)) || !BlockManager::can_move_through((Block)m_wm.get_block(middle_right)))
         {
-            velocity.x = 0; // Stop movement in the negative x direction
-            bottom_right.x--;
-            top_right.x--;
+            if (BlockManager::can_move_through((Block)m_wm.get_block(middle_right)) && BlockManager::can_move_through((Block)m_wm.get_block(top_right)))
+            {
+                position.y--;
+            }
+            else
+            {
+                velocity.x = 0; // Stop movement in the negative x direction
+                bottom_right.x--;
+                top_right.x--;
+            }
         }
     }
     else
     {
         if (!BlockManager::can_move_through((Block)m_wm.get_block(bottom_left)) || !BlockManager::can_move_through((Block)m_wm.get_block(top_left)) || !BlockManager::can_move_through((Block)m_wm.get_block(middle_left)))
         {
-            velocity.x = 0; // Stop movement in the positive x direction
-            bottom_left.x++;
-            top_left.x++;
+            if (BlockManager::can_move_through((Block)m_wm.get_block(middle_left)) && BlockManager::can_move_through((Block)m_wm.get_block(top_left)))
+            {
+                position.y--;
+            }
+            else
+            {
+                velocity.x = 0; // Stop movement in the positive x direction
+                bottom_left.x++;
+                top_left.x++;
+            }
+
         }
     }
 
