@@ -102,10 +102,10 @@ void WorldManager::place_block(Vector2i mouse_pos)
 
 sf::Sprite WorldManager::get_view_sprite() {
 	Vector2i half_size(m_window.getView().getSize().x / 2, m_window.getView().getSize().y / 2);
-	Vector2i top_left = (Vector2i)(m_window.getView().getCenter()) - half_size;
+	Vector2i top_left = (Vector2i)(m_window.getView().getCenter()) - half_size - Vector2i(1, 0);
 
 	sf::Image temp;
-	temp.create(m_window.getView().getSize().x + 3, m_window.getView().getSize().y + 3);
+	temp.create(m_window.getView().getSize().x + 7, m_window.getView().getSize().y + 3);
 	
 	/* Get pixels in view of texture */
 	int i_x = 0;
@@ -118,13 +118,7 @@ sf::Sprite WorldManager::get_view_sprite() {
 		for (int y = (int)(top_left.y); y < loop_max_y; y++) {
 			// printf("X: %i Y: %i\n", i_x, i_y);
 			if (x >= 0 && x < m_width && y >= 0 && y < m_height) {
-				if (!BlockManager::can_move_through((Block)BlockManager::color_to_hex(m_image.getPixel(x, y)))) {
-					temp.setPixel(i_x, i_y, m_image.getPixel(x, y));
-				}
-				else {
-					temp.setPixel(i_x, i_y, BlockManager::hex_to_color(Block::Void));
-				}
-				
+				temp.setPixel(i_x, i_y, m_image.getPixel(x, y));
 			}
 			else {
 				temp.setPixel(i_x, i_y, BlockManager::hex_to_color(Block::Void));
