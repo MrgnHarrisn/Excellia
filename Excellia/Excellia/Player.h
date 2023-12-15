@@ -5,6 +5,7 @@
 
 #include "WorldManager.h"
 #include "BlockManager.h"
+#include "Collision.hpp"
 #include "Actor.h"
 
 class Player : public Actor {
@@ -29,6 +30,8 @@ public:
 	sf::Drawable& render_shape() override;
 
 	Vector2f can_move_pos(Vector2f &position, Vector2f velocity);
+
+	sf::Sprite get_sprite();
 
 private:
 	sf::RectangleShape m_shape;

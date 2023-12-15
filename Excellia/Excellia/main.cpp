@@ -17,7 +17,12 @@ int main()
 	sf::Clock clock;
 	float dt = 0;
 
-	WorldManager wm(settings.get_world_size(), 573849);
+	
+
+	// Creates window
+	sf::RenderWindow window(sf::VideoMode(settings.get_screen_size().x, settings.get_screen_size().y), "Pixellia", sf::Style::None);
+
+	WorldManager wm(window, settings.get_world_size(), 573849);
 	/* 573849 test seed */
 	/* Crashes with 83875675 */
 	/* 42069 is a good seed */
@@ -26,12 +31,10 @@ int main()
 
 	sf::Vector2f position(settings.get_world_size().x / 2, wm.place_player(settings.get_world_size().x / 2));
 	Player p(position, wm);
-	
+
 
 	Camera cam(position, settings.get_screen_size(), p, 10);
 
-	// Creates window
-	sf::RenderWindow window(sf::VideoMode(settings.get_screen_size().x, settings.get_screen_size().y), "Pixellia", sf::Style::None);
 	bool is_mouse_pressed = false;
 	// Main loop
 	while (window.isOpen())
@@ -81,6 +84,8 @@ int main()
 
 		RectangleShape shape;
 		Vector2i world_pos = static_cast<Vector2i>(wm.screen_pos_to_world_pos(window, sf::Mouse::getPosition(window)));
+
+		/* This hovers over a block you want to break */
 		shape.setPosition(static_cast<Vector2f>(world_pos));
 		// shape.setPosition(window.mapPixelToCoords(sf::Mouse::getPosition(), cam.get_view()));
 		shape.setSize({ 1, 1 });
@@ -90,6 +95,8 @@ int main()
 		window.setView(cam.get_view());
 		// Reset and render
 		cam.update(dt);
+
+		/* Drawing */
 		window.clear();
 		wm.get_render(window);
 		window.draw(p.render_shape());

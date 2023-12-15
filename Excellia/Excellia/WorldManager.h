@@ -9,6 +9,7 @@
 #include <SFML/System/Vector2.hpp>
 
 #include "TerrainGeneration.h"
+#include "Collision.hpp"
 #include "BlockManager.h"
 #include "Random.h"
 
@@ -22,7 +23,7 @@ public:
 	/// <summary>
 	/// Constructor for WorldManager
 	/// </summary>
-	WorldManager(Vector2u size = Vector2u(0, 0), long int seed = -1);
+	WorldManager(RenderWindow& window, Vector2u size = Vector2u(0, 0), long int seed = -1);
 
 	/// <summary>
 	/// Creates a world with a random seed
@@ -61,6 +62,8 @@ public:
 
 	void break_block(RenderWindow& window, Vector2i mouse_pos);
 
+	sf::Sprite get_view_sprite();
+
 private:
 	Random m_random;
 	std::vector<int> m_dirt_heights;	/* This is how much dirt should be on top */
@@ -69,6 +72,7 @@ private:
 	sf::Image m_image;
 	sf::Texture m_texture;
 	sf::Sprite m_sprite;
+	RenderWindow& m_window;
 	int m_width = 800;
 	int m_height = 800;
 };

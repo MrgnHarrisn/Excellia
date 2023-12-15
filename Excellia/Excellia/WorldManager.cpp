@@ -1,6 +1,6 @@
 #include "WorldManager.h"
 
-WorldManager::WorldManager(Vector2u size, long int seed)
+WorldManager::WorldManager(RenderWindow& window, Vector2u size, long int seed) : m_window(window)
 {
 	if (size.x != 0 && size.y != 0)
 	{
@@ -44,7 +44,7 @@ void WorldManager::create()
 sf::Sprite WorldManager::get_render(RenderWindow& w)
 {
 
-	w.draw(m_sprite);
+	get_view_sprite();
 
 	return m_sprite;
 
@@ -83,4 +83,44 @@ void WorldManager::break_block(RenderWindow& window, Vector2i mouse_pos)
 		m_texture.loadFromImage(m_image);
 		m_sprite.setTexture(m_texture);
 	}
+}
+
+sf::Sprite WorldManager::get_view_sprite() {
+	Vector2f half_size = Vector2f(m_window.getView().getSize().x / 2, m_window.getView().getSize().y / 2);
+	Vector2f top_left = m_window.getView().getCenter() - half_size;
+
+	sf::Image temp;
+	temp.create(m_window.getView().getSize().x, m_window.getView().getSize().y);
+	
+	/* Get pixels in view of texture */
+	int i_x = 0;
+
+	int loop_max_x = (int)(top_left.x + half_size.x * 2);
+	int loop_max_y = (int)(top_left.y + half_size.y * 2);
+
+	for (int x = (int)(top_left.x); x < loop_max_x; x++) {
+		int i_y = 0;
+		for (int y = (int)(top_left.y); y < loop_max_y; y++) {
+			// printf("X: %i Y: %i\n", i_x, i_y);
+			// temp.setPixel(i_x, i_y, m_image.getPixel(x, y));
+			// If solid add the color
+			 if (!BlockManager::can_move_through((Block)BlockManager::color_to_hex(m_image.getPixel(x, y)))) {
+			    temp.setPixel(i_x, i_y, m_image.getPixel(x, y));
+			}
+			 else {
+			    // Otherwise don't add it
+			    temp.setPixel(i_x, i_y, BlockManager::hex_to_color(Block::Void));
+			}
+			i_y++;
+		}
+		i_x++;
+	}
+
+	sf::Texture tex;
+	tex.loadFromImage(temp);
+	sf::Sprite sprite;
+	sprite.setTexture(tex);
+	sprite.setPosition(top_left);
+	m_window.draw(sprite);
+	return sprite;
 }

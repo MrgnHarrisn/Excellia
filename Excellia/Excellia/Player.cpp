@@ -53,6 +53,14 @@ void Player::update(float dt)
 
 }
 
+sf::Sprite Player::get_sprite()
+{
+    sf::Sprite player_sprite;
+    player_sprite.setTexture(m_texture);
+    player_sprite.setPosition(get_position());
+    return player_sprite;
+}
+
 Vector2f Player::can_move_pos(Vector2f &position, Vector2f velocity)
 {
 
@@ -72,6 +80,7 @@ Vector2f Player::can_move_pos(Vector2f &position, Vector2f velocity)
 
     if (velocity.y > 0)
     {
+
         if (!BlockManager::can_move_through((Block)m_wm.get_block(bottom_left)) || !BlockManager::can_move_through((Block)m_wm.get_block(bottom_right)))
         {
             velocity.y = 0; // Stop movement in the positive y direction (falling down)
