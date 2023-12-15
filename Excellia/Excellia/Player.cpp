@@ -37,7 +37,7 @@ void Player::update(float dt)
 
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
         /* Move Up */
-        velocity.y -= (m_speed + 30) * dt;
+        velocity.y -= (m_move_speed + 30) * dt;
     }
 
     velocity.y += 30 * dt;
