@@ -14,7 +14,7 @@ WorldManager::WorldManager(RenderWindow& window, Vector2u size, long int seed) :
 		m_random = r;
 	}
 
-	m_image.create(m_width, m_height, sf::Color::Black);
+	m_image.create(m_width, m_height, BlockManager::hex_to_color(Block::Void));
 }
 
 void WorldManager::create()
@@ -29,11 +29,11 @@ void WorldManager::create()
 	for (int i = 0; i < m_heights.size(); i++) {
 		/* Do dirt for column */
 		for (int j = m_heights[i]; j <= m_heights[i] + m_dirt_heights[i]; j++) {
-			m_image.setPixel(i, j, Color(150, 75, 0));
+			m_image.setPixel(i, j, BlockManager::hex_to_color(Block::Dirt));
 		}
 
 		for (int j = m_heights[i] + m_dirt_heights[i]; j < m_height; j++) {
-			m_image.setPixel(i, j, Color(100, 100, 100));
+			m_image.setPixel(i, j, BlockManager::hex_to_color(Block::Stone));
 		}
 	}
 
@@ -114,14 +114,6 @@ sf::Sprite WorldManager::get_view_sprite() {
 			else {
 				temp.setPixel(i_x, i_y, BlockManager::hex_to_color(Block::Void));
 			}
-			// If solid add the color
-			// if (!BlockManager::can_move_through((Block)BlockManager::color_to_hex(m_image.getPixel(x, y)))) {
-			//    temp.setPixel(i_x, i_y, m_image.getPixel(x, y));
-			// }
-			// else {
-			//    // Otherwise don't add it
-			//    temp.setPixel(i_x, i_y, BlockManager::hex_to_color(Block::Void));
-			//}
 			i_y++;
 		}
 		i_x++;
