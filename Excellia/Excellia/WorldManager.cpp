@@ -90,13 +90,13 @@ sf::Sprite WorldManager::get_view_sprite() {
 	Vector2i top_left = (Vector2i)(m_window.getView().getCenter()) - half_size;
 
 	sf::Image temp;
-	temp.create(m_window.getView().getSize().x, m_window.getView().getSize().y);
+	temp.create(m_window.getView().getSize().x + 3, m_window.getView().getSize().y + 3);
 	
 	/* Get pixels in view of texture */
 	int i_x = 0;
 
-	int loop_max_x = (int)(top_left.x + half_size.x * 2);
-	int loop_max_y = (int)(top_left.y + half_size.y * 2);
+	int loop_max_x = (int)(top_left.x + half_size.x * 2) + 3;
+	int loop_max_y = (int)(top_left.y + half_size.y * 2) + 3;
 
 	for (int x = (int)(top_left.x); x < loop_max_x; x++) {
 		int i_y = 0;
