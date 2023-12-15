@@ -90,7 +90,6 @@ void WorldManager::place_block(Vector2i mouse_pos)
 	Vector2f block = screen_pos_to_world_pos(mouse_pos);
 
 	if (block.x >= 0 && block.x <= m_width && block.y >= 0 && block.y < m_height) {
-		printf("Placing\n");
 		if (BlockManager::color_to_hex(m_image.getPixel(block.x, block.y)) == Block::Void) {
 			m_image.setPixel(block.x, block.y, BlockManager::hex_to_color(Block::Wood));
 

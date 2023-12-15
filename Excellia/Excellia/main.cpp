@@ -35,7 +35,8 @@ int main()
 
 	Camera cam(position, settings.get_screen_size(), p, 10);
 
-	bool is_mouse_pressed = false;
+	bool is_block_placed = false;
+	bool is_placing_block = false;
 	// Main loop
 	while (window.isOpen())
 	{
@@ -68,21 +69,28 @@ int main()
 			}
 			else if (event.type == sf::Event::MouseButtonPressed) {
 				if (event.mouseButton.button == sf::Mouse::Left) {
-					is_mouse_pressed = true;
+					is_block_placed = true;
 				}
 				else if (event.mouseButton.button == sf::Mouse::Right) {
-					wm.place_block(sf::Mouse::getPosition(window));
+					is_placing_block = true;
 				}
 			}
 			else if (event.type == sf::Event::MouseButtonReleased) {
 				if (event.mouseButton.button == sf::Mouse::Left) {
-					is_mouse_pressed = false;
+					is_block_placed = false;
+				}
+				else if (event.mouseButton.button == sf::Mouse::Right) {
+					is_placing_block = false;
 				}
 			}
 		}
 
-		if (is_mouse_pressed) {
+		if (is_block_placed) {
 			wm.break_block(window, sf::Mouse::getPosition(window));
+		}
+
+		if (is_placing_block) {
+			wm.place_block(sf::Mouse::getPosition(window));
 		}
 
 		RectangleShape shape;
