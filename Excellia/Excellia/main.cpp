@@ -83,7 +83,7 @@ int main()
 		}
 
 		RectangleShape shape;
-		Vector2i world_pos = static_cast<Vector2i>(wm.screen_pos_to_world_pos(window, sf::Mouse::getPosition(window)));
+		Vector2i world_pos = static_cast<Vector2i>(wm.screen_pos_to_world_pos(sf::Mouse::getPosition(window)));
 
 		/* This hovers over a block you want to break */
 		shape.setPosition(static_cast<Vector2f>(world_pos));

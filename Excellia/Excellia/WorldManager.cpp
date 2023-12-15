@@ -60,11 +60,11 @@ unsigned int WorldManager::get_block(sf::Vector2i pos)
 	return BlockManager::color_to_hex(m_image.getPixel(pos.x, pos.y));
 }
 
-Vector2f  WorldManager::screen_pos_to_world_pos(RenderWindow& window, Vector2i mouse_pos)
+Vector2f  WorldManager::screen_pos_to_world_pos(Vector2i mouse_pos)
 
 {
 	
-	sf::Vector2f world_pos = window.mapPixelToCoords(mouse_pos, window.getView());
+	sf::Vector2f world_pos = m_window.mapPixelToCoords(mouse_pos, m_window.getView());
 
 	Vector2f image_pos(world_pos.x, world_pos.y); /* Not really needed */
 
@@ -74,7 +74,7 @@ Vector2f  WorldManager::screen_pos_to_world_pos(RenderWindow& window, Vector2i m
 
 void WorldManager::break_block(RenderWindow& window, Vector2i mouse_pos)
 {
-	Vector2f block = screen_pos_to_world_pos(window, mouse_pos);
+	Vector2f block = screen_pos_to_world_pos(mouse_pos);
 
 	if (block.x >= 0 && block.x <= m_width && block.y >= 0 && block.y < m_height) {
 		m_image.setPixel(block.x, block.y, BlockManager::hex_to_color(Block::Void));
@@ -86,8 +86,8 @@ void WorldManager::break_block(RenderWindow& window, Vector2i mouse_pos)
 }
 
 sf::Sprite WorldManager::get_view_sprite() {
-	Vector2f half_size = Vector2f(m_window.getView().getSize().x / 2, m_window.getView().getSize().y / 2);
-	Vector2f top_left = m_window.getView().getCenter() - half_size;
+	Vector2i half_size(m_window.getView().getSize().x / 2, m_window.getView().getSize().y / 2);
+	Vector2i top_left = (Vector2i)(m_window.getView().getCenter()) - half_size;
 
 	sf::Image temp;
 	temp.create(m_window.getView().getSize().x, m_window.getView().getSize().y);
@@ -102,15 +102,26 @@ sf::Sprite WorldManager::get_view_sprite() {
 		int i_y = 0;
 		for (int y = (int)(top_left.y); y < loop_max_y; y++) {
 			// printf("X: %i Y: %i\n", i_x, i_y);
-			// temp.setPixel(i_x, i_y, m_image.getPixel(x, y));
+			if (x >= 0 && x < m_width && y >= 0 && y < m_height) {
+				if (!BlockManager::can_move_through((Block)BlockManager::color_to_hex(m_image.getPixel(x, y)))) {
+					temp.setPixel(i_x, i_y, m_image.getPixel(x, y));
+				}
+				else {
+					temp.setPixel(i_x, i_y, BlockManager::hex_to_color(Block::Void));
+				}
+				
+			}
+			else {
+				temp.setPixel(i_x, i_y, BlockManager::hex_to_color(Block::Void));
+			}
 			// If solid add the color
-			 if (!BlockManager::can_move_through((Block)BlockManager::color_to_hex(m_image.getPixel(x, y)))) {
-			    temp.setPixel(i_x, i_y, m_image.getPixel(x, y));
-			}
-			 else {
-			    // Otherwise don't add it
-			    temp.setPixel(i_x, i_y, BlockManager::hex_to_color(Block::Void));
-			}
+			// if (!BlockManager::can_move_through((Block)BlockManager::color_to_hex(m_image.getPixel(x, y)))) {
+			//    temp.setPixel(i_x, i_y, m_image.getPixel(x, y));
+			// }
+			// else {
+			//    // Otherwise don't add it
+			//    temp.setPixel(i_x, i_y, BlockManager::hex_to_color(Block::Void));
+			//}
 			i_y++;
 		}
 		i_x++;
@@ -120,7 +131,7 @@ sf::Sprite WorldManager::get_view_sprite() {
 	tex.loadFromImage(temp);
 	sf::Sprite sprite;
 	sprite.setTexture(tex);
-	sprite.setPosition(top_left);
+	sprite.setPosition((Vector2f)top_left);
 	m_window.draw(sprite);
 	return sprite;
 }

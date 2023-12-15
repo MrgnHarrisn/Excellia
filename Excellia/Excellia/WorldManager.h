@@ -58,7 +58,7 @@ public:
 	/// <param name="view">View in use</param>
 	/// <param name="mouse_pos">Mouse position we want to convert</param>
 	/// <returns>world position</returns>
-	Vector2f screen_pos_to_world_pos(RenderWindow& window, Vector2i mouse_pos);
+	Vector2f screen_pos_to_world_pos(Vector2i mouse_pos);
 
 	void break_block(RenderWindow& window, Vector2i mouse_pos);
 
