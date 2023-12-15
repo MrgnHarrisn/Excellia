@@ -1,6 +1,10 @@
 #pragma once
+
 #include <random>
 
+/// <summary>
+/// Stores seed and keeps track of random numbers
+/// </summary>
 class Random
 {
 public:
@@ -34,6 +38,7 @@ public:
 	float random(float min, float max, long int seed);
 
 private:
+
 	long int m_seed;
 	std::mt19937 m_gen;
 };

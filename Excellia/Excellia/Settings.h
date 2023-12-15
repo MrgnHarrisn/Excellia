@@ -1,6 +1,7 @@
 #pragma once
 
 #include <SFML/System/Vector2.hpp>
+
 #include <fstream>
 
 /// <summary>
@@ -11,10 +12,13 @@
 class Settings
 {
 public:
+
 	sf::Vector2u get_screen_size()	{ return m_screen_size; };
 	sf::Vector2u get_world_size ()	{ return m_world_size ; };
 	void update();
+
 private:
+
 	sf::Vector2u m_screen_size = sf::Vector2u(800, 800);
 	sf::Vector2u m_world_size  = sf::Vector2u(800, 800);
 };
@@ -46,10 +50,14 @@ void Settings::update()
 		{
 			settings_file >> m_screen_size.y;
 		}
+
+		// World Width
 		else if (setting_name == "worldw") // Temp
 		{
 			settings_file >> m_world_size.x;
 		}
+
+		// World Height
 		else if (setting_name == "worldh") // Temp
 		{
 			settings_file >> m_world_size.y;

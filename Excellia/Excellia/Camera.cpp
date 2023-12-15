@@ -1,13 +1,12 @@
 #include "Camera.h"
 
-Camera::Camera(sf::Vector2f position, sf::Vector2u size, Actor& actor, float d_zoom) : m_follow(actor) {
+Camera::Camera(sf::Vector2f position, sf::Vector2u size, Actor& actor, float d_zoom) : m_follow(actor)
+{
 	m_position = position;
 	m_view.setSize(static_cast<sf::Vector2f>(size));
 	m_view.setCenter(m_position);
 	m_view.zoom(1 / d_zoom);
 }
-
-
 
 void Camera::attach(Actor& actor)
 {
@@ -16,7 +15,6 @@ void Camera::attach(Actor& actor)
 
 void Camera::update(float dt)
 {
-	// Update position
 	sf::Vector2f newPosition = m_position + (m_follow.get_position() - m_position) * m_cam_speed * dt;
 	m_position = newPosition;
 	m_view.setCenter(m_position);
@@ -24,7 +22,7 @@ void Camera::update(float dt)
 
 void Camera::zoom_out()
 {
-	if (m_zoom < 100)
+	if (m_zoom < 5)
 	{
 		m_zoom++;
 		m_view.zoom(1.2);

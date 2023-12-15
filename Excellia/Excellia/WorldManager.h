@@ -9,7 +9,7 @@
 #include <SFML/System/Vector2.hpp>
 
 #include "TerrainGeneration.h"
-#include "Collision.hpp"
+#include "Collision.h"
 #include "BlockManager.h"
 #include "Random.h"
 
@@ -23,7 +23,7 @@ public:
 	/// <summary>
 	/// Constructor for WorldManager
 	/// </summary>
-	WorldManager(RenderWindow& window, Vector2u size = Vector2u(0, 0), long int seed = -1);
+	WorldManager(sf::RenderWindow& window, sf::Vector2u size = sf::Vector2u(0, 0), long int seed = -1);
 
 	/// <summary>
 	/// Creates a world with a random seed
@@ -40,9 +40,8 @@ public:
 	/// <summary>
 	/// Returns the rendered image fo the world
 	/// </summary>
-	/// <param name="w">RenderWindow to render to</param>
 	/// <returns></returns>
-	sf::Sprite get_render(RenderWindow& w);
+	sf::Sprite get_render();
 
 	/// <summary>
 	/// Get's block at specific position
@@ -58,15 +57,29 @@ public:
 	/// <param name="view">View in use</param>
 	/// <param name="mouse_pos">Mouse position we want to convert</param>
 	/// <returns>world position</returns>
-	Vector2f screen_pos_to_world_pos(Vector2i mouse_pos);
+	sf::Vector2f screen_pos_to_world_pos(sf::Vector2i mouse_pos);
 
-	void break_block(RenderWindow& window, Vector2i mouse_pos);
+	/// <summary>
+	/// Replaces block under mouse with void
+	/// </summary>
+	/// <param name="window">Current renderwindow</param>
+	/// <param name="mouse_pos">Position of mouse</param>
+	void break_block(sf::RenderWindow& window, sf::Vector2i mouse_pos);
 
-	void place_block(Vector2i mouse_pos);
+	/// <summary>
+	/// Replaces void with a block
+	/// </summary>
+	/// <param name="mouse_pos">Position of mouse</param>
+	void place_block(sf::Vector2i mouse_pos);
 
+	/// <summary>
+	/// Creates a sprite of the current view
+	/// </summary>
+	/// <returns>Sprite of the current view</returns>
 	sf::Sprite get_view_sprite();
 
 private:
+
 	Random m_random;
 	std::vector<int> m_dirt_heights;	/* This is how much dirt should be on top */
 	std::vector<int> m_heights;
@@ -74,7 +87,7 @@ private:
 	sf::Image m_image;
 	sf::Texture m_texture;
 	sf::Sprite m_sprite;
-	RenderWindow& m_window;
+	sf::RenderWindow& m_window;
 	int m_width = 800;
 	int m_height = 800;
 };

@@ -27,9 +27,20 @@ public:
 	/// </summary>
 	/// <returns>Drawable shape for SFML</returns>
 	virtual sf::Drawable& render_shape();
-	void set_position(sf::Vector2f position);
-	sf::Vector2f get_position();
-private:
-	sf::Vector2f m_position;
 
+	/// <summary>
+	/// moves the actor
+	/// </summary>
+	/// <param name="position">Where to move it</param>
+	void set_position(sf::Vector2f position);
+
+	/// <summary>
+	/// Gets position
+	/// </summary>
+	/// <returns>position</returns>
+	sf::Vector2f get_position();
+
+private:
+
+	sf::Vector2f m_position;
 };

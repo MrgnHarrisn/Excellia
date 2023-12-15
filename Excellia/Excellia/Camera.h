@@ -1,7 +1,9 @@
 #pragma once
 
-#include <SFML/System/Vector2.hpp>
 #include <SFML/Graphics/View.hpp>
+
+#include <SFML/System/Vector2.hpp>
+
 #include "Actor.h"
 
 class Camera {
@@ -42,6 +44,7 @@ public:
 	sf::View& get_view();
 
 private:
+
 	int m_zoom = 0;
 	sf::View m_view;
 	sf::Vector2f m_position;

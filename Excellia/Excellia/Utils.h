@@ -1,10 +1,13 @@
 #pragma once
 
 #include <SFML/System/Vector2.hpp>
-#include <cmath>
+
 #include <random>
+#include <cmath>
 
-
+/// <summary>
+/// A bunch of utilities that are common
+/// </summary>
 class Utils
 {
 public:

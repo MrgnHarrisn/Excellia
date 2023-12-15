@@ -1,5 +1,6 @@
 
 #include <SFML/Graphics.hpp>
+
 #include "Settings.h"
 #include "Player.h"
 #include "Utils.h"
@@ -13,50 +14,50 @@ int main()
 	Settings settings;
 	settings.update();
 	
-	
+	// Delta Time
 	sf::Clock clock;
 	float dt = 0;
-
-	
 
 	// Creates window
 	sf::RenderWindow window(sf::VideoMode(settings.get_screen_size().x, settings.get_screen_size().y), "Pixellia", sf::Style::None);
 
-	WorldManager wm(window, settings.get_world_size(), 573849);
 	/* 573849 test seed */
 	/* Crashes with 83875675 */
 	/* 42069 is a good seed */
 	/* Spawning inside dirt 6911 */
+
+	// Creates world
+	WorldManager wm(window, settings.get_world_size(), 573849);
 	wm.create();
 
+	// Spawn player
 	sf::Vector2f position(settings.get_world_size().x / 2, wm.place_player(settings.get_world_size().x / 2));
 	Player p(position, wm);
-
-
+	
+	// Create camera attached to player
 	Camera cam(position, settings.get_screen_size(), p, 10);
 
+	// Set mouse bools
 	bool is_block_placed = false;
 	bool is_placing_block = false;
+
 	// Main loop
 	while (window.isOpen())
 	{
-
 		// Delta time
 		dt = clock.restart().asSeconds();
 		
-
 		// Events and inputs
 		sf::Event event;
 		while (window.pollEvent(event))
 		{
+			// Close window
 			if (event.type == sf::Event::Closed)
 			{
 				window.close();
 			}
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::R))
-			{
-				window.setSize(sf::Vector2u(settings.get_screen_size().x, settings.get_screen_size().y));
-			}
+
+			// Zoom in and out
 			if (event.type == sf::Event::MouseWheelScrolled) {
 				if (event.mouseWheelScroll.wheel == sf::Mouse::VerticalWheel) {
 					if (event.mouseWheelScroll.delta > 0) {
@@ -67,7 +68,9 @@ int main()
 					}
 				}
 			}
-			else if (event.type == sf::Event::MouseButtonPressed) {
+
+			// Place and break start
+			if (event.type == sf::Event::MouseButtonPressed) {
 				if (event.mouseButton.button == sf::Mouse::Left) {
 					is_block_placed = true;
 				}
@@ -75,7 +78,9 @@ int main()
 					is_placing_block = true;
 				}
 			}
-			else if (event.type == sf::Event::MouseButtonReleased) {
+
+			// Place and break stop
+			 if (event.type == sf::Event::MouseButtonReleased) {
 				if (event.mouseButton.button == sf::Mouse::Left) {
 					is_block_placed = false;
 				}
@@ -85,33 +90,37 @@ int main()
 			}
 		}
 
+		// Break blocks
 		if (is_block_placed) {
 			wm.break_block(window, sf::Mouse::getPosition(window));
 		}
 
+		// Place blocks
 		if (is_placing_block) {
 			wm.place_block(sf::Mouse::getPosition(window));
 		}
 
-		RectangleShape shape;
-		Vector2i world_pos = static_cast<Vector2i>(wm.screen_pos_to_world_pos(sf::Mouse::getPosition(window)));
+		// Create cursor
+		sf::RectangleShape cursor;
+		sf::Vector2i world_pos = static_cast<sf::Vector2i>(wm.screen_pos_to_world_pos(sf::Mouse::getPosition(window)));
 
-		/* This hovers over a block you want to break */
-		shape.setPosition(static_cast<Vector2f>(world_pos));
-		// shape.setPosition(window.mapPixelToCoords(sf::Mouse::getPosition(), cam.get_view()));
-		shape.setSize({ 1, 1 });
-		shape.setFillColor(sf::Color(255, 255, 255, 50));
+		// Update cursor
+		cursor.setPosition(static_cast<sf::Vector2f>(world_pos));
+		cursor.setSize({ 1, 1 });
+		cursor.setFillColor(sf::Color(255, 255, 255, 50));
 
+		// Update player
 		p.update(dt);
-		window.setView(cam.get_view());
-		// Reset and render
-		cam.update(dt);
 
-		/* Drawing */
+		// Update view
+		cam.update(dt);
+		window.setView(cam.get_view());
+
+		// Clear and draw
 		window.clear();
-		wm.get_render(window);
+		wm.get_render();
 		window.draw(p.render_shape());
-		window.draw(shape);
+		window.draw(cursor);
 		
 		window.display();
 

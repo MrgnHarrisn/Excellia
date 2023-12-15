@@ -1,12 +1,15 @@
 #pragma once
 
 #include <SFML/System/Vector2.hpp>
-#include "Utils.h"
+
 #include "Random.h"
+#include "Utils.h"
+
 #include <cmath>
-using namespace sf;
 
-
+/// <summary>
+/// Generates world and stores it
+/// </summary>
 class TerrainGeneration
 {
 public:
@@ -42,8 +45,6 @@ public:
 	/// <param name="max">Maximum position of the cave</param>
 	/// <param name="r">instance of Random to use</param>
 	/// <returns>A set of caves</returns>
-	static std::vector<Vector2f> generate_caves(Vector2f min, Vector2f max, Random& r);
-
-private:
+	static std::vector<sf::Vector2f> generate_caves(sf::Vector2f min, sf::Vector2f max, Random& r);
 };
 
