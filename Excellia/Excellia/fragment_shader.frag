@@ -1,33 +1,22 @@
-// Fragment shader for dithering
+// Fragment shader for darkening based on distance from player position
 uniform sampler2D texture;
+uniform vec2 playerPosition; // Player's position in normalized coordinates
+
 void main() {
+    // Get normalized texture coordinates
     vec2 texCoord = gl_TexCoord[0].xy;
+
+    // Calculate distance from the player's position
+    float distance = length(texCoord - playerPosition);
+
+    // Darken based on distance (adjust factor to control darkness)
+    float darkenFactor = distance * 3.6; // Adjust the multiplication factor as needed
+
+    // Get the texture color
     vec4 color = texture2D(texture, texCoord);
 
-    // Define a 4x4 Bayer matrix
-    const mat4 bayerMatrix = mat4(
-        0.00, 0.50, 0.13, 0.63,
-        0.75, 0.25, 0.88, 0.38,
-        0.19, 0.69, 0.06, 0.56,
-        0.94, 0.44, 0.81, 0.31
-    );
+    // Apply darkening effect with gradual decrease in intensity
+    vec3 finalColor = color.rgb - vec3(darkenFactor);
 
-    // Normalize texture coordinates
-    vec2 texSize = textureSize(texture, 0);
-    texCoord *= texSize;
-
-    // Calculate the pattern index based on texture coordinates
-    int x = int(mod(texCoord.x, 4.0));
-    int y = int(mod(texCoord.y, 4.0));
-    float threshold = bayerMatrix[x][y];
-
-    // Apply dithering by comparing the color to the threshold
-    vec3 ditheredColor = color.rgb;
-    if (ditheredColor.r > threshold) {
-        ditheredColor = vec3(1.0);
-    } else {
-        ditheredColor = vec3(0.0);
-    }
-
-    gl_FragColor = vec4(ditheredColor, color.a);
+    gl_FragColor = vec4(finalColor, color.a);
 }

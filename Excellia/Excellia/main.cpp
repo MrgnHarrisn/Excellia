@@ -140,14 +140,16 @@ int main()
 		// Update player
 		p.update(dt);
 
+		shader.setUniform("playerPosition", sf::Vector2f(p.get_position().x / settings.get_world_size().x, p.get_position().y / settings.get_world_size().y));
+
 		// Update view
 		cam.update(dt);
 		window.setView(cam.get_view());
 
 		// Clear and draw
 		window.clear();
-		// window.draw(wm.get_render(), &shader);
-		window.draw(wm.get_render());
+		window.draw(wm.get_render(), &shader);
+		// window.draw(wm.get_render());
 		window.draw(p.render_shape());
 		window.draw(cursor);
 		

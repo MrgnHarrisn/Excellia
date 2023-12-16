@@ -95,6 +95,11 @@ sf::Vector2f WorldManager::screen_pos_to_world_pos(sf::Vector2i mouse_pos)
 	return m_window.mapPixelToCoords(mouse_pos, m_window.getView());
 }
 
+sf::Vector2i WorldManager::game_pos_to_screen_pos(sf::Vector2f mouse_pos)
+{
+	return m_window.mapCoordsToPixel(mouse_pos, m_window.getView());
+}
+
 void WorldManager::break_block(sf::Vector2i mouse_pos)
 {
 	sf::Vector2f block = screen_pos_to_world_pos(mouse_pos);

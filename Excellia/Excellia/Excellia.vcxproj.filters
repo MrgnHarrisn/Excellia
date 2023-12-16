@@ -13,6 +13,12 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Resource Files\Art">
+      <UniqueIdentifier>{90614a2b-91da-4a00-b464-e50f070df421}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Shaders">
+      <UniqueIdentifier>{277aa37c-527b-44de-a770-8eca2074754d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -88,8 +94,11 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    <Image Include="..\..\..\..\..\Downloads\Dirt.png">
+      <Filter>Resource Files\Art</Filter>
+    </Image>
     <Image Include="player.png">
-      <Filter>Resource Files</Filter>
+      <Filter>Resource Files\Art</Filter>
     </Image>
   </ItemGroup>
   <ItemGroup>
@@ -97,10 +106,10 @@
       <Filter>Resource Files</Filter>
     </None>
     <None Include="vertex_shader.vert">
-      <Filter>Resource Files</Filter>
+      <Filter>Resource Files\Shaders</Filter>
     </None>
     <None Include="fragment_shader.frag">
-      <Filter>Resource Files</Filter>
+      <Filter>Resource Files\Shaders</Filter>
     </None>
   </ItemGroup>
 </Project>

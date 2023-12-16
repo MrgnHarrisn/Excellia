@@ -87,7 +87,6 @@ sf::Vector2f Player::can_move_pos(sf::Vector2f &position, sf::Vector2f velocity)
 		if (m_wm.get_block((sf::Vector2i)((get_position() - sf::Vector2f(0, 0.001)) + sf::Vector2f(velocity.x, 0))) != Block::Void) {
 			velocity.x = 0;
 			position.x = static_cast<int>(position.x);
-			printf("a");
 		}
 		else if (m_wm.get_block((sf::Vector2i)((get_position() - sf::Vector2f(0, 1)) + sf::Vector2f(velocity.x, 0))) != Block::Void) {
 			velocity.x = 0;

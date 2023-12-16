@@ -88,6 +88,8 @@ public:
 
 	int find_highest_point();
 
+	sf::Vector2i game_pos_to_screen_pos(sf::Vector2f pos);
+
 private:
 
 	Random m_random;
