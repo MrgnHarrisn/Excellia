@@ -82,16 +82,12 @@ sf::Vector2f Player::can_move_pos(sf::Vector2f &position, sf::Vector2f velocity)
 	sf::Vector2f new_pos_x = get_position() + sf::Vector2f(velocity.x, 0);
 	sf::Vector2f new_pos_y = get_position() + sf::Vector2f(0, velocity.y);
 
-	/*printf("Position (View): %f, %f\n", m_wm.get_view_sprite().getPosition().x, m_wm.get_view_sprite().getPosition().y);
-	printf("Position (Player): %f, %f\n", get_position().x, get_position().y);*/
-
-	/* Could use AABB collision to make it better and use sf::Vector2f instead to be more precise */
-
 	/* For X */
 	if (velocity.x < 0) {
-		if (m_wm.get_block((sf::Vector2i)((get_position() - sf::Vector2f(0, 0)) + sf::Vector2f(velocity.x, 0))) != Block::Void) {
+		if (m_wm.get_block((sf::Vector2i)((get_position() - sf::Vector2f(0, 0.001)) + sf::Vector2f(velocity.x, 0))) != Block::Void) {
 			velocity.x = 0;
 			position.x = static_cast<int>(position.x);
+			printf("a");
 		}
 		else if (m_wm.get_block((sf::Vector2i)((get_position() - sf::Vector2f(0, 1)) + sf::Vector2f(velocity.x, 0))) != Block::Void) {
 			velocity.x = 0;
@@ -101,13 +97,13 @@ sf::Vector2f Player::can_move_pos(sf::Vector2f &position, sf::Vector2f velocity)
 			velocity.x = 0;
 			position.x = static_cast<int>(position.x);
 		}
-		else if (m_wm.get_block((sf::Vector2i)((get_position() - sf::Vector2f(0, 2.9)) + sf::Vector2f(velocity.x, 0))) != Block::Void) {
+		else if (m_wm.get_block((sf::Vector2i)((get_position() - sf::Vector2f(0, 2.999)) + sf::Vector2f(velocity.x, 0))) != Block::Void) {
 			velocity.x = 0;
 			position.x = static_cast<int>(position.x);
 		}
 	}
 	else if (velocity.x > 0) {
-		if (m_wm.get_block((sf::Vector2i)((get_position() - sf::Vector2f(-1, 0)) + sf::Vector2f(velocity.x, 0))) != Block::Void) {
+		if (m_wm.get_block((sf::Vector2i)((get_position() - sf::Vector2f(-1, 0.001)) + sf::Vector2f(velocity.x, 0))) != Block::Void) {
 			velocity.x = 0;
 			position.x = static_cast<int>(position.x + 0.5);
 		}
@@ -119,7 +115,7 @@ sf::Vector2f Player::can_move_pos(sf::Vector2f &position, sf::Vector2f velocity)
 			velocity.x = 0;
 			position.x = static_cast<int>(position.x + 0.5);
 		}
-		else if (m_wm.get_block((sf::Vector2i)((get_position() - sf::Vector2f(-1, 2.9)) + sf::Vector2f(velocity.x, 0))) != Block::Void) {
+		else if (m_wm.get_block((sf::Vector2i)((get_position() - sf::Vector2f(-1, 2.999)) + sf::Vector2f(velocity.x, 0))) != Block::Void) {
 			velocity.x = 0;
 			position.x = static_cast<int>(position.x + 0.5);
 		}
@@ -128,38 +124,38 @@ sf::Vector2f Player::can_move_pos(sf::Vector2f &position, sf::Vector2f velocity)
 	/* For Y*/
 	if (velocity.y > 0)
 	{
-		if (m_wm.get_block((sf::Vector2i)(get_position() - sf::Vector2f(-0.1, 0) + sf::Vector2f(0, velocity.y))) != Block::Void) {
+		if (m_wm.get_block((sf::Vector2i)(get_position() - sf::Vector2f(-0.001, 0) + sf::Vector2f(0, velocity.y))) != Block::Void) {
 			velocity.y = 0;
 			position.y = static_cast<int>(position.y + 0.5) - 0.001;
 		}
-		else if (m_wm.get_block((sf::Vector2i)(get_position() - sf::Vector2f(-0.9, 0) + sf::Vector2f(0, velocity.y))) != Block::Void) {
+		else if (m_wm.get_block((sf::Vector2i)(get_position() - sf::Vector2f(-0.999, 0) + sf::Vector2f(0, velocity.y))) != Block::Void) {
 			velocity.y = 0;
 			position.y = static_cast<int>(position.y + 0.5) - 0.001;
 		}
-		else if (m_wm.get_block((sf::Vector2i)(get_position() - sf::Vector2f(-0.1, 2.9) + sf::Vector2f(0, velocity.y))) != Block::Void) {
+		else if (m_wm.get_block((sf::Vector2i)(get_position() - sf::Vector2f(-0.001, 2.999) + sf::Vector2f(0, velocity.y))) != Block::Void) {
 			velocity.y = 0;
 			position.y = static_cast<int>(position.y + 0.5) - 0.001;
 		}
-		else if (m_wm.get_block((sf::Vector2i)(get_position() - sf::Vector2f(-0.9, 2.9) + sf::Vector2f(0, velocity.y))) != Block::Void) {
+		else if (m_wm.get_block((sf::Vector2i)(get_position() - sf::Vector2f(-0.999, 2.999) + sf::Vector2f(0, velocity.y))) != Block::Void) {
 			velocity.y = 0;
 			position.y = static_cast<int>(position.y + 0.5) - 0.001;
 		}
 	}
 	else if (velocity.y < 0)
 	{
-		if (m_wm.get_block((sf::Vector2i)(get_position() - sf::Vector2f(-0.1, 0) + sf::Vector2f(0, velocity.y))) != Block::Void) {
+		if (m_wm.get_block((sf::Vector2i)(get_position() - sf::Vector2f(-0.001, 0.001) + sf::Vector2f(0, velocity.y))) != Block::Void) {
 			velocity.y = 0;
 			position.y = static_cast<int>(position.y + 0.5);
 		}
-		else if (m_wm.get_block((sf::Vector2i)(get_position() - sf::Vector2f(-0.9, 0) + sf::Vector2f(0, velocity.y))) != Block::Void) {
+		else if (m_wm.get_block((sf::Vector2i)(get_position() - sf::Vector2f(-0.999, 0.001) + sf::Vector2f(0, velocity.y))) != Block::Void) {
 			velocity.y = 0;
 			position.y = static_cast<int>(position.y + 0.5);
 		}
-		else if (m_wm.get_block((sf::Vector2i)(get_position() - sf::Vector2f(-0.1, 2.9) + sf::Vector2f(0, velocity.y))) != Block::Void) {
+		else if (m_wm.get_block((sf::Vector2i)(get_position() - sf::Vector2f(-0.001, 2.999) + sf::Vector2f(0, velocity.y))) != Block::Void) {
 			velocity.y = 0;
 			position.y = static_cast<int>(position.y + 0.5);
 		}
-		else if (m_wm.get_block((sf::Vector2i)(get_position() - sf::Vector2f(-0.9, 2.9) + sf::Vector2f(0, velocity.y))) != Block::Void) {
+		else if (m_wm.get_block((sf::Vector2i)(get_position() - sf::Vector2f(-0.999, 2.999) + sf::Vector2f(0, velocity.y))) != Block::Void) {
 			velocity.y = 0;
 			position.y = static_cast<int>(position.y + 0.5);
 		}
