@@ -98,6 +98,9 @@ sf::Vector2f Player::can_move_pos(sf::Vector2f &position, sf::Vector2f velocity)
 		else if (m_wm.get_block((sf::Vector2i)((get_position() - sf::Vector2f(0, 2)) + sf::Vector2f(velocity.x, 0))) != Block::Void) {
 			velocity.x = 0;
 		}
+		else if (m_wm.get_block((sf::Vector2i)((get_position() - sf::Vector2f(0, 2.9)) + sf::Vector2f(velocity.x, 0))) != Block::Void) {
+			velocity.x = 0;
+		}
 	}
 	else if (velocity.x > 0) {
 		if (m_wm.get_block((sf::Vector2i)((get_position() - sf::Vector2f(-1, 0)) + sf::Vector2f(velocity.x, 0))) != Block::Void) {
@@ -107,6 +110,9 @@ sf::Vector2f Player::can_move_pos(sf::Vector2f &position, sf::Vector2f velocity)
 			velocity.x = 0;
 		}
 		else if (m_wm.get_block((sf::Vector2i)((get_position() - sf::Vector2f(-1, 2)) + sf::Vector2f(velocity.x, 0))) != Block::Void) {
+			velocity.x = 0;
+		}
+		else if (m_wm.get_block((sf::Vector2i)((get_position() - sf::Vector2f(-1, 2.9)) + sf::Vector2f(velocity.x, 0))) != Block::Void) {
 			velocity.x = 0;
 		}
 	}
@@ -122,10 +128,10 @@ sf::Vector2f Player::can_move_pos(sf::Vector2f &position, sf::Vector2f velocity)
 	}
 
 	/* Top side */
-	if (m_wm.get_block((sf::Vector2i)(get_position() - sf::Vector2f(-0.1, 3) + sf::Vector2f(0, velocity.y))) != Block::Void) {
+	if (m_wm.get_block((sf::Vector2i)(get_position() - sf::Vector2f(-0.1, 2.9) + sf::Vector2f(0, velocity.y))) != Block::Void) {
 		velocity.y = 0;
 	} 
-	if (m_wm.get_block((sf::Vector2i)(get_position() - sf::Vector2f(-0.9, 3) + sf::Vector2f(0, velocity.y))) != Block::Void) {
+	if (m_wm.get_block((sf::Vector2i)(get_position() - sf::Vector2f(-0.9, 2.9) + sf::Vector2f(0, velocity.y))) != Block::Void) {
 		velocity.y = 0;
 	}
 
