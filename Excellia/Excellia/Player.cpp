@@ -1,12 +1,12 @@
 
 #include "Player.h"
 
-Player::Player(sf::Vector2f position, WorldManager& wm) : m_wm(wm)
+Player::Player(WorldManager& wm) : m_wm(wm)
 {
     sf::RectangleShape shape;
 
     // Set start position
-	set_position(position);
+	set_position(m_wm.place_player());	// World Manager finds player spawn
 
     // Load player texture
     m_texture.loadFromFile("player.png");
@@ -178,4 +178,14 @@ sf::Vector2f Player::can_move_pos(sf::Vector2f &position, sf::Vector2f velocity)
 sf::Drawable& Player::render_shape()
 {
     return m_shape;
+}
+
+std::string Player::get_name()
+{
+	return m_name;
+}
+
+void Player::set_name(std::string name)
+{
+	m_name = name;
 }

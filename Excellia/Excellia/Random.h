@@ -37,6 +37,8 @@ public:
 	/// <returns>random number</returns>
 	float random(float min, float max, long int seed);
 
+	void set_seed(long int seed);
+
 private:
 
 	long int m_seed;

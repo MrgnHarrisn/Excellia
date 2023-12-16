@@ -8,7 +8,7 @@
 #include "BlockManager.h"
 #include "Collision.hpp"
 #include "Actor.h"
-
+#include <string>
 /// <summary>
 /// Main character - type Actor
 /// </summary>
@@ -19,7 +19,7 @@ public:
 	/// Constructor for player
 	/// </summary>
 	/// <param name="position">Position the player starts at</param>
-	Player(sf::Vector2f position, WorldManager& wm);
+	Player(WorldManager& wm);
 
 	/// <summary>
 	/// Override of the update function
@@ -47,6 +47,10 @@ public:
 	/// <returns>World sprite</returns>
 	sf::Sprite get_sprite();
 
+	std::string get_name();
+
+	void set_name(std::string name);
+
 private:
 
 	sf::RectangleShape m_shape;
@@ -56,4 +60,7 @@ private:
 	sf::Texture m_texture;
 	sf::Sprite m_sprite;
 	WorldManager& m_wm;
+
+	std::string m_name;
+
 };

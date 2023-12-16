@@ -21,6 +21,11 @@ class WorldManager
 public:
 
 	/// <summary>
+	/// Empty constructor
+	/// </summary>
+	WorldManager(sf::Vector2u size = sf::Vector2u(0, 0), long int seed = -1);
+
+	/// <summary>
 	/// Constructor for WorldManager
 	/// </summary>
 	WorldManager(sf::RenderWindow& window, sf::Vector2u size = sf::Vector2u(0, 0), long int seed = -1);
@@ -31,11 +36,42 @@ public:
 	void create();
 
 	/// <summary>
+	/// Get's the pixels of m_image
+	/// </summary>
+	/// <returns>array of pixels</returns>
+	sf::Uint8* get_pixels();
+
+	/// <summary>
+	/// Get's the size of the map
+	/// </summary>
+	/// <returns>map size</returns>
+	sf::Vector2u get_size();
+
+	/// <summary>
+	/// THis will allow blocks to be added and removed from a world with a server/client relationship
+	/// </summary>
+	/// <param name="positions">Positions of blocks to be added</param>
+	/// <param name="blocks">Type of block to be added</param>
+	void set_changes(std::vector<sf::Vector2i> positions, std::vector<Block> blocks);
+
+	/// <summary>
+	/// Sets the size of the world
+	/// </summary>
+	/// <param name="world_size">new size of the world</param>
+	void set_size(sf::Vector2u world_size);
+
+	/// <summary>
+	/// Set the seed for random
+	/// </summary>
+	/// <param name="seed">Seed to set m_random to</param>
+	void set_seed(long int seed);
+
+	/// <summary>
 	/// Calcualtes a valid y position for player at given x position
 	/// </summary>
 	/// <param name="x">x position for player</param>
 	/// <returns>y position for player to spawn at</returns>
-	int place_player(int x);
+	sf::Vector2f place_player();
 
 	/// <summary>
 	/// Returns the rendered image fo the world
@@ -86,9 +122,24 @@ public:
 	/// <returns>Sprite of the current view</returns>
 	sf::Sprite get_view_sprite();
 
+	/// <summary>
+	/// Finds highest point in the map
+	/// </summary>
+	/// <returns>index of highest point in array</returns>
 	int find_highest_point();
 
+	/// <summary>
+	/// Converts game position into screen position
+	/// </summary>
+	/// <param name="pos"Position on screen></param>
+	/// <returns>position on the screen</returns>
 	sf::Vector2i game_pos_to_screen_pos(sf::Vector2f pos);
+
+	void set_world_image(sf::Image& image);
+
+	void serialize();
+
+	void deserialize();
 
 private:
 
@@ -99,7 +150,9 @@ private:
 	sf::Image m_image;
 	sf::Texture m_texture;
 	sf::Sprite m_sprite;
-	sf::RenderWindow& m_window;
+	sf::RenderWindow* m_window = nullptr;
+
+	bool m_is_server = false;
 
 	sf::Texture m_perspective_tex;
 	sf::Sprite m_perspective_sprite;

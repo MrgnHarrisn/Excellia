@@ -25,3 +25,8 @@ float Random::random(float min, float max, long int seed)
 	std::uniform_real_distribution<float> dist(min, max);
 	return dist(gen);
 }
+
+void Random::set_seed(long int seed)
+{
+	m_seed = seed;
+}

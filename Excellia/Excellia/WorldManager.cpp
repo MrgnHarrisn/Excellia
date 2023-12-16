@@ -1,7 +1,28 @@
 #include "WorldManager.h"
 
-WorldManager::WorldManager(sf::RenderWindow& window, sf::Vector2u size, long int seed) : m_window(window)
+WorldManager::WorldManager(sf::RenderWindow& window, sf::Vector2u size, long int seed) : m_window(&window)
 {
+	if (size.x != 0 && size.y != 0)
+	{
+		m_width = size.x;
+		m_height = size.y;
+	}
+
+	if (seed != -1)
+	{
+		Random r(seed);
+		m_random = r;
+	}
+
+	m_image.create(m_width, m_height, BlockManager::hex_to_color(Block::Void));
+}
+
+/* This REALLY wants the window */
+WorldManager::WorldManager(sf::Vector2u size, long int seed)
+{
+
+	m_is_server = true;
+
 	if (size.x != 0 && size.y != 0)
 	{
 		m_width = size.x;
@@ -74,15 +95,34 @@ void WorldManager::create()
 
 }
 
+void WorldManager::set_world_image(sf::Image& image)
+{
+	m_image.copy(image, 0, 0);
+}
+
 sf::Sprite WorldManager::get_render()
 {
 	return m_sprite;
 	// return get_view_sprite();
 }
 
-int WorldManager::place_player(int x)
+sf::Vector2u WorldManager::get_size()
 {
-	return m_heights[x - 1] - 1; // -1 is to avoid collision problems
+	return sf::Vector2u(m_width, m_height);
+}
+
+sf::Uint8* WorldManager::get_pixels()
+{
+	return (sf::Uint8*)(m_image.getPixelsPtr());
+}
+
+sf::Vector2f WorldManager::place_player()
+{
+	// settings.get_world_size().x / 2, wm.place_player(settings.get_world_size().x / 2)
+	sf::Vector2f output;
+	output.x = m_width / 2;
+	output.y = m_heights[m_width / 2] - 1;	// -1 to avoid collision issues at spawn
+	return output;
 }
 
 unsigned int WorldManager::get_block(sf::Vector2i pos)
@@ -92,12 +132,32 @@ unsigned int WorldManager::get_block(sf::Vector2i pos)
 
 sf::Vector2f WorldManager::screen_pos_to_world_pos(sf::Vector2i mouse_pos)
 {
-	return m_window.mapPixelToCoords(mouse_pos, m_window.getView());
+	return m_window->mapPixelToCoords(mouse_pos, m_window->getView());
 }
 
 sf::Vector2i WorldManager::game_pos_to_screen_pos(sf::Vector2f mouse_pos)
 {
-	return m_window.mapCoordsToPixel(mouse_pos, m_window.getView());
+	return m_window->mapCoordsToPixel(mouse_pos, m_window->getView());
+}
+
+void WorldManager::set_seed(long int seed)
+{
+	m_random.set_seed(seed);
+}
+
+void WorldManager::set_size(sf::Vector2u world_size)
+{
+	m_width = world_size.x;
+	m_height = world_size.y;
+}
+
+void WorldManager::set_changes(std::vector<sf::Vector2i> positions, std::vector<Block> blocks)
+{
+	for (int i = 0; i < positions.size(); i++) {
+		m_image.setPixel(positions[i].x, positions[i].y, BlockManager::hex_to_color(blocks[i]));
+	}
+	m_texture.loadFromImage(m_image);
+	m_sprite.setTexture(m_texture);
 }
 
 void WorldManager::break_block(sf::Vector2i mouse_pos)
@@ -149,12 +209,12 @@ void WorldManager::force_place_block(Block material, sf::Vector2i pos)
 sf::Sprite WorldManager::get_view_sprite() {
 
 	// Find screen location
-	sf::Vector2i half_size(m_window.getView().getSize().x / 2, m_window.getView().getSize().y / 2);
-	sf::Vector2i top_left = (sf::Vector2i)(m_window.getView().getCenter()) - half_size - sf::Vector2i(1, 0);
+	sf::Vector2i half_size(m_window->getView().getSize().x / 2, m_window->getView().getSize().y / 2);
+	sf::Vector2i top_left = (sf::Vector2i)(m_window->getView().getCenter()) - half_size - sf::Vector2i(1, 0);
 
 	// Make image
 	sf::Image temp;
-	temp.create(m_window.getView().getSize().x + 7, m_window.getView().getSize().y + 3);
+	temp.create(m_window->getView().getSize().x + 7, m_window->getView().getSize().y + 3);
 	
 	// Get pixels in view of texture
 	int loop_max_x = (int)(top_left.x + half_size.x * 2) + 3;
@@ -194,4 +254,14 @@ int WorldManager::find_highest_point()
 		}
 	}
 	return index;
+}
+
+void WorldManager::serialize()
+{
+	printf("Serializing\n");
+}
+
+void WorldManager::deserialize()
+{
+	printf("Deserializing\n");
 }
