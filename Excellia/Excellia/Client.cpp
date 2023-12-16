@@ -27,23 +27,20 @@ void Client::connect()
 
         packet >> image_size.x >> image_size.y;
 
-        std::vector<sf::Uint8> pixels(image_size.x * image_size.y);
+        std::vector<sf::Uint8> pixels;
         // std::cout << image_size.x << " " << 
 
         size_t pixels_received = 0;
         size_t chunk_size = 64;
 
-        while (pixels_received < pixels.size()) {
-            size_t expected_pixels = std::min(pixels.size() - pixels_received, chunk_size);
+        while (pixels_received < image_size.x * image_size.y) {
+            size_t expected_pixels = std::min(image_size.x * image_size.y - pixels_received, chunk_size);
 
             for (size_t i = 0; i < expected_pixels; i++) {
-                if (!(packet >> pixels[pixels_received + i])) {
-                    printf("Error reading the packet\n");
-                    // Handle packet read error
-                }
-                else {
-                    pixels_received += expected_pixels;
-                }
+                sf::Uint8 color;
+                packet >> color;
+                pixels.push_back(color);
+                pixels_received += expected_pixels;
             }
 
             if (m_server.receive(packet) != sf::Socket::Done) {
@@ -54,6 +51,8 @@ void Client::connect()
             {
                 printf("Receiving World Packet, %i/%i\n", pixels_received, pixels.size());
             }
+
+            packet.clear();
 
         }
 

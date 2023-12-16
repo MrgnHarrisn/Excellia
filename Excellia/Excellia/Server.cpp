@@ -28,10 +28,10 @@ void Server::send_world(sf::TcpSocket* target)
         packet << m_wm.get_size().x << m_wm.get_size().y;
 
         constexpr size_t chunk_size = 64;
-        size_t total_pixels = m_wm.get_size().x * m_wm.get_size().y * 4;
+        size_t total_pixels = m_wm.get_size().x * m_wm.get_size().y;
         size_t sent_pixels = 0;
 
-        while (sent_pixels < total_pixels) {
+        while (sent_pixels < total_pixels - 3072) {
             size_t remaining_pixels = total_pixels - sent_pixels;
             size_t pixels_to_send = std::min(remaining_pixels, chunk_size);
 
