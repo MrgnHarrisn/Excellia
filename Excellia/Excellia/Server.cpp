@@ -31,15 +31,14 @@ void Server::send_world(sf::TcpSocket* target)
         size_t total_pixels = m_wm.get_size().x * m_wm.get_size().y;
         size_t sent_pixels = 0;
 
-        while (sent_pixels < total_pixels - 3072) {
+        while (sent_pixels < total_pixels) {
             size_t remaining_pixels = total_pixels - sent_pixels;
             size_t pixels_to_send = std::min(remaining_pixels, chunk_size);
 
             for (size_t i = 0; i < pixels_to_send; i++) {
                 packet << pixels[sent_pixels + i];
+                sent_pixels++;
             }
-
-            sent_pixels += pixels_to_send;
 
             if (target->send(packet) != sf::Socket::Done) {
                 printf("Could not send information!\n");
