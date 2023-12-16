@@ -10,6 +10,13 @@
 
 int main()
 {
+
+	sf::Shader shader;
+	if (!shader.loadFromFile("vertex_shader.vert", "fragment_shader.frag")) {
+		printf("Something went wrong!");
+		return -1;
+	}
+
 	// Creates and loads settings
 	Settings settings;
 	settings.update();
@@ -20,7 +27,7 @@ int main()
 
 	// Creates window
 	sf::RenderWindow window(sf::VideoMode(settings.get_screen_size().x, settings.get_screen_size().y), "Pixellia", sf::Style::None);
-	window.setFramerateLimit(60);
+	// window.setFramerateLimit(60);
 	/* 573849 test seed */
 	/* Crashes with 83875675 */
 	/* 42069 is a good seed */
@@ -139,6 +146,7 @@ int main()
 
 		// Clear and draw
 		window.clear();
+		// window.draw(wm.get_render(), &shader);
 		window.draw(wm.get_render());
 		window.draw(p.render_shape());
 		window.draw(cursor);

@@ -74,10 +74,19 @@ public:
 	void place_block(Block material, sf::Vector2i mouse_pos);
 
 	/// <summary>
+	/// Forces a block to be placed at position
+	/// </summary>
+	/// <param name="pos">Position on texture</param>
+	/// <param name="material">Block type to place</param>
+	void force_place_block(Block material, sf::Vector2i pos);
+
+	/// <summary>
 	/// Creates a sprite of the current view
 	/// </summary>
 	/// <returns>Sprite of the current view</returns>
 	sf::Sprite get_view_sprite();
+
+	int find_highest_point();
 
 private:
 

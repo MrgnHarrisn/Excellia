@@ -26,8 +26,11 @@ void WorldManager::create()
 	m_dirt_heights = TerrainGeneration::generate_dirt(m_width, m_random);
 
 	// Places Caves
-	sf::Vector2f min = sf::Vector2f(0, 0);
+	sf::Vector2f min = sf::Vector2f(0, find_highest_point() * 0.5);
 	sf::Vector2f max = sf::Vector2f(m_width, m_height);
+
+
+
 	m_caves = TerrainGeneration::generate_caves(min, max, m_random);
 
 	// Loop over columns
@@ -43,6 +46,26 @@ void WorldManager::create()
 			m_image.setPixel(i, j, BlockManager::hex_to_color(Block::Dirt));
 		}
 
+	}
+
+	/* Generate caves with random walking */
+	for (int i = 0; i < m_caves.size(); i++) {
+		sf::Vector2i position_a = (sf::Vector2i)m_caves[i];
+		int cave_size = (m_caves[i].y > m_height * 0.75 ? 400 : 200);
+		for (int j = 0; j < cave_size; j++) {
+			
+			for (int d_x = 0; d_x < 3; d_x++) {
+				for (int d_y = 0; d_y < 3; d_y++) {
+					force_place_block(Block::Void, position_a + sf::Vector2i(d_x, d_y));
+				}
+			}
+
+			sf::Vector2i delta;
+			delta.x = m_random.random(-1, 1) < 0 ? -1 : 1;
+			delta.y = m_random.random(-1, 1) < 0 ? -1 : 1;
+
+			position_a += delta;
+		}
 	}
 
 	// Store Map
@@ -108,6 +131,16 @@ void WorldManager::place_block(Block material, sf::Vector2i mouse_pos)
 	}
 }
 
+void WorldManager::force_place_block(Block material, sf::Vector2i pos)
+{
+
+	// Check world bounds
+	if (pos.x >= 0 && pos.x <= m_width && pos.y >= 0 && pos.y < m_height) {
+
+		m_image.setPixel(pos.x, pos.y, BlockManager::hex_to_color(material));
+	}
+}
+
 sf::Sprite WorldManager::get_view_sprite() {
 
 	// Find screen location
@@ -145,4 +178,15 @@ sf::Sprite WorldManager::get_view_sprite() {
 	// m_window.draw(sprite);
 
 	return m_perspective_sprite;
+}
+
+int WorldManager::find_highest_point()
+{
+	int index = m_heights.size()-1;
+	for (int i = 0; i < m_heights.size(); i++) {
+		if (m_heights[i] < m_heights[index]) {
+			index = i;
+		}
+	}
+	return index;
 }
