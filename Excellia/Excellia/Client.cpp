@@ -33,7 +33,7 @@ void Client::connect()
         size_t pixels_received = 0;
         size_t chunk_size = 64;
 
-        while (pixels_received <= image_size.x * image_size.y) {
+        while (pixels_received != image_size.x * image_size.y) {
             size_t expected_pixels = std::min(image_size.x * image_size.y - pixels_received, chunk_size);
 
             for (size_t i = 0; i < expected_pixels; i++) {

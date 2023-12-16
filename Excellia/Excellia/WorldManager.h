@@ -39,7 +39,7 @@ public:
 	/// Get's the pixels of m_image
 	/// </summary>
 	/// <returns>array of pixels</returns>
-	sf::Uint8* get_pixels();
+	const sf::Uint8* get_pixels();
 
 	/// <summary>
 	/// Get's the size of the map

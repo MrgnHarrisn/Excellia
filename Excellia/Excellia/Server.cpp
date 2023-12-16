@@ -4,6 +4,7 @@ Server::Server()
 {
 
     Settings settings;
+    settings.update();
 
     printf("Enter port to use: ");
     std::cin >> m_port;
@@ -13,6 +14,7 @@ Server::Server()
 	}
 
     /* Create world */
+    m_wm.set_size(settings.get_world_size());
     m_wm.create();
 
     /* Send world information */
@@ -24,14 +26,14 @@ void Server::send_world(sf::TcpSocket* target)
     if (m_clients.size() > 0) {
         sf::Packet packet;
         const sf::Uint8* pixels = m_wm.get_pixels();
-
+        printf("WIDTH: %i | HEIGHT: %i\n", m_wm.get_size().x, m_wm.get_size().y);
         packet << m_wm.get_size().x << m_wm.get_size().y;
 
         constexpr size_t chunk_size = 64;
         size_t total_pixels = m_wm.get_size().x * m_wm.get_size().y;
         size_t sent_pixels = 0;
 
-        while (sent_pixels < total_pixels) {
+        while (sent_pixels <= total_pixels) {
             size_t remaining_pixels = total_pixels - sent_pixels;
             size_t pixels_to_send = std::min(remaining_pixels, chunk_size);
 

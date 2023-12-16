@@ -92,12 +92,14 @@ void WorldManager::create()
 	// Store Map
 	m_texture.loadFromImage(m_image);
 	m_sprite.setTexture(m_texture);
-
+	m_sprite.setPosition({0, 0});
 }
 
 void WorldManager::set_world_image(sf::Image& image)
 {
 	m_image.copy(image, 0, 0);
+	m_texture.loadFromImage(m_image);
+	m_sprite.setTexture(m_texture);
 }
 
 sf::Sprite WorldManager::get_render()
@@ -111,9 +113,9 @@ sf::Vector2u WorldManager::get_size()
 	return sf::Vector2u(m_width, m_height);
 }
 
-sf::Uint8* WorldManager::get_pixels()
+const sf::Uint8* WorldManager::get_pixels()
 {
-	return (sf::Uint8*)(m_image.getPixelsPtr());
+	return m_image.getPixelsPtr();
 }
 
 sf::Vector2f WorldManager::place_player()
