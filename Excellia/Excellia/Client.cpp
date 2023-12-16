@@ -19,59 +19,54 @@ Client::Client() {
 
 void Client::connect()
 {
-    /*  Check if we connected */
-    if (m_server.connect(m_ip_addrs, m_port) != sf::Socket::Done) {
-        printf("Could not connect to server!\n");
-    }
-    else {
-        sf::Packet packet;
+    sf::Packet packet;
 
-        if (m_server.receive(packet) == sf::Socket::Done) {
-            printf("Receiving World!\n");
-            sf::Vector2u image_size;
+    if (m_server.receive(packet) == sf::Socket::Done) {
+        printf("Receiving World!\n");
+        sf::Vector2u image_size;
 
-            packet >> image_size.x >> image_size.y;
+        packet >> image_size.x >> image_size.y;
 
-            std::vector<sf::Uint8> pixels(image_size.x * image_size.y);
+        std::vector<sf::Uint8> pixels(image_size.x * image_size.y);
+        // std::cout << image_size.x << " " << 
 
-            size_t pixels_received = 0;
-            size_t chunk_size = 64;
+        size_t pixels_received = 0;
+        size_t chunk_size = 64;
 
-            while (pixels_received < pixels.size()) {
-                size_t expected_pixels = std::min(pixels.size() - pixels_received, chunk_size);
-                
-                for (size_t i = 0; i < expected_pixels; i++) {
-                    if (!(packet >> pixels[pixels_received + i])) {
-                        printf("Error reading the packet\n");
-                        // Handle packet read error
-                    }
-                    else {
-                        pixels_received += expected_pixels;
-                    }
+        while (pixels_received < pixels.size()) {
+            size_t expected_pixels = std::min(pixels.size() - pixels_received, chunk_size);
+
+            for (size_t i = 0; i < expected_pixels; i++) {
+                if (!(packet >> pixels[pixels_received + i])) {
+                    printf("Error reading the packet\n");
+                    // Handle packet read error
                 }
-
-                if (m_server.receive(packet) != sf::Socket::Done) {
-                    printf("error getting packet\n");
-                    break;
+                else {
+                    pixels_received += expected_pixels;
                 }
-                else
-                {
-                    printf("Receiving World Packet, %i/%i\n", pixels_received, pixels.size());
-                }
-
             }
 
-            printf("World Recieved!\n");
+            if (m_server.receive(packet) != sf::Socket::Done) {
+                printf("error getting packet\n");
+                break;
+            }
+            else
+            {
+                printf("Receiving World Packet, %i/%i\n", pixels_received, pixels.size());
+            }
 
-            sf::Image received_image;
-            received_image.create(image_size.x, image_size.y, pixels.data());
-            m_wm.set_world_image(received_image);
         }
-        else {
-            printf("Did not recieve packet\n");
-            connect();
-            // Handle initial packet receive error
-        }
+
+        printf("World Recieved!\n");
+
+        sf::Image received_image;
+        received_image.create(image_size.x, image_size.y, pixels.data());
+        m_wm.set_world_image(received_image);
+    }
+    else {
+        printf("Did not recieve packet\n");
+        connect();
+        // Handle initial packet receive error
     }
 
 }
