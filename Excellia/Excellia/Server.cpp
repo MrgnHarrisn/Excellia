@@ -139,7 +139,7 @@ void Server::connect_clients()
             std::cout << "Added new Client!" << std::endl;
 
             // Check if there are other clients before sending world info
-            if (m_clients.size() > 1) {
+            if (m_clients.size() >= 1) {
                 send_world(m_clients.back());
             }
         }

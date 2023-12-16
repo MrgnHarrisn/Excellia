@@ -39,11 +39,14 @@ void Client::connect()
 
             while (pixels_received < pixels.size()) {
                 size_t expected_pixels = std::min(pixels.size() - pixels_received, chunk_size);
-
+                
                 for (size_t i = 0; i < expected_pixels; i++) {
                     if (!(packet >> pixels[pixels_received + i])) {
                         printf("Error reading the packet\n");
                         // Handle packet read error
+                    }
+                    else {
+                        pixels_received += expected_pixels;
                     }
                 }
 
@@ -51,7 +54,14 @@ void Client::connect()
                     printf("error getting packet\n");
                     break;
                 }
+                else
+                {
+                    printf("Receiving World Packet, %i/%i\n", pixels_received, pixels.size());
+                }
+
             }
+
+            printf("World Recieved!\n");
 
             sf::Image received_image;
             received_image.create(image_size.x, image_size.y, pixels.data());
@@ -59,6 +69,7 @@ void Client::connect()
         }
         else {
             printf("Did not recieve packet\n");
+            connect();
             // Handle initial packet receive error
         }
     }
