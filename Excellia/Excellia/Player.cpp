@@ -91,48 +91,78 @@ sf::Vector2f Player::can_move_pos(sf::Vector2f &position, sf::Vector2f velocity)
 	if (velocity.x < 0) {
 		if (m_wm.get_block((sf::Vector2i)((get_position() - sf::Vector2f(0, 0)) + sf::Vector2f(velocity.x, 0))) != Block::Void) {
 			velocity.x = 0;
+			position.x = static_cast<int>(position.x);
 		}
 		else if (m_wm.get_block((sf::Vector2i)((get_position() - sf::Vector2f(0, 1)) + sf::Vector2f(velocity.x, 0))) != Block::Void) {
 			velocity.x = 0;
+			position.x = static_cast<int>(position.x);
 		}
 		else if (m_wm.get_block((sf::Vector2i)((get_position() - sf::Vector2f(0, 2)) + sf::Vector2f(velocity.x, 0))) != Block::Void) {
 			velocity.x = 0;
+			position.x = static_cast<int>(position.x);
 		}
 		else if (m_wm.get_block((sf::Vector2i)((get_position() - sf::Vector2f(0, 2.9)) + sf::Vector2f(velocity.x, 0))) != Block::Void) {
 			velocity.x = 0;
+			position.x = static_cast<int>(position.x);
 		}
 	}
 	else if (velocity.x > 0) {
 		if (m_wm.get_block((sf::Vector2i)((get_position() - sf::Vector2f(-1, 0)) + sf::Vector2f(velocity.x, 0))) != Block::Void) {
 			velocity.x = 0;
+			position.x = static_cast<int>(position.x + 0.5);
 		}
 		else if (m_wm.get_block((sf::Vector2i)((get_position() - sf::Vector2f(-1, 1)) + sf::Vector2f(velocity.x, 0))) != Block::Void) {
 			velocity.x = 0;
+			position.x = static_cast<int>(position.x + 0.5);
 		}
 		else if (m_wm.get_block((sf::Vector2i)((get_position() - sf::Vector2f(-1, 2)) + sf::Vector2f(velocity.x, 0))) != Block::Void) {
 			velocity.x = 0;
+			position.x = static_cast<int>(position.x + 0.5);
 		}
 		else if (m_wm.get_block((sf::Vector2i)((get_position() - sf::Vector2f(-1, 2.9)) + sf::Vector2f(velocity.x, 0))) != Block::Void) {
 			velocity.x = 0;
+			position.x = static_cast<int>(position.x + 0.5);
 		}
 	}
 
 	/* For Y*/
-
-	/* Bottom side*/
-	if (m_wm.get_block((sf::Vector2i)(get_position() - sf::Vector2f(-0.1, 0) + sf::Vector2f(0, velocity.y))) != Block::Void) {
-		velocity.y = 0;
+	if (velocity.y > 0)
+	{
+		if (m_wm.get_block((sf::Vector2i)(get_position() - sf::Vector2f(-0.1, 0) + sf::Vector2f(0, velocity.y))) != Block::Void) {
+			velocity.y = 0;
+			position.y = static_cast<int>(position.y + 0.5) - 0.001;
+		}
+		else if (m_wm.get_block((sf::Vector2i)(get_position() - sf::Vector2f(-0.9, 0) + sf::Vector2f(0, velocity.y))) != Block::Void) {
+			velocity.y = 0;
+			position.y = static_cast<int>(position.y + 0.5) - 0.001;
+		}
+		else if (m_wm.get_block((sf::Vector2i)(get_position() - sf::Vector2f(-0.1, 2.9) + sf::Vector2f(0, velocity.y))) != Block::Void) {
+			velocity.y = 0;
+			position.y = static_cast<int>(position.y + 0.5) - 0.001;
+		}
+		else if (m_wm.get_block((sf::Vector2i)(get_position() - sf::Vector2f(-0.9, 2.9) + sf::Vector2f(0, velocity.y))) != Block::Void) {
+			velocity.y = 0;
+			position.y = static_cast<int>(position.y + 0.5) - 0.001;
+		}
 	}
-	if (m_wm.get_block((sf::Vector2i)(get_position() - sf::Vector2f(-0.9, 0) + sf::Vector2f(0, velocity.y))) != Block::Void) {
-		velocity.y = 0;
-	}
-
-	/* Top side */
-	if (m_wm.get_block((sf::Vector2i)(get_position() - sf::Vector2f(-0.1, 2.9) + sf::Vector2f(0, velocity.y))) != Block::Void) {
-		velocity.y = 0;
-	} 
-	if (m_wm.get_block((sf::Vector2i)(get_position() - sf::Vector2f(-0.9, 2.9) + sf::Vector2f(0, velocity.y))) != Block::Void) {
-		velocity.y = 0;
+	else if (velocity.y < 0)
+	{
+		if (m_wm.get_block((sf::Vector2i)(get_position() - sf::Vector2f(-0.1, 0) + sf::Vector2f(0, velocity.y))) != Block::Void) {
+			velocity.y = 0;
+			position.y = static_cast<int>(position.y + 0.5);
+		}
+		else if (m_wm.get_block((sf::Vector2i)(get_position() - sf::Vector2f(-0.9, 0) + sf::Vector2f(0, velocity.y))) != Block::Void) {
+			velocity.y = 0;
+			position.y = static_cast<int>(position.y + 0.5);
+		}
+		else if (m_wm.get_block((sf::Vector2i)(get_position() - sf::Vector2f(-0.1, 2.9) + sf::Vector2f(0, velocity.y))) != Block::Void) {
+			velocity.y = 0;
+			position.y = static_cast<int>(position.y + 0.5);
+		}
+		else if (m_wm.get_block((sf::Vector2i)(get_position() - sf::Vector2f(-0.9, 2.9) + sf::Vector2f(0, velocity.y))) != Block::Void) {
+			velocity.y = 0;
+			position.y = static_cast<int>(position.y + 0.5);
+		}
 	}
 
     return velocity;
