@@ -59,7 +59,7 @@ sf::Sprite WorldManager::get_render()
 
 int WorldManager::place_player(int x)
 {
-	return m_heights[x - 1]; // -1 is to avoid collision problems
+	return m_heights[x - 1] - 1; // -1 is to avoid collision problems
 }
 
 unsigned int WorldManager::get_block(sf::Vector2i pos)
