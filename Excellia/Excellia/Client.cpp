@@ -22,35 +22,44 @@ void Client::connect()
     /*  Check if we connected */
     if (m_server.connect(m_ip_addrs, m_port) != sf::Socket::Done) {
         printf("Could not connect to server!\n");
-        /* First packet will be world */
+    }
+    else {
         sf::Packet packet;
-        
+
         if (m_server.receive(packet) == sf::Socket::Done) {
-            printf("Recieving World!\n");
+            printf("Receiving World!\n");
             sf::Vector2u image_size;
 
             packet >> image_size.x >> image_size.y;
 
             std::vector<sf::Uint8> pixels(image_size.x * image_size.y);
 
-            size_t pixels_recieved = 0;
-            size_t chunk_size = 1024;
+            size_t pixels_received = 0;
+            size_t chunk_size = 64;
 
-            while (pixels_recieved < pixels.size()) {
-
-                size_t expected_pixels = std::min(pixels.size() - pixels_recieved, chunk_size);
+            while (pixels_received < pixels.size()) {
+                size_t expected_pixels = std::min(pixels.size() - pixels_received, chunk_size);
 
                 for (size_t i = 0; i < expected_pixels; i++) {
-                    packet >> pixels[pixels_recieved + i];
+                    if (!(packet >> pixels[pixels_received + i])) {
+                        printf("Error reading the packet\n");
+                        // Handle packet read error
+                    }
                 }
 
-                packet.clear();
-
+                if (m_server.receive(packet) != sf::Socket::Done) {
+                    printf("error getting packet\n");
+                    break;
+                }
             }
 
-            sf::Image recieved_image;
-            recieved_image.create(image_size.x, image_size.y, pixels.data());
-            m_wm.set_world_image(recieved_image);
+            sf::Image received_image;
+            received_image.create(image_size.x, image_size.y, pixels.data());
+            m_wm.set_world_image(received_image);
+        }
+        else {
+            printf("Did not recieve packet\n");
+            // Handle initial packet receive error
         }
     }
 

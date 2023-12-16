@@ -21,43 +21,34 @@ Server::Server()
 
 void Server::send_world(sf::TcpSocket* target)
 {
-    sf::Packet packet;
-    const sf::Uint8* pixels = m_wm.get_pixels();
-    
-    packet << m_wm.get_size().x << m_wm.get_size().y;
-
-    constexpr size_t chunk_size = 1024;
-    /* Do we need the 4? x * y would be the total number of pixels no? */
-    size_t total_pixels = m_wm.get_size().x * m_wm.get_size().y;
-    size_t sent_pixels = 0;
-
-    while (sent_pixels < total_pixels) {
-        size_t remaining_pixels = total_pixels - sent_pixels;
-        size_t pixels_to_send = std::min(remaining_pixels, chunk_size);
-
+    if (m_clients.size() > 0) {
         sf::Packet packet;
-        for (size_t i = 0; i < pixels_to_send; i++) {
-            packet << pixels[sent_pixels + i];
+        const sf::Uint8* pixels = m_wm.get_pixels();
+
+        packet << m_wm.get_size().x << m_wm.get_size().y;
+
+        constexpr size_t chunk_size = 64;
+        size_t total_pixels = m_wm.get_size().x * m_wm.get_size().y;
+        size_t sent_pixels = 0;
+
+        while (sent_pixels < total_pixels) {
+            size_t remaining_pixels = total_pixels - sent_pixels;
+            size_t pixels_to_send = std::min(remaining_pixels, chunk_size);
+
+            for (size_t i = 0; i < pixels_to_send; i++) {
+                packet << pixels[sent_pixels + i];
+            }
+
+            sent_pixels += pixels_to_send;
+
+            if (target->send(packet) != sf::Socket::Done) {
+                printf("Could not send information!\n");
+                return; // Exit or handle error as needed
+            }
+
+            packet.clear();
         }
-
-        sent_pixels += pixels_to_send;
-
-        if (target->send(packet) != sf::Socket::Done) {
-            printf("Could not send information!\n");
-        }
-
-        packet.clear();
-
     }
-
-    /*for (size_t i = 0; i < m_wm.get_size().x * m_wm.get_size().y * 4; i++) {
-        packet << pixels[i];
-    }*/
-
-    /*if (target->send(packet) != sf::Socket::Done) {
-        printf("Could not send information!\n");
-    }*/
-
 }
 
 void Server::start()
@@ -98,12 +89,12 @@ void Server::recieve_packet(sf::TcpSocket* client, size_t index)
 
 void Server::disconnect_client(sf::TcpSocket* client, size_t index)
 {
-    client->disconnect();
-    printf("Deleting the pointer\n");
-    delete(client);
-    printf("Erasing from vector\n");
-    m_clients.erase(m_clients.begin() + index);
-    printf("Disconnected successfully!\n");
+    {
+        std::lock_guard<std::mutex> lock(m_client_mutex);
+        client->disconnect();
+        delete(client);
+        m_clients.erase(m_clients.begin() + index);
+    }
 }
 
 /* This will send a packet to everyone except the person who sent the changes */
@@ -140,12 +131,17 @@ void Server::connect_clients()
         sf::TcpSocket* new_client = new sf::TcpSocket();
         if (m_listener.accept(*new_client) == sf::Socket::Done) {
             new_client->setBlocking(false);
-            m_clients.push_back(new_client);
-            std::cout << "Added new Client!" << std::endl;
-            /* Send client world information */
-
-            send_world(m_clients[m_clients.size()-1]);
+            {
+                std::lock_guard<std::mutex> lock(m_client_mutex);
+                m_clients.push_back(new_client);
+            }
             
+            std::cout << "Added new Client!" << std::endl;
+
+            // Check if there are other clients before sending world info
+            if (m_clients.size() > 1) {
+                send_world(m_clients.back());
+            }
         }
         else {
             delete(new_client);

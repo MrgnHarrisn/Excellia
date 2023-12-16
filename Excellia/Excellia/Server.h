@@ -12,6 +12,7 @@
 #include <iostream>
 #include <thread>
 #include <map>
+#include <mutex>
 
 class Server
 {
@@ -31,6 +32,8 @@ private:
 	sf::TcpListener m_listener;
 	sf::TcpSocket m_client;
 	sf::Socket::Status m_status;
+	std::mutex m_client_mutex;
+
 
 	WorldManager m_wm;	// this will be the world everyone needs
 
