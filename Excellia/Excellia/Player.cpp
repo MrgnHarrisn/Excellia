@@ -91,7 +91,7 @@ sf::Sprite Player::get_sprite()
 
 sf::Vector2f Player::can_move_pos(sf::Vector2f &position, sf::Vector2f velocity)
 {
-	const float e = 0.0001;
+	const float e = 0.01;
 
 	/* For X */
 	if (velocity.x < 0) {

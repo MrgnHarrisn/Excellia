@@ -27,7 +27,7 @@ int main()
 
 	// Creates window
 	sf::RenderWindow window(sf::VideoMode(settings.get_screen_size().x, settings.get_screen_size().y), "Pixellia", sf::Style::None);
-	window.setFramerateLimit(10);
+	// window.setFramerateLimit(10);
 
 	/* 573849 test seed */
 	/* 42069 is a good seed */
