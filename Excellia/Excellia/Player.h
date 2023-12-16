@@ -54,5 +54,6 @@ private:
 	float m_sprint_speed = 25;
 	float m_speed = m_move_speed;
 	sf::Texture m_texture;
+	sf::Sprite m_sprite;
 	WorldManager& m_wm;
 };

@@ -41,8 +41,17 @@ void Player::update(float dt)
 		velocity.x -= m_speed * dt;
 	}
 
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
+		velocity.y -= m_speed * dt;
+	}
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
+		velocity.y += m_speed * dt;
+	}
+
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
         velocity.y -= (m_move_speed + 30) * dt;
+		
     }
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
@@ -63,21 +72,41 @@ void Player::update(float dt)
 
 sf::Sprite Player::get_sprite()
 {
-    sf::Sprite player_sprite;
-    player_sprite.setTexture(m_texture);
-    player_sprite.setPosition(get_position());
-    return player_sprite;
+    m_sprite.setTexture(m_texture);
+    m_sprite.setPosition(get_position());
+    return m_sprite;
 }
 
 sf::Vector2f Player::can_move_pos(sf::Vector2f &position, sf::Vector2f velocity)
 {
-    sf::Vector2f new_pos = get_position() + velocity;
+	sf::Vector2f new_pos_x = get_position() + sf::Vector2f(velocity.x, 0);
+	sf::Vector2f new_pos_y = get_position() + sf::Vector2f(0, velocity.y);
 
-	sf::Sprite view = m_wm.get_view_sprite();
-	sf::Sprite player_sprite = get_sprite();
+	/*printf("Position (View): %f, %f\n", m_wm.get_view_sprite().getPosition().x, m_wm.get_view_sprite().getPosition().y);
+	printf("Position (Player): %f, %f\n", get_position().x, get_position().y);*/
 
-	if (Collision::PixelPerfectTest(player_sprite, view, 255)) {
-		printf("Colliding\n");
+	/* Could use AABB collision to make it better and use sf::Vector2f instead to be more precise */
+
+	/* For X */
+	if (m_wm.get_block((sf::Vector2i)((get_position() - sf::Vector2f(0, 0)) + sf::Vector2f(velocity.x, 0))) != Block::Void) {
+		velocity.x = 0;
+	}
+	else if (m_wm.get_block((sf::Vector2i)((get_position() - sf::Vector2f(0, 1)) + sf::Vector2f(velocity.x, 0))) != Block::Void) {
+		velocity.x = 0;
+	}
+	else if (m_wm.get_block((sf::Vector2i)((get_position() - sf::Vector2f(0, 2)) + sf::Vector2f(velocity.x, 0))) != Block::Void) {
+		velocity.x = 0;
+	}
+
+	/* For Y*/
+	if (m_wm.get_block((sf::Vector2i)(get_position() - sf::Vector2f(0, 0) + sf::Vector2f(0, velocity.y))) != Block::Void) {
+		velocity.y = 0;
+	}
+	else if (m_wm.get_block((sf::Vector2i)(get_position() - sf::Vector2f(0, 1) + sf::Vector2f(0, velocity.y))) != Block::Void) {
+		velocity.y = 0;
+	}
+	else if (m_wm.get_block((sf::Vector2i)(get_position() - sf::Vector2f(0, 2) + sf::Vector2f(0, velocity.y))) != Block::Void) {
+		velocity.y = 0;
 	}
 
     return velocity;
