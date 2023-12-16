@@ -3,7 +3,7 @@
  * Author: Nick (original version), ahnonay (SFML2 compatibility)
  */
 #include <map>
-#include "Collision.h"
+#include "Collision.hpp"
 
 namespace Collision
 {

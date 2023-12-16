@@ -6,7 +6,7 @@
 
 #include "WorldManager.h"
 #include "BlockManager.h"
-#include "Collision.h"
+#include "Collision.hpp"
 #include "Actor.h"
 
 /// <summary>

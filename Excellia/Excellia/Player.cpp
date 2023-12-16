@@ -73,79 +73,12 @@ sf::Vector2f Player::can_move_pos(sf::Vector2f &position, sf::Vector2f velocity)
 {
     sf::Vector2f new_pos = get_position() + velocity;
 
-    // Get all 6 spots
-    sf::Vector2i bottom_left = static_cast<sf::Vector2i>(new_pos);
+	sf::Sprite view = m_wm.get_view_sprite();
+	sf::Sprite player_sprite = get_sprite();
 
-    sf::Vector2i top_left = bottom_left;
-    top_left.y -= m_shape.getSize().y;
-
-    sf::Vector2i top_right = top_left;
-    top_right.x += m_shape.getSize().x;
-
-    sf::Vector2i bottom_right = top_right;
-    bottom_right.y += m_shape.getSize().y;
-
-    sf::Vector2i middle_left = top_left;
-    middle_left.y++;
-
-    sf::Vector2i middle_right = top_right;
-    middle_right.y++;
-
-    // Vertical collision
-    if (velocity.y > 0)
-    {
-        if (!BlockManager::can_move_through((Block)m_wm.get_block(bottom_left)) || !BlockManager::can_move_through((Block)m_wm.get_block(bottom_right)))
-        {
-            velocity.y = 0; // Stop movement in the positive y direction (falling down)
-            //position.y = bottom_left.y - 0.01;
-            bottom_left.y--;
-            bottom_right.y--;
-        }
-    }
-    else
-    {
-        if (!BlockManager::can_move_through((Block)m_wm.get_block(top_left)) || !BlockManager::can_move_through((Block)m_wm.get_block(top_right)))
-        {
-            velocity.y = 0; // Stop movement in the negative y direction (jumping)
-            //position.y = static_cast<int>(position.y);
-
-        }
-    }
-
-    // Horizontal collision
-    if (velocity.x > 0)
-    {
-        if (!BlockManager::can_move_through((Block)m_wm.get_block(bottom_right)) || !BlockManager::can_move_through((Block)m_wm.get_block(top_right)) || !BlockManager::can_move_through((Block)m_wm.get_block(middle_right)))
-        {
-            if (BlockManager::can_move_through((Block)m_wm.get_block(middle_right)) && BlockManager::can_move_through((Block)m_wm.get_block(top_right)))
-            {
-                position.y--;
-            }
-            else
-            {
-                velocity.x = 0;
-                bottom_right.x--;
-                top_right.x--;
-            }
-        }
-    }
-    else
-    {
-        if (!BlockManager::can_move_through((Block)m_wm.get_block(bottom_left)) || !BlockManager::can_move_through((Block)m_wm.get_block(top_left)) || !BlockManager::can_move_through((Block)m_wm.get_block(middle_left)))
-        {
-            if (BlockManager::can_move_through((Block)m_wm.get_block(middle_left)) && BlockManager::can_move_through((Block)m_wm.get_block(top_left)))
-            {
-                position.y--;
-            }
-            else
-            {
-                velocity.x = 0;
-                bottom_left.x++;
-                top_left.x++;
-            }
-
-        }
-    }
+	if (Collision::PixelPerfectTest(player_sprite, view, 255)) {
+		printf("Colliding\n");
+	}
 
     return velocity;
 }

@@ -9,7 +9,7 @@
 #include <SFML/System/Vector2.hpp>
 
 #include "TerrainGeneration.h"
-#include "Collision.h"
+#include "Collision.hpp"
 #include "BlockManager.h"
 #include "Random.h"
 
@@ -89,6 +89,10 @@ private:
 	sf::Texture m_texture;
 	sf::Sprite m_sprite;
 	sf::RenderWindow& m_window;
+
+	sf::Texture m_perspective_tex;
+	sf::Sprite m_perspective_sprite;
+
 	int m_width = 800;
 	int m_height = 800;
 };

@@ -139,7 +139,7 @@ int main()
 
 		// Clear and draw
 		window.clear();
-		wm.get_render();
+		window.draw(wm.get_render());
 		window.draw(p.render_shape());
 		window.draw(cursor);
 		

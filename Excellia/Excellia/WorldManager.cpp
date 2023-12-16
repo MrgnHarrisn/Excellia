@@ -53,8 +53,8 @@ void WorldManager::create()
 
 sf::Sprite WorldManager::get_render()
 {
-	get_view_sprite();
 	return m_sprite;
+	// return get_view_sprite();
 }
 
 int WorldManager::place_player(int x)
@@ -139,12 +139,10 @@ sf::Sprite WorldManager::get_view_sprite() {
 	}
 	
 	// Load and draw sprite
-	sf::Sprite sprite;
-	sf::Texture texture;
-	texture.loadFromImage(temp);
-	sprite.setTexture(texture);
-	sprite.setPosition((sf::Vector2f)top_left);
-	m_window.draw(sprite);
+	m_perspective_tex.loadFromImage(temp);
+	m_perspective_sprite.setTexture(m_perspective_tex);
+	m_perspective_sprite.setPosition((sf::Vector2f)top_left);
+	// m_window.draw(sprite);
 
-	return sprite;
+	return m_perspective_sprite;
 }
