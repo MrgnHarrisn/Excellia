@@ -112,15 +112,9 @@ sf::Vector2f Player::can_move_pos(sf::Vector2f &position, sf::Vector2f velocity)
 	}
 
 	/* For Y*/
-	if (m_wm.get_block((sf::Vector2i)(get_position() - sf::Vector2f(0, 0) + sf::Vector2f(0, velocity.y))) != Block::Void) {
+	if (m_wm.get_block((sf::Vector2i)(get_position() - sf::Vector2f(-0.5, 0) + sf::Vector2f(0, velocity.y))) != Block::Void) {
 		velocity.y = 0;
-	}
-	else if (m_wm.get_block((sf::Vector2i)(get_position() - sf::Vector2f(-1, 0) + sf::Vector2f(0, velocity.y))) != Block::Void) {
-		velocity.y = 0;
-	}
-	else if (m_wm.get_block((sf::Vector2i)(get_position() - sf::Vector2f(-1, 3) + sf::Vector2f(0, velocity.y))) != Block::Void) {
-		velocity.y = 0;
-	} else if (m_wm.get_block((sf::Vector2i)(get_position() - sf::Vector2f(0, 3) + sf::Vector2f(0, velocity.y))) != Block::Void) {
+	} else if (m_wm.get_block((sf::Vector2i)(get_position() - sf::Vector2f(-0.5, 3) + sf::Vector2f(0, velocity.y))) != Block::Void) {
 		velocity.y = 0;
 	}
 
