@@ -32,9 +32,9 @@ void Client::connect()
 
         size_t pixels_received = 0;
         size_t chunk_size = 64;
-
-        while (pixels_received != image_size.x * image_size.y) {
-            size_t expected_pixels = std::min(image_size.x * image_size.y - pixels_received, chunk_size);
+        size_t total_info = image_size.x * image_size.y * 4;
+        while (pixels_received != total_info) {
+            size_t expected_pixels = std::min(total_info - pixels_received, chunk_size);
 
             for (size_t i = 0; i < expected_pixels; i++) {
                 sf::Uint8 color;
@@ -59,8 +59,11 @@ void Client::connect()
         printf("World Recieved!\n");
 
         sf::Image received_image;
+        printf("Number of pixels: %i\n", pixels.size());
         received_image.create(image_size.x, image_size.y, pixels.data());
+        printf("Here\n");
         m_wm.set_world_image(received_image);
+        printf("Here 2\n");
     }
     else {
         printf("Did not recieve packet\n");
