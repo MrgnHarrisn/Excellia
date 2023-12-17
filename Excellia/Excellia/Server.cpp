@@ -29,7 +29,7 @@ void Server::send_world(sf::TcpSocket* target)
         printf("WIDTH: %i | HEIGHT: %i\n", m_wm.get_size().x, m_wm.get_size().y);
         packet << m_wm.get_size().x << m_wm.get_size().y;
 
-        constexpr size_t chunk_size = 64;
+        constexpr size_t chunk_size = 256;
         size_t total_pixels = m_wm.get_size().x * m_wm.get_size().y * 4;
         size_t sent_pixels = 0;
 

@@ -31,7 +31,7 @@ void Client::connect()
         // std::cout << image_size.x << " " << 
 
         size_t pixels_received = 0;
-        size_t chunk_size = 64;
+        size_t chunk_size = 256;
         size_t total_info = image_size.x * image_size.y * 4;
         while (pixels_received != total_info) {
             size_t expected_pixels = std::min(total_info - pixels_received, chunk_size);
@@ -49,7 +49,7 @@ void Client::connect()
             }
             else
             {
-                printf("Receiving World Packet, %i/%i\n", pixels_received, pixels.size());
+                printf("Receiving World Packet, %i/%i\n", pixels_received, total_info);
             }
 
             packet.clear();
@@ -59,11 +59,8 @@ void Client::connect()
         printf("World Recieved!\n");
 
         sf::Image received_image;
-        printf("Number of pixels: %i\n", pixels.size());
         received_image.create(image_size.x, image_size.y, pixels.data());
-        printf("Here\n");
         m_wm.set_world_image(received_image);
-        printf("Here 2\n");
     }
     else {
         printf("Did not recieve packet\n");
@@ -89,7 +86,7 @@ void Client::run()
             if (event.type == sf::Event::Closed) window.close();
         }
 
-        window.clear();
+        window.clear(sf::Color::Magenta);
         window.draw(m_wm.get_render());
         window.display();
     }

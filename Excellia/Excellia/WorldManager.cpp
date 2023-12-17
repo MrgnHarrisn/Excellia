@@ -15,6 +15,7 @@ WorldManager::WorldManager(sf::RenderWindow& window, sf::Vector2u size, long int
 	}
 
 	m_image.create(m_width, m_height, BlockManager::hex_to_color(Block::Void));
+	m_sprite.setPosition(0, 0);
 }
 
 /* This REALLY wants the window */
@@ -92,7 +93,6 @@ void WorldManager::create()
 	// Store Map
 	m_texture.loadFromImage(m_image);
 	m_sprite.setTexture(m_texture);
-	m_sprite.setPosition({0, 0});
 }
 
 void WorldManager::set_world_image(sf::Image& image)
@@ -100,12 +100,12 @@ void WorldManager::set_world_image(sf::Image& image)
 	m_image.copy(image, 0, 0);
 	m_texture.loadFromImage(m_image);
 	m_sprite.setTexture(m_texture);
+	m_sprite.setPosition(400, 400);
 }
 
 sf::Sprite WorldManager::get_render()
 {
 	return m_sprite;
-	// return get_view_sprite();
 }
 
 sf::Vector2u WorldManager::get_size()
