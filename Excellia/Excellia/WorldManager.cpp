@@ -100,7 +100,6 @@ void WorldManager::set_world_image(sf::Image& image)
 	m_image.copy(image, 0, 0);
 	m_texture.loadFromImage(m_image);
 	m_sprite.setTexture(m_texture);
-	m_sprite.setPosition(400, 400);
 }
 
 sf::Sprite WorldManager::get_render()

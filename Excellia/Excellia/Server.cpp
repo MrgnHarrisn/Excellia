@@ -43,8 +43,10 @@ void Server::send_world(sf::TcpSocket* target)
             }
 
             if (target->send(packet) != sf::Socket::Done) {
-                printf("Could not send information!\n");
-                return; // Exit or handle error as needed
+                if (target->send(packet) != sf::Socket::Done) {
+                    printf("Could not send information!\n");
+                    return; // Exit or handle error as needed
+                }
             }
 
             packet.clear();

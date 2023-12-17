@@ -75,6 +75,7 @@ void Client::run()
     // std::thread reception(&Client::recieve_packets, this);
 
     Settings settings;
+    settings.update();
 
     sf::RenderWindow window(sf::VideoMode(settings.get_screen_size().x, settings.get_screen_size().y), "Pixellia", sf::Style::None);
 
