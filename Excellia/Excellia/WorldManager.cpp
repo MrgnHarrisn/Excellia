@@ -102,6 +102,11 @@ void WorldManager::set_world_image(sf::Image& image)
 	m_sprite.setTexture(m_texture);
 }
 
+void WorldManager::set_render_window(sf::RenderWindow* window)
+{
+	m_window = window;
+}
+
 sf::Sprite WorldManager::get_render()
 {
 	return m_sprite;
@@ -122,8 +127,7 @@ sf::Vector2f WorldManager::place_player()
 	// settings.get_world_size().x / 2, wm.place_player(settings.get_world_size().x / 2)
 	sf::Vector2f output;
 	output.x = m_width / 2;
-	printf("width: %f", output.x);
-	output.y = m_heights[m_width / 2] - 1;	// -1 to avoid collision issues at spawn
+	output.y = m_heights[output.x] - 1;	// -1 to avoid collision issues at spawn
 	return output;
 }
 

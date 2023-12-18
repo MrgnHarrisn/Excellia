@@ -139,6 +139,8 @@ public:
 
 	void set_world_image(sf::Image& image);
 
+	void set_render_window(sf::RenderWindow* window);
+
 	void serialize();
 
 	void deserialize();

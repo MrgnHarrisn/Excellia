@@ -12,7 +12,9 @@ class Settings
 {
 public:
 
-	sf::Vector2u get_screen_size() { return m_screen_size; };
+	sf::Vector2u get_screen_size() {
+		return m_screen_size; 
+	};
 	sf::Vector2u get_world_size() { return m_world_size; };
 	void update();
 

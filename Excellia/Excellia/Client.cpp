@@ -30,12 +30,14 @@ void Client::connect()
 
         packet >> image_size.x >> image_size.y;
         packet >> r_seed;
-        m_player.create(&m_wm);
-        m_camera.create(m_wm.place_player(), m_settings.get_screen_size(), &m_player, 1);
+        
         
         m_wm.set_size(image_size);
         m_wm.set_seed(r_seed);
         m_wm.create();
+
+        m_player.create(&m_wm);
+        m_camera.create(m_wm.place_player(), m_settings.get_screen_size(), &m_player, 10);
     }
     else {
         printf("Did not recieve packet\n");
@@ -49,15 +51,11 @@ void Client::run()
 {
     // std::thread reception(&Client::recieve_packets, this);
 
-    Settings settings;
-    settings.update();
-
     m_camera.attach(&m_player);
 
-    sf::RenderWindow window(sf::VideoMode(settings.get_screen_size().x, settings.get_screen_size().y), "Pixellia", sf::Style::None);
-    
+    sf::RenderWindow window(sf::VideoMode(m_settings.get_screen_size().x, m_settings.get_screen_size().y), "Pixellia", sf::Style::None);
     window.setView(m_camera.get_view());
-
+    m_wm.set_render_window(&window);
     sf::Clock clock;
     while (window.isOpen())
     {
@@ -69,9 +67,11 @@ void Client::run()
         float delta_time = clock.restart().asSeconds();
 
         m_player.update(delta_time);
+        m_camera.update(delta_time);
 
-        window.clear(sf::Color::Magenta);
+        window.clear(sf::Color::Black);
         window.draw(m_wm.get_view_sprite());
+        window.draw(m_player.get_sprite());
         window.display();
     }
 
