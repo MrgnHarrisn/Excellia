@@ -9,6 +9,7 @@
 #include "BlockManager.h"
 #include <iostream>
 #include <sstream>
+#include <thread>
 
 class Client
 {
@@ -17,6 +18,7 @@ public:
 	void connect();
 	void run();
 	// void recieve_packets();
+	void update();
 	void parse(std::string& data);
 private:
 	sf::TcpSocket m_server;
@@ -25,7 +27,7 @@ private:
 
 	Player m_player;
 	Camera m_camera;
-	std::vector<sf::Vector2f> player_positions;
+	std::vector<sf::Vector2f> m_player_positions;
 	Settings m_settings;
 	sf::Socket::Status m_status;
 	std::string m_name;

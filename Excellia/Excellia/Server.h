@@ -20,7 +20,7 @@ public:
 	Server();
 	void start();
 	void run();
-	void parse(std::string& data);
+	void parse(sf::Packet& packet);
 	void connect_clients();
 	void recieve_packet(sf::TcpSocket* socket, size_t index);
 	void disconnect_client(sf::TcpSocket* client, size_t index);

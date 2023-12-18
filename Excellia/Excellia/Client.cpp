@@ -50,7 +50,7 @@ void Client::connect()
 
 void Client::run()
 {
-    // std::thread reception(&Client::recieve_packets, this);
+    std::thread reception(&Client::update, this);
 
     m_camera.attach(&m_player);
 
@@ -73,10 +73,33 @@ void Client::run()
 
         window.clear(sf::Color::Black);
         window.draw(m_wm.get_view_sprite());
+
+        for (sf::Vector2f position : m_player_positions) {
+
+        }
+
         window.draw(m_player.render_shape());
         window.display();
     }
 
+}
+
+void Client::update()
+{
+    sf::Packet p;
+    while (true)
+    {
+        p << "player_pos";
+        p << m_player.get_position().x << m_player.get_position().y;
+        p << m_player.get_name();
+        if (m_server.send(p) != sf::Socket::Done) {
+            printf("Could not send packet\n");
+            if (m_server.send(p) != sf::Socket::Done) {
+                printf("Could not send packet again\n");
+            }
+        }
+        p.clear();
+    }
 }
 
 void Client::parse(std::string& data)

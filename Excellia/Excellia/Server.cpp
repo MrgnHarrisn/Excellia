@@ -71,15 +71,9 @@ void Server::recieve_packet(sf::TcpSocket* client, size_t index)
     
     if (packet.getDataSize() > 0) {
         /* Check if the data is empty */
-        std::string data;
-        packet >> data;
-        packet.clear();
-
-
-        packet << data;
-
+        parse(packet);
         /* Send out changes */
-        send_packet(packet, client->getRemoteAddress(), client->getRemotePort());
+        // send_packet(packet, client->getRemoteAddress(), client->getRemotePort());
 
     }
 
@@ -148,7 +142,21 @@ void Server::connect_clients()
     }
 }
 
-void Server::parse(std::string& message)
+void Server::parse(sf::Packet& packet)
 {
-    
+    std::string data;
+    packet >> data;
+
+    if (data == "player_pos") {
+        printf("Getting new player position\n");
+        sf::Vector2f updated_pos;
+        std::string name;
+        packet >> updated_pos.x >> updated_pos.y;
+        packet >> name;
+        for (Player& p : m_players) {
+            if (p.get_name() == name) {
+                p.set_position(updated_pos);
+            }
+        }
+    }
 }
