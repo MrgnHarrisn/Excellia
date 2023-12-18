@@ -12,82 +12,69 @@ Client::Client() {
     if (m_status != sf::Socket::Done) {
         printf("Failed to connect to client\n");
     }
-    // connect();
-    std::thread recieve_thread(&Client::recieve_packet, this);
-
+    connect();
     run();
 
 }
 
 void Client::connect()
 {
-    //sf::Packet packet;
+    sf::Packet packet;
 
-    //if (m_server.receive(packet) == sf::Socket::Done) {
-    //    printf("Receiving World!\n");
-    //    sf::Vector2u image_size;
+    if (m_server.receive(packet) == sf::Socket::Done) {
+        printf("Receiving World!\n");
+        sf::Vector2u image_size;
 
-    //    packet >> image_size.x >> image_size.y;
+        packet >> image_size.x >> image_size.y;
 
-    //    std::vector<sf::Uint8> pixels;
-    //    // std::cout << image_size.x << " " << 
+        std::vector<sf::Uint8> pixels;
+        // std::cout << image_size.x << " " << 
 
-    //    size_t pixels_received = 0;
-    //    size_t chunk_size = 256;
-    //    size_t total_info = image_size.x * image_size.y * 4;
-    //    while (pixels_received != total_info) {
-    //        size_t expected_pixels = std::min(total_info - pixels_received, chunk_size);
+        size_t pixels_received = 0;
+        size_t chunk_size = 256;
+        size_t total_info = image_size.x * image_size.y * 4;
+        while (pixels_received != total_info) {
+            size_t expected_pixels = std::min(total_info - pixels_received, chunk_size);
 
-    //        for (size_t i = 0; i < expected_pixels; i++) {
-    //            sf::Uint8 color;
-    //            packet >> color;
-    //            pixels.push_back(color);
-    //            pixels_received += 1;
-    //        }
+            for (size_t i = 0; i < expected_pixels; i++) {
+                sf::Uint8 color;
+                packet >> color;
+                pixels.push_back(color);
+                pixels_received += 1;
+            }
 
-    //        if (m_server.receive(packet) != sf::Socket::Done) {
-    //            printf("error getting packet\n");
-    //            break;
-    //        }
-    //        else
-    //        {
-    //            printf("Receiving World Packet, %i/%i\n", pixels_received, total_info);
-    //        }
+            if (m_server.receive(packet) != sf::Socket::Done) {
+                printf("error getting packet\n");
+                break;
+            }
+            else
+            {
+                printf("Receiving World Packet, %i/%i\n", pixels_received, total_info);
+            }
 
-    //        packet.clear();
+            packet.clear();
 
-    //    }
+        }
 
-    //    printf("World Recieved!\n");
+        printf("World Recieved!\n");
 
-    //    sf::Image received_image;
-    //    received_image.create(image_size.x, image_size.y, pixels.data());
-    //    m_wm.set_world_image(received_image);
-    //}
-    //else {
-    //    printf("Did not recieve packet\n");
-    //    connect();
-    //    // Handle initial packet receive error
-    //}
+        sf::Image received_image;
+        received_image.create(image_size.x, image_size.y, pixels.data());
+        m_wm.set_world_image(received_image);
+    }
+    else {
+        printf("Did not recieve packet\n");
+        connect();
+        // Handle initial packet receive error
+    }
 
 }
 
 void Client::run()
 {
     // std::thread reception(&Client::recieve_packets, this);
-    std::string message;
-    sf::Packet packet;
-    while (true) {
-        printf(">>> ");
-        std::cin >> message;
-        packet << message;
-        if (m_server.send(packet) != sf::Socket::Done) {
-            printf("Could not send message!\n");
-        }
-        packet.clear();
-    }
 
-    /*Settings settings;
+    Settings settings;
     settings.update();
 
     sf::RenderWindow window(sf::VideoMode(settings.get_screen_size().x, settings.get_screen_size().y), "Pixellia", sf::Style::None);
@@ -103,20 +90,8 @@ void Client::run()
         window.clear(sf::Color::Magenta);
         window.draw(m_wm.get_render());
         window.display();
-    }*/
-
-}
-
-void Client::recieve_packet()
-{
-    while (true) {
-        sf::Packet packet;
-        if (m_server.receive(packet) == sf::Socket::Done) {
-            std::string message;
-            packet >> message;
-            std::cout << message << std::endl;
-        }
     }
+
 }
 
 void Client::parse(std::string& data)

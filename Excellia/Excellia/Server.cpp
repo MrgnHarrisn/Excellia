@@ -83,10 +83,8 @@ void Server::recieve_packet(sf::TcpSocket* client, size_t index)
 
         packet << data;
 
-        std::cout << data << std::endl;
-
         /* Send out changes */
-        // send_packet(packet, client->getRemoteAddress(), client->getRemotePort());
+        send_packet(packet, client->getRemoteAddress(), client->getRemotePort());
 
     }
 
@@ -145,7 +143,7 @@ void Server::connect_clients()
 
             // Check if there are other clients before sending world info
             if (m_clients.size() >= 1) {
-                // send_world(m_clients.back());
+                send_world(m_clients.back());
             }
         }
         else {

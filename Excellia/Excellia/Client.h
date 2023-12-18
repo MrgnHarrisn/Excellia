@@ -17,7 +17,6 @@ public:
 	void run();
 	// void recieve_packets();
 	void parse(std::string& data);
-	void recieve_packet();
 private:
 	sf::TcpSocket m_server;
 	std::string m_ip_addrs;
