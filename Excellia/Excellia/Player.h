@@ -21,9 +21,9 @@ public:
 	/// Constructor for player
 	/// </summary>
 	/// <param name="position">Position the player starts at</param>
-	Player(WorldManager& wm);
+	Player(WorldManager* wm);
 
-	void create(WorldManager& wm);
+	void create(WorldManager* wm);
 
 	/// <summary>
 	/// Override of the update function
@@ -63,7 +63,7 @@ private:
 	float m_speed = m_move_speed;
 	sf::Texture m_texture;
 	sf::Sprite m_sprite;
-	WorldManager& m_wm;
+	WorldManager* m_wm = nullptr;
 
 	std::string m_name;
 

@@ -2,6 +2,8 @@
 
 Client::Client() {
 
+    m_settings.update();
+
     // Initialize client socket info
     printf("IP Add: ");
     std::cin >> m_ip_addrs;
@@ -28,6 +30,8 @@ void Client::connect()
 
         packet >> image_size.x >> image_size.y;
         packet >> r_seed;
+        m_player.create(&m_wm);
+        m_camera.create(m_wm.place_player(), m_settings.get_screen_size(), &m_player, 1);
         
         m_wm.set_size(image_size);
         m_wm.set_seed(r_seed);
@@ -48,7 +52,7 @@ void Client::run()
     Settings settings;
     settings.update();
 
-    m_camera.attach(m_player);
+    m_camera.attach(&m_player);
 
     sf::RenderWindow window(sf::VideoMode(settings.get_screen_size().x, settings.get_screen_size().y), "Pixellia", sf::Style::None);
     

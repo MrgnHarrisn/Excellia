@@ -16,9 +16,9 @@ public:
 	/// </summary>
 	/// <param name="position">Position of the camera</param>
 	/// <param name="size">Size of the view/perspective</param>
-	Camera(sf::Vector2f position, sf::Vector2u size, Actor& actor, float d_zoom);
+	Camera(sf::Vector2f position, sf::Vector2u size, Actor* actor, float d_zoom);
 
-	void create(sf::Vector2f position, sf::Vector2u size, Actor& actor, float d_zoom);
+	void create(sf::Vector2f position, sf::Vector2u size, Actor* actor, float d_zoom);
 
 	/// <summary>
 	/// Updates the camera
@@ -29,7 +29,7 @@ public:
 	/// Sets an Actor for the camera to follow
 	/// </summary>
 	/// <param name="actor">Actor to follow</param>
-	void attach(Actor& actor);
+	void attach(Actor* actor);
 
 	/// <summary>
 	/// Zooms the camera in
@@ -52,6 +52,6 @@ private:
 	int m_zoom = 0;
 	sf::View m_view;
 	sf::Vector2f m_position;
-	Actor& m_follow;
+	Actor* m_follow = nullptr;
 	float m_cam_speed = 10;
 };

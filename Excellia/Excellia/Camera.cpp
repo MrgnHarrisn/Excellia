@@ -1,6 +1,8 @@
 #include "Camera.h"
 
-Camera::Camera(sf::Vector2f position, sf::Vector2u size, Actor& actor, float d_zoom) : m_follow(actor)
+Camera::Camera() {}
+
+Camera::Camera(sf::Vector2f position, sf::Vector2u size, Actor* actor, float d_zoom) : m_follow(actor)
 {
 	m_position = position;
 	m_view.setSize(static_cast<sf::Vector2f>(size));
@@ -8,7 +10,7 @@ Camera::Camera(sf::Vector2f position, sf::Vector2u size, Actor& actor, float d_z
 	m_view.zoom(1 / d_zoom);
 }
 
-void Camera::create(sf::Vector2f position, sf::Vector2u size, Actor& actor, float d_zoom)
+void Camera::create(sf::Vector2f position, sf::Vector2u size, Actor* actor, float d_zoom)
 {
 	m_position = position;
 	m_view.setSize(static_cast<sf::Vector2f>(size));
@@ -16,14 +18,14 @@ void Camera::create(sf::Vector2f position, sf::Vector2u size, Actor& actor, floa
 	m_view.zoom(1 / d_zoom);
 }
 
-void Camera::attach(Actor& actor)
+void Camera::attach(Actor* actor)
 {
 	m_follow = actor;
 }
 
 void Camera::update(float dt)
 {
-	sf::Vector2f newPosition = m_position + (m_follow.get_position() - m_position) * m_cam_speed * dt;
+	sf::Vector2f newPosition = m_position + (m_follow->get_position() - m_position) * m_cam_speed * dt;
 	m_position = newPosition;
 	m_view.setCenter(m_position);
 }

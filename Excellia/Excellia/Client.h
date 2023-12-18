@@ -1,15 +1,14 @@
 #pragma once
-
 #include <SFML/Network.hpp>
-#include <SFML/System/Vector2.hpp>
-#include <string>
-#include <iostream>
-#include <sstream>
-#include <thread>
+#include <SFML/Graphics.hpp>
 #include "Settings.h"
 #include "Player.h"
-#include "WorldManager.h"
+#include "Utils.h"
 #include "Camera.h"
+#include "WorldManager.h"
+#include "BlockManager.h"
+#include <iostream>
+#include <sstream>
 
 class Client
 {
@@ -27,7 +26,7 @@ private:
 	Player m_player;
 	Camera m_camera;
 	std::vector<sf::Vector2f> player_positions;
-
+	Settings m_settings;
 	sf::Socket::Status m_status;
 	std::string m_name;
 	WorldManager m_wm;
