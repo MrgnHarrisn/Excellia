@@ -54,7 +54,6 @@ void Client::run()
     m_camera.attach(&m_player);
 
     sf::RenderWindow window(sf::VideoMode(m_settings.get_screen_size().x, m_settings.get_screen_size().y), "Pixellia", sf::Style::None);
-    window.setView(m_camera.get_view());
     m_wm.set_render_window(&window);
     sf::Clock clock;
     while (window.isOpen())
@@ -68,6 +67,8 @@ void Client::run()
 
         m_player.update(delta_time);
         m_camera.update(delta_time);
+
+        window.setView(m_camera.get_view());
 
         window.clear(sf::Color::Black);
         window.draw(m_wm.get_view_sprite());
