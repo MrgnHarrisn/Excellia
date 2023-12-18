@@ -56,15 +56,17 @@ void Server::recieve_packet(sf::TcpSocket* client, size_t index)
 {
     sf::Packet packet;
 
+    sf::Socket::Status status = client->receive(packet);
+
     /* Check if we are disconnecting from our client */
-    if (client->receive(packet) == sf::Socket::Disconnected) {
+    if ( status == sf::Socket::Disconnected) {
         disconnect_client(client, index);
         printf("Player disconnected\n");
         return;
     }
 
     
-    if (packet.getDataSize() > 0) {
+    if (packet.getDataSize() > 0 && status == sf::Socket::Done) {
         /* Check if the data is empty */
         parse(packet);
         /* Send out changes */
@@ -106,7 +108,7 @@ void Server::run()
             for (size_t i = 0; i < m_clients.size(); i++) {
                 recieve_packet(m_clients[i], i);
             }
-
+            
             /* Send all updated positions to clients */
             for (size_t i = 0; i < m_clients.size(); i++) {
                 sf::Packet packet;
@@ -121,8 +123,15 @@ void Server::run()
                     packet << m_players[j].get_position().y;
                 }
 
-                if (m_clients[i]->send(packet) != sf::Socket::Done) {
-                    printf("Error sending player positions to client\n");
+                sf::Socket::Status status = m_clients[i]->send(packet);
+
+                if (status == sf::Socket::Partial) {
+                    while (status == sf::Socket::Partial) {
+                        status = m_clients[i]->send(packet);
+                    }
+                }
+                else {
+                    printf("Something went wrong\n");
                 }
 
                 packet.clear();
@@ -166,7 +175,7 @@ void Server::parse(sf::Packet& packet)
 {
     std::string data;
     packet >> data;
-
+    printf("parsing\n");
     if (data == "player_pos") {
         printf("Getting new player position\n");
         sf::Vector2f updated_pos;

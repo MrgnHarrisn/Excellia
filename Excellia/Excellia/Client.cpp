@@ -91,6 +91,7 @@ void Client::recieve_packets()
     sf::Packet packet;
     while (true)
     {
+        /* if we recieved a packet */
         if (m_server.receive(packet) == sf::Socket::Done) {
             parse(packet);
         }
@@ -121,7 +122,7 @@ void Client::parse(sf::Packet& packet)
     packet >> data;
 
     if (data == "updated_positions") {
-        printf("here\n");
+        printf("getting updated positions\n");
         m_player_positions.clear();
         size_t num_clients;
         size_t client_index;
