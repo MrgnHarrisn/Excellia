@@ -16,6 +16,7 @@ Server::Server()
     /* Create world */
     m_wm.set_size(settings.get_world_size());
     m_wm.create();
+    // m_wm.set_seed();
 
     /* Send world information */
 
