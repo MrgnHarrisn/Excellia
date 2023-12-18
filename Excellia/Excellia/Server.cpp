@@ -29,15 +29,10 @@ void Server::send_world(sf::TcpSocket* target)
         sf::Packet packet;
         const sf::Uint8* pixels = m_wm.get_pixels();
         printf("WIDTH: %i | HEIGHT: %i\n", m_wm.get_size().x, m_wm.get_size().y);
+ 
         packet << m_wm.get_size().x << m_wm.get_size().y;
 
-        /* Try to send the world size */
-
         packet << m_wm.get_seed();
-
-        /* PLayer spawn */
-        sf::Vector2f spawn;
-        packet << spawn.x << spawn.y;
 
         if (target->send(packet) != sf::Socket::Done) {
             printf("Oopsie poopsie\n");
