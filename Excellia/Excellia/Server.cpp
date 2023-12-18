@@ -29,28 +29,17 @@ void Server::send_world(sf::TcpSocket* target)
         printf("WIDTH: %i | HEIGHT: %i\n", m_wm.get_size().x, m_wm.get_size().y);
         packet << m_wm.get_size().x << m_wm.get_size().y;
 
-        constexpr size_t chunk_size = 256;
-        size_t total_pixels = m_wm.get_size().x * m_wm.get_size().y * 4;
-        size_t sent_pixels = 0;
+        /* Try to send the world size */
 
-        while (sent_pixels <= total_pixels) {
-            size_t remaining_pixels = total_pixels - sent_pixels;
-            size_t pixels_to_send = std::min(remaining_pixels, chunk_size);
+        packet << m_wm.get_seed();
 
-            for (size_t i = 0; i < pixels_to_send; i++) {
-                packet << pixels[sent_pixels + i];
-                sent_pixels++;
-            }
-
+        if (target->send(packet) != sf::Socket::Done) {
+            printf("Oopsie poopsie\n");
             if (target->send(packet) != sf::Socket::Done) {
-                if (target->send(packet) != sf::Socket::Done) {
-                    printf("Could not send information!\n");
-                    return; // Exit or handle error as needed
-                }
+                printf("Looks like it failed a second time!\n");
             }
-
-            packet.clear();
         }
+
     }
 }
 

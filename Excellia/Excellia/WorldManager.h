@@ -54,6 +54,8 @@ public:
 	/// <param name="blocks">Type of block to be added</param>
 	void set_changes(std::vector<sf::Vector2i> positions, std::vector<Block> blocks);
 
+	long long get_seed();
+
 	/// <summary>
 	/// Sets the size of the world
 	/// </summary>

@@ -30,3 +30,8 @@ void Random::set_seed(long int seed)
 {
 	m_seed = seed;
 }
+
+long int Random::get_seed()
+{
+	return m_seed;
+}

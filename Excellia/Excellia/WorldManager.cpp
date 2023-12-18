@@ -161,6 +161,11 @@ void WorldManager::set_changes(std::vector<sf::Vector2i> positions, std::vector<
 	m_sprite.setTexture(m_texture);
 }
 
+long long WorldManager::get_seed()
+{
+	return m_random.get_seed();
+}
+
 void WorldManager::break_block(sf::Vector2i mouse_pos)
 {
 	sf::Vector2f block = screen_pos_to_world_pos(mouse_pos);

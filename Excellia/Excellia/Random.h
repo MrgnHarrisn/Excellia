@@ -39,6 +39,8 @@ public:
 
 	void set_seed(long int seed);
 
+	long int get_seed();
+
 private:
 
 	long int m_seed;

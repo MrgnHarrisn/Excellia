@@ -24,43 +24,14 @@ void Client::connect()
     if (m_server.receive(packet) == sf::Socket::Done) {
         printf("Receiving World!\n");
         sf::Vector2u image_size;
+        int r_seed;
 
         packet >> image_size.x >> image_size.y;
-
-        std::vector<sf::Uint8> pixels;
-        // std::cout << image_size.x << " " << 
-
-        size_t pixels_received = 0;
-        size_t chunk_size = 256;
-        size_t total_info = image_size.x * image_size.y * 4;
-        while (pixels_received != total_info) {
-            size_t expected_pixels = std::min(total_info - pixels_received, chunk_size);
-
-            for (size_t i = 0; i < expected_pixels; i++) {
-                sf::Uint8 color;
-                packet >> color;
-                pixels.push_back(color);
-                pixels_received += 1;
-            }
-
-            if (m_server.receive(packet) != sf::Socket::Done) {
-                printf("error getting packet\n");
-                break;
-            }
-            else
-            {
-                printf("Receiving World Packet, %i/%i\n", pixels_received, total_info);
-            }
-
-            packet.clear();
-
-        }
-
-        printf("World Recieved!\n");
-
-        sf::Image received_image;
-        received_image.create(image_size.x, image_size.y, pixels.data());
-        m_wm.set_world_image(received_image);
+        packet >> r_seed;
+        
+        m_wm.set_size(image_size);
+        m_wm.set_seed(r_seed);
+        m_wm.create();
     }
     else {
         printf("Did not recieve packet\n");
