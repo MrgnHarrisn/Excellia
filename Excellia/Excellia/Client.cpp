@@ -73,7 +73,7 @@ void Client::run()
 
         window.clear(sf::Color::Black);
         window.draw(m_wm.get_view_sprite());
-        window.draw(m_player.get_sprite());
+        window.draw(m_player.render_shape());
         window.display();
     }
 
