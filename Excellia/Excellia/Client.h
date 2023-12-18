@@ -17,9 +17,9 @@ public:
 	Client();
 	void connect();
 	void run();
-	// void recieve_packets();
+	void recieve_packets();
 	void update();
-	void parse(std::string& data);
+	void parse(sf::Packet& packet);
 private:
 	sf::TcpSocket m_server;
 	std::string m_ip_addrs;

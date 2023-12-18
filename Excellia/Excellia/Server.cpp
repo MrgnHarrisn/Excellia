@@ -106,6 +106,27 @@ void Server::run()
             for (size_t i = 0; i < m_clients.size(); i++) {
                 recieve_packet(m_clients[i], i);
             }
+
+            /* Send all updated positions to clients */
+            for (size_t i = 0; i < m_clients.size(); i++) {
+                sf::Packet packet;
+                /* Tell it how many players there are */
+                packet << m_clients.size();
+                /* Index of the player */
+                packet << i;
+
+                for (size_t j = 0; j < m_clients.size(); j++) {
+                    packet << m_players[j].get_position().x;
+                    packet << m_players[j].get_position().y;
+                }
+
+                if (m_clients[i]->send(packet) != sf::Socket::Done) {
+                    printf("Error sending player positions to client\n");
+                }
+
+                packet.clear();
+
+            }
         }
     }
 }

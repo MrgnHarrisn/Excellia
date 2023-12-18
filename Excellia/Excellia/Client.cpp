@@ -75,13 +75,26 @@ void Client::run()
         window.draw(m_wm.get_view_sprite());
 
         for (sf::Vector2f position : m_player_positions) {
-
+            Player p;
+            p.set_position(position);
+            window.draw(p.render_shape());
         }
 
         window.draw(m_player.render_shape());
         window.display();
     }
 
+}
+
+void Client::recieve_packets()
+{
+    sf::Packet packet;
+    while (true)
+    {
+        if (m_server.receive(packet) == sf::Socket::Done) {
+            parse(packet);
+        }
+    }
 }
 
 void Client::update()
@@ -102,38 +115,33 @@ void Client::update()
     }
 }
 
-void Client::parse(std::string& data)
+void Client::parse(sf::Packet& packet)
 {
-    std::stringstream parser(data);
-    std::string token;
+    std::string data;
 
-    parser >> token;
+    packet >> data;
 
-    if (token == "world_info")
-    {
-        /* Something like this:
-        *               SEED      W   H
-            world_info 123456789 800 800
-        */
-        sf::Vector2u size;
-        long int seed;
-        parser >> seed;
-        /* Set the seed */
-        m_wm.set_seed(seed);
-        parser >> size.x;
-        parser >> size.y;
+    if (data == "updated_positions") {
+        m_player_positions.clear();
+        size_t num_clients;
+        size_t client_index;
+        packet >> num_clients;
+        packet >> client_index;
 
-        /* Set the size */
-        m_wm.set_size(size);
+        for (size_t i = 0; i < num_clients; i++) {
+            sf::Vector2f pos;
+            packet >> pos.x;
+            packet >> pos.y;
 
-        /* Create the world */
-        printf("Creating world!\n");
-        m_wm.create();
+            /* Check if it is out position or someone else's */
+            if (i == client_index) {
+                m_player.set_position(pos);
+            }
+            else {
+                m_player_positions.push_back(pos);
+            }
+        }
 
-        /* Add changes to the world */
-    }
-    else {
-        std::cout << data << std::endl;
     }
 
 }
