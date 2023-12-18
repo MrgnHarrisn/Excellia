@@ -29,6 +29,7 @@ float Random::random(float min, float max, long int seed)
 void Random::set_seed(long int seed)
 {
 	m_seed = seed;
+	m_gen.seed(seed);
 }
 
 long int Random::get_seed()

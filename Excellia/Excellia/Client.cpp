@@ -34,6 +34,7 @@ void Client::connect()
         
         m_wm.set_size(image_size);
         m_wm.set_seed(r_seed);
+        printf("%i\n", static_cast<int>(m_wm.get_seed()));
         m_wm.create();
 
         m_player.create(&m_wm);
