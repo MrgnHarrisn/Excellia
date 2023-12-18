@@ -115,7 +115,7 @@ void Server::run()
                 /* Index of the player */
                 packet << i;
 
-                for (size_t j = 0; j < m_clients.size(); j++) {
+                for (size_t j = 0; j < m_players.size(); j++) {
                     packet << m_players[j].get_position().x;
                     packet << m_players[j].get_position().y;
                 }
@@ -142,6 +142,9 @@ void Server::connect_clients()
             {
                 std::lock_guard<std::mutex> lock(m_client_mutex);
                 m_clients.push_back(new_client);
+                Player p;
+                p.create(&m_wm);
+                m_players.push_back(p);
             }
             
             std::cout << "Added new Client!" << std::endl;
