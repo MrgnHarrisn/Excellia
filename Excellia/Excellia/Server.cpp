@@ -110,6 +110,7 @@ void Server::run()
             /* Send all updated positions to clients */
             for (size_t i = 0; i < m_clients.size(); i++) {
                 sf::Packet packet;
+                packet << "updated_positions";
                 /* Tell it how many players there are */
                 packet << m_clients.size();
                 /* Index of the player */

@@ -118,10 +118,10 @@ void Client::update()
 void Client::parse(sf::Packet& packet)
 {
     std::string data;
-
     packet >> data;
 
     if (data == "updated_positions") {
+        printf("here\n");
         m_player_positions.clear();
         size_t num_clients;
         size_t client_index;
