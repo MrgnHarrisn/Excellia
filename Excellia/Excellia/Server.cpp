@@ -15,8 +15,9 @@ Server::Server()
 
     /* Create world */
     m_wm.set_size(settings.get_world_size());
+    m_wm.set_seed(2934786);
     m_wm.create();
-    // m_wm.set_seed();
+    
 
     /* Send world information */
 
@@ -33,6 +34,10 @@ void Server::send_world(sf::TcpSocket* target)
         /* Try to send the world size */
 
         packet << m_wm.get_seed();
+
+        /* PLayer spawn */
+        sf::Vector2f spawn;
+        packet << spawn.x << spawn.y;
 
         if (target->send(packet) != sf::Socket::Done) {
             printf("Oopsie poopsie\n");

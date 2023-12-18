@@ -8,6 +8,14 @@ Camera::Camera(sf::Vector2f position, sf::Vector2u size, Actor& actor, float d_z
 	m_view.zoom(1 / d_zoom);
 }
 
+void Camera::create(sf::Vector2f position, sf::Vector2u size, Actor& actor, float d_zoom)
+{
+	m_position = position;
+	m_view.setSize(static_cast<sf::Vector2f>(size));
+	m_view.setCenter(m_position);
+	m_view.zoom(1 / d_zoom);
+}
+
 void Camera::attach(Actor& actor)
 {
 	m_follow = actor;

@@ -48,8 +48,13 @@ void Client::run()
     Settings settings;
     settings.update();
 
-    sf::RenderWindow window(sf::VideoMode(settings.get_screen_size().x, settings.get_screen_size().y), "Pixellia", sf::Style::None);
+    m_camera.attach(m_player);
 
+    sf::RenderWindow window(sf::VideoMode(settings.get_screen_size().x, settings.get_screen_size().y), "Pixellia", sf::Style::None);
+    
+    window.setView(m_camera.get_view());
+
+    sf::Clock clock;
     while (window.isOpen())
     {
         sf::Event event;
@@ -57,9 +62,12 @@ void Client::run()
         {
             if (event.type == sf::Event::Closed) window.close();
         }
+        float delta_time = clock.restart().asSeconds();
+
+        m_player.update(delta_time);
 
         window.clear(sf::Color::Magenta);
-        window.draw(m_wm.get_render());
+        window.draw(m_wm.get_view_sprite());
         window.display();
     }
 

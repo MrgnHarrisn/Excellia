@@ -21,6 +21,26 @@ Player::Player(WorldManager& wm) : m_wm(wm)
 	m_shape = shape;
 }
 
+void Player::create(WorldManager& wm)
+{
+	sf::RectangleShape shape;
+
+	// Set start position
+	set_position(m_wm.place_player());	// World Manager finds player spawn
+
+	// Load player texture
+	m_texture.loadFromFile("player.png");
+
+	// Create shape
+	shape.setSize(sf::Vector2f(1, 3));
+	shape.setOrigin(0, 3);
+	shape.setPosition(get_position());
+	shape.setTexture(&m_texture);
+
+	// Store shape
+	m_shape = shape;
+}
+
 void Player::update(float dt)
 {
 	sf::Vector2f velocity(0, 0);

@@ -9,12 +9,16 @@
 class Camera {
 public:
 
+	Camera();
+
 	/// <summary>
 	/// COnstructor for Camera
 	/// </summary>
 	/// <param name="position">Position of the camera</param>
 	/// <param name="size">Size of the view/perspective</param>
 	Camera(sf::Vector2f position, sf::Vector2u size, Actor& actor, float d_zoom);
+
+	void create(sf::Vector2f position, sf::Vector2u size, Actor& actor, float d_zoom);
 
 	/// <summary>
 	/// Updates the camera

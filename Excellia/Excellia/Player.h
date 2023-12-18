@@ -15,11 +15,15 @@
 class Player : public Actor {
 public:
 
+	Player();
+
 	/// <summary>
 	/// Constructor for player
 	/// </summary>
 	/// <param name="position">Position the player starts at</param>
 	Player(WorldManager& wm);
+
+	void create(WorldManager& wm);
 
 	/// <summary>
 	/// Override of the update function
