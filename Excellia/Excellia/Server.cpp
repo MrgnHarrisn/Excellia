@@ -49,7 +49,6 @@ void Server::start()
     std::thread connection_thread(&Server::connect_clients, this);
     std::thread update_thread(&Server::run, this);
     update_clients();
-
 }
 
 void Server::recieve_packet(sf::TcpSocket* client, size_t index)
@@ -115,29 +114,32 @@ void Server::run()
 void Server::update_clients()
 {
     while (true) {
-        if (m_clients.size() > 0) {
-            /* Send all updated positions to clients */
-            for (size_t i = 0; i < m_clients.size(); i++) {
-                sf::Packet packet;
-                packet << "updated_positions";
-                /* Tell it how many players there are */
-                packet << m_clients.size();
-                /* Index of the player */
-                packet << i;
+        {
+            std::lock_guard<std::mutex> lock(m_client_mutex);
+            if (m_clients.size() > 0) {
+                /* Send all updated positions to clients */
+                for (size_t i = 0; i < m_clients.size(); i++) {
+                    sf::Packet packet;
+                    packet << "updated_positions";
+                    /* Tell it how many players there are */
+                    packet << m_clients.size();
+                    /* Index of the player */
+                    packet << i;
 
-                for (size_t j = 0; j < m_players.size(); j++) {
-                    packet << m_players[j].get_position().x;
-                    packet << m_players[j].get_position().y;
+                    for (size_t j = 0; j < m_players.size(); j++) {
+                        packet << m_players[j].get_position().x;
+                        packet << m_players[j].get_position().y;
+                    }
+
+                    sf::Socket::Status status = m_clients[i]->send(packet);
+
+                    if (status == sf::Socket::Done) {
+                        // printf("Done\n");
+                    }
+
+                    packet.clear();
+
                 }
-
-                sf::Socket::Status status = m_clients[i]->send(packet);
-
-                if (status == sf::Socket::Done) {
-                    // printf("Done\n");
-                }
-
-                packet.clear();
-
             }
         }
     }

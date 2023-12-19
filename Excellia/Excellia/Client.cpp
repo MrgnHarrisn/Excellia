@@ -17,7 +17,11 @@ Client::Client() {
     connect();
     std::thread update(&Client::update, this);
     std::thread reception(&Client::recieve_packets, this);
-    run();
+    std::thread run(&Client::run, this);
+
+    update.join();
+    reception.join();
+    run.join();
 
 }
 
@@ -52,7 +56,7 @@ void Client::connect()
 
 void Client::run()
 {
-    printf("Running\n");
+    // printf("Running\n");
 
     m_camera.attach(&m_player);
 
