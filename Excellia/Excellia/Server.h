@@ -21,6 +21,7 @@ public:
 	void start();
 	void run();
 	void parse(sf::Packet& packet);
+	void update_clients();
 	void connect_clients();
 	void recieve_packet(sf::TcpSocket* socket, size_t index);
 	void disconnect_client(sf::TcpSocket* client, size_t index);
@@ -30,10 +31,8 @@ public:
 
 private:
 	sf::TcpListener m_listener;
-	sf::TcpSocket m_client;
 	sf::Socket::Status m_status;
 	std::mutex m_client_mutex;
-
 
 	WorldManager m_wm;	// this will be the world everyone needs
 
@@ -41,7 +40,6 @@ private:
 	// std::map<std::string, std::unique_ptr<sf::TcpSocket>> m_clients;
 	std::vector<sf::TcpSocket*> m_clients;
 	unsigned short m_port;
-	sf::SocketSelector m_selector;
 
 };
 

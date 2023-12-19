@@ -47,8 +47,8 @@ void Server::send_world(sf::TcpSocket* target)
 void Server::start()
 {
     std::thread connection_thread(&Server::connect_clients, this);
-
-    run();
+    std::thread update_thread(&Server::run, this);
+    update_clients();
 
 }
 
@@ -108,7 +108,14 @@ void Server::run()
             for (size_t i = 0; i < m_clients.size(); i++) {
                 recieve_packet(m_clients[i], i);
             }
-            
+        }
+    }
+}
+
+void Server::update_clients()
+{
+    while (true) {
+        if (m_clients.size() > 0) {
             /* Send all updated positions to clients */
             for (size_t i = 0; i < m_clients.size(); i++) {
                 sf::Packet packet;
@@ -125,13 +132,8 @@ void Server::run()
 
                 sf::Socket::Status status = m_clients[i]->send(packet);
 
-                if (status == sf::Socket::Partial) {
-                    while (status == sf::Socket::Partial) {
-                        status = m_clients[i]->send(packet);
-                    }
-                }
-                else {
-                    printf("Something went wrong\n");
+                if (status == sf::Socket::Done) {
+                    // printf("Done\n");
                 }
 
                 packet.clear();

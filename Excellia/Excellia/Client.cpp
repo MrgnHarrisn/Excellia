@@ -15,6 +15,8 @@ Client::Client() {
         printf("Failed to connect to client\n");
     }
     connect();
+    std::thread update(&Client::update, this);
+    std::thread reception(&Client::recieve_packets, this);
     run();
 
 }
@@ -45,12 +47,12 @@ void Client::connect()
         connect();
         // Handle initial packet receive error
     }
-
+    printf("Done\n");
 }
 
 void Client::run()
 {
-    std::thread reception(&Client::update, this);
+    printf("Running\n");
 
     m_camera.attach(&m_player);
 
@@ -91,10 +93,13 @@ void Client::recieve_packets()
     sf::Packet packet;
     while (true)
     {
+        printf("Checking for packets\n");
         /* if we recieved a packet */
         if (m_server.receive(packet) == sf::Socket::Done) {
+            printf("Recieved a packet\n");
             parse(packet);
         }
+        packet.clear();
     }
 }
 
@@ -120,7 +125,7 @@ void Client::parse(sf::Packet& packet)
 {
     std::string data;
     packet >> data;
-
+    std::cout << data << std::endl;
     if (data == "updated_positions") {
         printf("getting updated positions\n");
         m_player_positions.clear();
