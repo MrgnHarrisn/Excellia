@@ -45,7 +45,11 @@ void Client::update_server()
 {
 	while (m_is_running.load())
 	{
-		// printf("Running update\n");
+		sf::Packet packet;
+		packet << "player_pos";
+		packet << m_player.get_position().x;
+		packet << m_player.get_position().y;
+		send_packet(packet);
 	}
 }
 
@@ -139,7 +143,39 @@ void Client::parse(sf::Packet& packet)
 				packet >> data;
 				std::cout << data << std::endl;
 			}
+			else if (data == "updated_positions") {
+				m_player_positions.clear();
+				size_t num_players;
+				size_t client_index;
+
+				packet >> num_players;
+				packet >> client_index;
+
+				for (size_t i = 0; i < num_players; i++) {
+					sf::Vector2f pos;
+
+					packet >> pos.x;
+					packet >> pos.y;
+
+					if (i == client_index) {
+						// m_player.set_position(pos);
+					}
+					else {
+						m_player_positions.push_back(pos);
+					}
+				}
+
+			}
 		}
 	}
 
+}
+
+void Client::send_packet(sf::Packet& packet)
+{
+	sf::Socket::Status status = m_server.send(packet);
+
+	if (status != sf::Socket::Done) {
+		printf("Failed to send packet\n");
+	}
 }

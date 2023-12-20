@@ -32,7 +32,8 @@ public:
 	/// Parses and acts on packet information
 	/// </summary>
 	/// <param name="packet"></param>
-	void parse(sf::Packet& packet, sf::TcpSocket* client);
+	/// <param name="index">Index of TcpSocket</param>
+	void parse(sf::Packet& packet, sf::TcpSocket* client, size_t idnex);
 
 
 	/// <summary>
@@ -70,6 +71,7 @@ public:
 	/// </summary>
 	/// <param name="packet">Packet to send</param>
 	/// <param name="client">Client to send to packet</param>
+	/// <param name="index">Index of TcpSocket</param>
 	void send_packet(sf::Packet& packet, sf::TcpSocket* client);
 
 	// void send_packet(sf::Packet& packet, sf::IpAddress addy, unsigned short port);

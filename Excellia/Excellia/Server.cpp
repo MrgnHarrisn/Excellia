@@ -34,10 +34,20 @@ void Server::start()
 
 void Server::update_clients()
 {
-	printf("Updating clients\n");
+	// printf("Updating clients\n");
 	while (true)
 	{
-
+		for (size_t i = 0; i < m_clients.size(); i++) {
+			sf::Packet packet;
+			packet << "updated_positions";
+			packet << m_players.size();
+			packet << i;
+			for (size_t j = 0; j < m_players.size(); j++) {
+				packet << m_players[j].get_position().x;
+				packet << m_players[j].get_position().y;
+			}
+			send_packet(packet, m_clients[i]);
+		}
 	}
 }
 
@@ -60,8 +70,12 @@ void Server::connect_clients()
 				/* Send world information to the client */
 				printf("Added new client\n");
 
-				send_world(new_client);
+				Player player;
+				player.create(&m_wm);
+				m_players.push_back(player);
 
+				send_world(new_client);
+				
 			}
 		}
 		else {
@@ -105,7 +119,7 @@ void Server::recieve_packet(sf::TcpSocket* client, size_t index)
 	}
 
 	/* Sends the pakcet to be parsed */
-	parse(packet, client);
+	parse(packet, client, index);
 
 	/* Clear the packet */
 	packet.clear();
@@ -128,7 +142,7 @@ void Server::disconnect_client(sf::TcpSocket* client, size_t index)
 	}
 }
 
-void Server::parse(sf::Packet& packet, sf::TcpSocket* client)
+void Server::parse(sf::Packet& packet, sf::TcpSocket* client, size_t index)
 {
 	/* parse the packet information */
 
@@ -140,6 +154,13 @@ void Server::parse(sf::Packet& packet, sf::TcpSocket* client)
 		packet >> data;
 		std::cout << data << std::endl;
 		return;
+	}
+	else if (data == "player_pos") {
+		/* Recieving player position */
+		sf::Vector2f position;
+		packet >> position.x;
+		packet >> position.y;
+		m_players[index].set_position(position);
 	}
 
 }
