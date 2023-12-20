@@ -54,7 +54,7 @@ public:
 	/// <param name="blocks">Type of block to be added</param>
 	void set_changes(std::vector<sf::Vector2i> positions, std::vector<Block> blocks);
 
-	long long get_seed();
+	int get_seed();
 
 	/// <summary>
 	/// Sets the size of the world
@@ -66,7 +66,7 @@ public:
 	/// Set the seed for random
 	/// </summary>
 	/// <param name="seed">Seed to set m_random to</param>
-	void set_seed(long int seed);
+	void set_seed(int seed);
 
 	/// <summary>
 	/// Calcualtes a valid y position for player at given x position

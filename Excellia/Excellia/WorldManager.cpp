@@ -146,7 +146,7 @@ sf::Vector2i WorldManager::game_pos_to_screen_pos(sf::Vector2f mouse_pos)
 	return m_window->mapCoordsToPixel(mouse_pos, m_window->getView());
 }
 
-void WorldManager::set_seed(long int seed)
+void WorldManager::set_seed(int seed)
 {
 	m_random.set_seed(seed);
 }
@@ -166,7 +166,7 @@ void WorldManager::set_changes(std::vector<sf::Vector2i> positions, std::vector<
 	m_sprite.setTexture(m_texture);
 }
 
-long long WorldManager::get_seed()
+int WorldManager::get_seed()
 {
 	return m_random.get_seed();
 }

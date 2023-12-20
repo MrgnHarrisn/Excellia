@@ -15,23 +15,36 @@
 class Client
 {
 public:
+
+	/// <summary>
+	/// Constructor for Client
+	/// </summary>
 	Client();
-	void connect();
-	void run();
+
+	/// <summary>
+	/// Starts the client
+	/// </summary>
+	void start();
+	void game();
 	void recieve_packets();
-	void update();
+	void update_server();
 	void parse(sf::Packet& packet);
 private:
 	sf::TcpSocket m_server;
 	std::string m_ip_addrs;
 	unsigned short m_port;
-
-	Player m_player;
-	Camera m_camera;
-	std::vector<sf::Vector2f> m_player_positions;
-	Settings m_settings;
 	sf::Socket::Status m_status;
+
+	Camera m_camera;
+	Player m_player;
 	std::string m_name;
+	
+	std::vector<sf::Vector2f> m_player_positions;
+	
+	Settings m_settings;
 	WorldManager m_wm;
+
+	/* Make client wait till world is ready to be played in */
+	bool m_is_world_setup = false;
 };
 

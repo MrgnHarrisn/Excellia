@@ -18,7 +18,7 @@ public:
 	/// Constructor with a specific seed
 	/// </summary>
 	/// <param name="seed">Seed we wish to use</param>
-	Random(long int seed);
+	Random(int seed);
 
 	/// <summary>
 	/// Generates a random number with stored seed
@@ -35,14 +35,14 @@ public:
 	/// <param name="max">largest number</param>
 	/// <param name="seed">seed to use</param>
 	/// <returns>random number</returns>
-	float random(float min, float max, long int seed);
+	float random(float min, float max, int seed);
 
-	void set_seed(long int seed);
+	void set_seed(int seed);
 
-	long int get_seed();
+	int get_seed();
 
 private:
 
-	long int m_seed;
+	int m_seed;
 	std::mt19937 m_gen;
 };

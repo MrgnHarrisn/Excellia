@@ -7,7 +7,7 @@ Random::Random()
 	m_gen.seed(m_seed);
 };
 
-Random::Random(long int seed)
+Random::Random(int seed)
 {
 	m_seed = seed;
 	m_gen.seed(seed);
@@ -19,20 +19,20 @@ float Random::random(float min, float max)
 	return dist(m_gen);
 }
 
-float Random::random(float min, float max, long int seed)
+float Random::random(float min, float max, int seed)
 {
 	std::mt19937 gen(seed);
 	std::uniform_real_distribution<float> dist(min, max);
 	return dist(gen);
 }
 
-void Random::set_seed(long int seed)
+void Random::set_seed(int seed)
 {
 	m_seed = seed;
 	m_gen.seed(seed);
 }
 
-long int Random::get_seed()
+int Random::get_seed()
 {
 	return m_seed;
 }
