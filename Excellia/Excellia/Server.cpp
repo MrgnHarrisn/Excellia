@@ -103,7 +103,6 @@ void Server::recieve_packets()
 			}
 
 		}
-		sleep();
 	}
 }
 
