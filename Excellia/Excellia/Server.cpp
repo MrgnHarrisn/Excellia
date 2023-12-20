@@ -148,7 +148,6 @@ void Server::parse(sf::Packet& packet, sf::TcpSocket* client, size_t index)
 
 	std::string data;
 	packet >> data;
-	std::cout << data << std::endl;
 	if (data == "server_msg") {
 		/* Recieved a message for the server */
 		packet >> data;
@@ -160,7 +159,11 @@ void Server::parse(sf::Packet& packet, sf::TcpSocket* client, size_t index)
 		sf::Vector2f position;
 		packet >> position.x;
 		packet >> position.y;
-		m_players[index].set_position(position);
+
+		if (index < m_players.size()) {
+			m_players[index].set_position(position);
+		}
+
 	}
 
 }
