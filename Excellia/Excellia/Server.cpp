@@ -139,6 +139,7 @@ void Server::disconnect_client(sf::TcpSocket* client, size_t index)
 
 		/* Remove from list */
 		m_clients.erase(m_clients.begin() + index);
+		m_players.erase(m_players.cbegin() + index);
 	}
 }
 
