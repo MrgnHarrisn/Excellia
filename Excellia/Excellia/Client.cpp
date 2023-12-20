@@ -107,7 +107,8 @@ void Client::game()
 			rs.setOrigin(0, 3);
 			rs.setPosition(position);
 			rs.setSize({ 1,3 });
-			window.draw(rs, &texture);
+			rs.setTexture(&texture);
+			window.draw(rs);
 		}
 
 		window.draw(m_player.render_shape());
