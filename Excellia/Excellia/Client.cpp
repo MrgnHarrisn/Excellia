@@ -64,11 +64,14 @@ void Client::start()
 		// just sit and wait till the game is ready
 	}
 
-	game();
+	
+	std::thread game_thread(&Client::game, this);
+
 	m_is_running.store(false);
 
 	update_server.join();
 	recieve_packets.join();
+	game_thread.join();
 
 }
 
