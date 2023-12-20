@@ -78,6 +78,8 @@ void Client::game()
 	sf::RenderWindow window(sf::VideoMode(m_settings.get_screen_size().x, m_settings.get_screen_size().y), "Pixellia", sf::Style::None);
 	m_wm.set_render_window(&window);
 	sf::Clock clock;
+	sf::Texture texture;
+	texture.loadFromFile("player.png");
 
 	while (window.isOpen())
 	{
@@ -105,7 +107,7 @@ void Client::game()
 			rs.setOrigin(0, 3);
 			rs.setPosition(position);
 			rs.setSize({ 1,3 });
-			window.draw(rs);
+			window.draw(rs, &texture);
 		}
 
 		window.draw(m_player.render_shape());
