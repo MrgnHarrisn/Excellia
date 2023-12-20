@@ -100,9 +100,12 @@ void Client::game()
 		window.draw(m_wm.get_view_sprite());
 
 		for (sf::Vector2f position : m_player_positions) {
-			Player p;
-			p.set_position(position);
-			window.draw(p.render_shape());
+			sf::RectangleShape rs;
+			rs.setFillColor(sf::Color::White);
+			rs.setOrigin(0, 3);
+			rs.setPosition(position);
+			rs.setSize({ 1,3 });
+			window.draw(rs);
 		}
 
 		window.draw(m_player.render_shape());
