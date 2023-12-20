@@ -46,5 +46,6 @@ private:
 
 	/* Make client wait till world is ready to be played in */
 	bool m_is_world_setup = false;
+	std::atomic<bool> m_is_running{ true };
 };
 

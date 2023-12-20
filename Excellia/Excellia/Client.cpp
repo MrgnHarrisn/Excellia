@@ -1,6 +1,6 @@
 #include "Client.h"
 
-Client::Client()
+Client::Client() : m_is_running(true)
 {
 	m_settings.update();
 	printf("IP: ");
@@ -13,14 +13,14 @@ Client::Client()
 	if (m_status != sf::Socket::Done) {
 		printf("Failed to connect to server\n");
 	}
-
+	m_server.setBlocking(false);
 	start();
 
 }
 
 void Client::recieve_packets()
 {
-	while (true)
+	while (m_is_running.load())
 	{
 		sf::Packet packet;
 
@@ -36,14 +36,16 @@ void Client::recieve_packets()
 		/* parse the packet's information */
 		parse(packet);
 
+		packet.clear();
+
 	}
 }
 
 void Client::update_server()
 {
-	while (true)
+	while (m_is_running.load())
 	{
-
+		// printf("Running update\n");
 	}
 }
 
@@ -58,6 +60,7 @@ void Client::start()
 	}
 
 	game();
+	m_is_running.store(false);
 
 	update_server.join();
 	recieve_packets.join();
@@ -66,9 +69,40 @@ void Client::start()
 
 void Client::game()
 {
-	while (true)
+	m_camera.attach(&m_player);
+	
+	sf::RenderWindow window(sf::VideoMode(m_settings.get_screen_size().x, m_settings.get_screen_size().y), "Pixellia", sf::Style::None);
+	m_wm.set_render_window(&window);
+	sf::Clock clock;
+
+	while (window.isOpen())
 	{
+		sf::Event event;
+		while (window.pollEvent(event))
+		{
+			if (event.type == sf::Event::Closed) {
+				window.close();
+			}
+		}
+		float delta_time = clock.restart().asSeconds();
 		
+		m_player.update(delta_time);
+
+		m_camera.update(delta_time);
+		
+		window.setView(m_camera.get_view());
+
+		window.clear(sf::Color::Black);
+		window.draw(m_wm.get_view_sprite());
+
+		for (sf::Vector2f position : m_player_positions) {
+			Player p;
+			p.set_position(position);
+			window.draw(p.render_shape());
+		}
+
+		window.draw(m_player.render_shape());
+		window.display();
 	}
 }
 
@@ -91,6 +125,9 @@ void Client::parse(sf::Packet& packet)
 
 		m_wm.create();
 
+		m_player.create(&m_wm);
+		m_camera.create(m_player.get_position(), m_settings.get_screen_size(), &m_player, 10);
+
 		m_is_world_setup = true; // our game is ready to play
 	}
 	else {
@@ -98,6 +135,10 @@ void Client::parse(sf::Packet& packet)
 		/* We only want to run stuff if the world is ready */
 		if (m_is_world_setup) {
 			/* read packet information */
+			if (data == "msg") {
+				packet >> data;
+				std::cout << data << std::endl;
+			}
 		}
 	}
 
