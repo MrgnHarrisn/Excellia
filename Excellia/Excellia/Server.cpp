@@ -156,5 +156,8 @@ void Server::send_world(sf::TcpSocket* target)
 {
 	sf::Packet packet;
 	packet << "world_info";
+	packet << m_wm.get_seed();
+	packet << m_wm.get_size().x;
+	packet << m_wm.get_size().y;
 	send_packet(packet, target);
 }
