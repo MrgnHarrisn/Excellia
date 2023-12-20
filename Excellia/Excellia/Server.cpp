@@ -104,6 +104,7 @@ void Server::recieve_packets()
 
 		}
 	}
+	std::this_thread::sleep_for(std::chrono::milliseconds(10));
 }
 
 void Server::recieve_packet(sf::TcpSocket* client, size_t index)
