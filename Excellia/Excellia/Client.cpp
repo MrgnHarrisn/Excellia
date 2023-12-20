@@ -37,7 +37,6 @@ void Client::recieve_packets()
 		parse(packet);
 
 		packet.clear();
-		std::this_thread::sleep_for(std::chrono::milliseconds(2));
 	}
 }
 
@@ -50,7 +49,6 @@ void Client::update_server()
 		packet << m_player.get_position().x;
 		packet << m_player.get_position().y;
 		send_packet(packet);
-		std::this_thread::sleep_for(std::chrono::milliseconds(2));
 	}
 }
 
