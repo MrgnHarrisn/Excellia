@@ -182,6 +182,6 @@ void Client::send_packet(sf::Packet& packet)
 	sf::Socket::Status status = m_server.send(packet);
 
 	if (status != sf::Socket::Done) {
-		printf("Failed to send packet\n");
+		// printf("Failed to send packet\n");
 	}
 }
