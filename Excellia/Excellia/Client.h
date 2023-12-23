@@ -1,6 +1,7 @@
 #pragma once
 #include <SFML/Network.hpp>
 #include <SFML/Graphics.hpp>
+#include <SFML/Graphics/Shader.hpp>
 #include "Settings.h"
 #include "Player.h"
 #include "Utils.h"
@@ -30,6 +31,7 @@ public:
 	void update_server();
 	void parse(sf::Packet& packet);
 	void send_packet(sf::Packet& packet);
+	void send_player_pos();
 private:
 	sf::TcpSocket m_server;
 	std::string m_ip_addrs;
@@ -48,5 +50,6 @@ private:
 	/* Make client wait till world is ready to be played in */
 	bool m_is_world_setup = false;
 	std::atomic<bool> m_is_running{ true };
+	sf::Shader m_shader;
 };
 

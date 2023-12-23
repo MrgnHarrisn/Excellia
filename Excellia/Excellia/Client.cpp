@@ -16,6 +16,19 @@ Client::Client() : m_is_running(true)
 	m_server.setBlocking(false);
 	start();
 
+	if (!m_shader.loadFromFile("vertex_shader.vert", "fragment_shader.frag")) {
+		printf("Something went wrong!");
+	}
+
+}
+
+void Client::send_player_pos()
+{
+	sf::Packet packet;
+	packet << "player_pos";
+	packet << m_player.get_position().x;
+	packet << m_player.get_position().y;
+	send_packet(packet);
 }
 
 void Client::recieve_packets()
@@ -44,17 +57,13 @@ void Client::update_server()
 {
 	while (m_is_running.load())
 	{
-		sf::Packet packet;
-		packet << "player_pos";
-		packet << m_player.get_position().x;
-		packet << m_player.get_position().y;
-		send_packet(packet);
+		
 	}
 }
 
 void Client::start()
 {
-	std::thread update_server(&Client::update_server, this);
+	// std::thread update_server(&Client::update_server, this);
 	std::thread recieve_packets(&Client::recieve_packets, this);
 	
 	while (!m_is_world_setup)
@@ -65,7 +74,7 @@ void Client::start()
 	game();
 	m_is_running.store(false);
 
-	update_server.join();
+	// update_server.join();
 	recieve_packets.join();
 
 }
@@ -79,7 +88,7 @@ void Client::game()
 	sf::Clock clock;
 	sf::Texture texture;
 	texture.loadFromFile("player.png");
-
+	sf::Vector2f prev_player_pos = m_player.get_position();
 	while (window.isOpen())
 	{
 		sf::Event event;
@@ -92,6 +101,10 @@ void Client::game()
 		float delta_time = clock.restart().asSeconds();
 		
 		m_player.update(delta_time);
+
+		if (m_player.get_position() != prev_player_pos) {
+			send_player_pos();
+		}
 
 		m_camera.update(delta_time);
 		
