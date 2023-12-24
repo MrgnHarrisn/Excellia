@@ -104,6 +104,7 @@ void Client::game()
 
 		if (m_player.get_position() != prev_player_pos) {
 			send_player_pos();
+			prev_player_pos = m_player.get_position();
 		}
 
 		m_camera.update(delta_time);
