@@ -107,6 +107,12 @@ void WorldManager::set_render_window(sf::RenderWindow* window)
 	m_window = window;
 }
 
+void WorldManager::build_texture()
+{
+	m_texture.loadFromImage(m_image);
+	m_sprite.setTexture(m_texture);
+}
+
 sf::Sprite WorldManager::get_render()
 {
 	return m_sprite;
@@ -197,7 +203,6 @@ sf::Vector2f WorldManager::place_block(Block material, sf::Vector2i mouse_pos, b
 {
 	/* If it is an absolute position don't change anything */
 	sf::Vector2f block = absolute ? static_cast<sf::Vector2f>(mouse_pos) : screen_pos_to_world_pos(mouse_pos);
-
 	// Check world bounds
 	if (block.x >= 0 && block.x <= m_width && block.y >= 0 && block.y < m_height) {
 
@@ -218,7 +223,7 @@ sf::Vector2f WorldManager::place_block(Block material, sf::Vector2i mouse_pos, b
 void WorldManager::force_place_block(Block material, sf::Vector2i pos, bool absolute)
 {
 	sf::Vector2f block = absolute ? static_cast<sf::Vector2f>(pos) : screen_pos_to_world_pos(pos);
-
+	
 	// Check world bounds
 	if (block.x >= 0 && block.x <= m_width && block.y >= 0 && block.y < m_height) {
 

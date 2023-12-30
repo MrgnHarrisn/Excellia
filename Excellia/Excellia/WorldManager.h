@@ -143,6 +143,8 @@ public:
 
 	void set_render_window(sf::RenderWindow* window);
 
+	void build_texture();
+
 	void serialize();
 
 	void deserialize();

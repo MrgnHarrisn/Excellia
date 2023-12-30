@@ -296,6 +296,7 @@ void Client::parse(sf::Packet& packet)
 				packet >> position.y;
 				
 				m_wm.break_block(static_cast<sf::Vector2i>(position), true);
+				m_wm.build_texture();
 			}
 			else if (data == "place_block") {
 				printf("SOmeone else placed a block!\n");
