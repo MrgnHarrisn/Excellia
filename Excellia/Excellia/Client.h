@@ -51,5 +51,6 @@ private:
 	bool m_is_world_setup = false;
 	std::atomic<bool> m_is_running{ true };
 	sf::Shader m_shader;
+	Block m_current_block = Block::Wood;
 };
 

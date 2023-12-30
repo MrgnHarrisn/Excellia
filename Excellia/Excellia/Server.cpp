@@ -166,6 +166,19 @@ void Server::parse(sf::Packet& packet, sf::TcpSocket* client, size_t index)
 		}
 
 	}
+	else if (data == "break_block") {
+		// printf("Someone broke a block!\n");
+		sf::Vector2i block_pos;
+		sf::Packet new_packet;
+		new_packet << "break_block";
+		packet >> block_pos.x;
+		packet >> block_pos.y;
+		new_packet << block_pos.x;
+		new_packet << block_pos.y;
+		broadcast_packet(new_packet);
+	}
+
+	packet.clear();
 
 }
 
@@ -185,4 +198,13 @@ void Server::send_world(sf::TcpSocket* target)
 	packet << m_wm.get_size().x;
 	packet << m_wm.get_size().y;
 	send_packet(packet, target);
+}
+
+void Server::broadcast_packet(sf::Packet& packet)
+{
+	if (m_clients.size() > 0) {
+		for (int i = 0; i < m_clients.size(); i++) {
+			send_packet(packet, m_clients[i]);
+		}
+	}
 }

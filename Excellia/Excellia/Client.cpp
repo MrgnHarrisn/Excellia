@@ -89,6 +89,10 @@ void Client::game()
 	sf::Texture texture;
 	texture.loadFromFile("player.png");
 	sf::Vector2f prev_player_pos = m_player.get_position();
+
+	bool is_block_placed = false;
+	bool is_block_break = false;
+
 	while (window.isOpen())
 	{
 		sf::Event event;
@@ -97,7 +101,102 @@ void Client::game()
 			if (event.type == sf::Event::Closed) {
 				window.close();
 			}
+			
+			if (event.type == sf::Event::MouseButtonPressed) {
+				if (event.mouseButton.button == sf::Mouse::Right) {
+					is_block_placed = true;
+				}
+				else if (event.mouseButton.button == sf::Mouse::Left) {
+					is_block_break = true;
+				}
+				else if (event.mouseButton.button == sf::Mouse::Middle)
+				{
+					
+					// Get block at mouse position
+					Block temp_block = static_cast<Block>(m_wm.get_block(static_cast<sf::Vector2i>(m_wm.screen_pos_to_world_pos(sf::Mouse::getPosition(window)))));
+					if (temp_block != Block::Void) m_current_block = temp_block;
+					
+				}
+			}
+			if (event.type == sf::Event::MouseWheelScrolled) {
+				if (event.mouseWheelScroll.wheel == sf::Mouse::VerticalWheel) {
+					if (event.mouseWheelScroll.delta > 0) {
+						m_camera.zoom_in();
+					}
+					else if (event.mouseWheelScroll.delta < 0) {
+						m_camera.zoom_out();
+					}
+				}
+			}
+			
+			if (event.type == sf::Event::MouseButtonReleased) {
+				if (event.mouseButton.button == sf::Mouse::Left) {
+					is_block_break = false;
+				}
+				else if (event.mouseButton.button == sf::Mouse::Right) {
+					is_block_placed = false;
+				}
+			}
+
+			// Change current_block
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num1)) {
+				m_current_block = Block::Stone;
+			}
+			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num2)) {
+				m_current_block = Block::Dirt;
+			}
+			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num3)) {
+				m_current_block = Block::Wood;
+			}
+			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num4)) {
+				m_current_block = Block::Water;
+			}
+			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num5)) {
+				m_current_block = Block::Lava;
+			}
+			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num6)) {
+				m_current_block = Block::Diamond;
+			}
+
 		}
+
+		// Break blocks
+		if (is_block_break) {
+			// 
+			sf::Vector2i mouse_pos = sf::Mouse::getPosition(window);
+			sf::Vector2f block_pos = m_wm.break_block(mouse_pos, false);
+
+			/* Send Information */
+			sf::Packet packet;
+			packet << "break_block";
+			packet << block_pos.x;
+			packet << block_pos.y;
+			printf("X: %i Y:%i\n", block_pos.x, block_pos.y);
+			send_packet(packet);
+		}
+
+		// Place blocks
+		if (is_block_placed) {
+			sf::Vector2i mouse_pos = sf::Mouse::getPosition(window);
+			sf::Vector2f block_pos = m_wm.place_block(m_current_block, sf::Mouse::getPosition(window), false);
+			/* Send information */
+			sf::Packet packet;
+			packet << "place_block";
+			packet << block_pos.x;
+			packet << block_pos.y;
+			packet << m_current_block;
+			send_packet(packet);
+		}
+
+		// Create cursor
+		sf::RectangleShape cursor;
+		sf::Vector2i world_pos = static_cast<sf::Vector2i>(m_wm.screen_pos_to_world_pos(sf::Mouse::getPosition(window)));
+
+		// Update cursor
+		cursor.setPosition(static_cast<sf::Vector2f>(world_pos));
+		cursor.setSize({ 1, 1 });
+		cursor.setFillColor(sf::Color(255, 255, 255, 50));
+
 		float delta_time = clock.restart().asSeconds();
 		
 		m_player.update(delta_time);
@@ -123,7 +222,7 @@ void Client::game()
 			rs.setTexture(&texture);
 			window.draw(rs);
 		}
-
+		window.draw(cursor);
 		window.draw(m_player.render_shape());
 		window.display();
 	}
@@ -185,6 +284,23 @@ void Client::parse(sf::Packet& packet)
 				}
 
 			}
+			else if (data == "break_block") {
+				/* Will be stressful with lots of people changing stuff */
+				printf("SOmeone else broke a block!\n");
+				sf::Vector2i position;
+				packet >> position.x;
+				packet >> position.y;
+				
+				m_wm.break_block(position, true);
+			}
+			/*else if (data == "place_block") {
+				sf::Vector2i position;
+				unsigned int block_type = 0;
+				packet >> position.x;
+				packet >> position.y;
+				packet >> block_type;
+				m_wm.force_place_block(static_cast<Block>(block_type), position, true);
+			}*/
 		}
 	}
 

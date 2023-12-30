@@ -78,6 +78,12 @@ public:
 
 	void send_world(sf::TcpSocket* target);
 
+	/// <summary>
+	/// Sends a packet to all clients
+	/// </summary>
+	/// <param name="packet">Packet we want to send</param>
+	void broadcast_packet(sf::Packet& packet);
+
 private:
 	sf::TcpListener m_listener;
 	sf::Socket::Status m_status;

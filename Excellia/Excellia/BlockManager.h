@@ -35,4 +35,7 @@ public:
 	/// <param name="b">Block to check</param>
 	/// <returns>Is it non solid?</returns>
 	static bool can_move_through(Block b);
+
+	static Block index_to_block(unsigned int index);
+
 };

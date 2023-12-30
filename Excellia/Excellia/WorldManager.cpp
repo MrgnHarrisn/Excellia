@@ -171,9 +171,10 @@ int WorldManager::get_seed()
 	return m_random.get_seed();
 }
 
-void WorldManager::break_block(sf::Vector2i mouse_pos)
+sf::Vector2f WorldManager::break_block(sf::Vector2i mouse_pos, bool absolute)
 {
-	sf::Vector2f block = screen_pos_to_world_pos(mouse_pos);
+	/* If it is an absolute position don't change anything */
+	sf::Vector2f block = absolute ? static_cast<sf::Vector2f>(mouse_pos) : screen_pos_to_world_pos(mouse_pos);
 
 	// Check world bounds
 	if (block.x >= 0 && block.x <= m_width && block.y >= 0 && block.y < m_height) {
@@ -187,11 +188,15 @@ void WorldManager::break_block(sf::Vector2i mouse_pos)
 			m_sprite.setTexture(m_texture);
 		}
 	}
+
+	return block;
+
 }
 
-void WorldManager::place_block(Block material, sf::Vector2i mouse_pos)
+sf::Vector2f WorldManager::place_block(Block material, sf::Vector2i mouse_pos, bool absolute)
 {
-	sf::Vector2f block = screen_pos_to_world_pos(mouse_pos);
+	/* If it is an absolute position don't change anything */
+	sf::Vector2f block = absolute ? static_cast<sf::Vector2f>(mouse_pos) : screen_pos_to_world_pos(mouse_pos);
 
 	// Check world bounds
 	if (block.x >= 0 && block.x <= m_width && block.y >= 0 && block.y < m_height) {
@@ -205,6 +210,9 @@ void WorldManager::place_block(Block material, sf::Vector2i mouse_pos)
 			m_sprite.setTexture(m_texture);
 		}
 	}
+
+	return block;
+
 }
 
 void WorldManager::force_place_block(Block material, sf::Vector2i pos)
@@ -214,6 +222,14 @@ void WorldManager::force_place_block(Block material, sf::Vector2i pos)
 	if (pos.x >= 0 && pos.x <= m_width && pos.y >= 0 && pos.y < m_height) {
 
 		m_image.setPixel(pos.x, pos.y, BlockManager::hex_to_color(material));
+	}
+}
+
+void WorldManager::force_break_block(sf::Vector2i pos)
+{
+	if (pos.x >= 0 && pos.x <= m_width && pos.y >= 0 && pos.y < m_height) {
+
+		m_image.setPixel(pos.x, pos.y, BlockManager::hex_to_color(Block::Void));
 	}
 }
 

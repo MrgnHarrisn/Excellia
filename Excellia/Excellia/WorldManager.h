@@ -102,14 +102,14 @@ public:
 	/// </summary>
 	/// <param name="window">Current renderwindow</param>
 	/// <param name="mouse_pos">Position of mouse</param>
-	void break_block(sf::Vector2i mouse_pos);
+	sf::Vector2f break_block(sf::Vector2i mouse_pos, bool absolute = 0);
 
 	/// <summary>
 	/// Replaces void with a block
 	/// </summary>
 	/// <param name="mouse_pos">Position of mouse</param>
 	/// <param name="material">Block type to place</param>
-	void place_block(Block material, sf::Vector2i mouse_pos);
+	sf::Vector2f place_block(Block material, sf::Vector2i mouse_pos, bool absolute = 0);
 
 	/// <summary>
 	/// Forces a block to be placed at position
@@ -117,6 +117,8 @@ public:
 	/// <param name="pos">Position on texture</param>
 	/// <param name="material">Block type to place</param>
 	void force_place_block(Block material, sf::Vector2i pos);
+
+	void force_break_block(sf::Vector2i pos);
 
 	/// <summary>
 	/// Creates a sprite of the current view
