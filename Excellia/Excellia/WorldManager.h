@@ -116,7 +116,7 @@ public:
 	/// </summary>
 	/// <param name="pos">Position on texture</param>
 	/// <param name="material">Block type to place</param>
-	void force_place_block(Block material, sf::Vector2i pos);
+	void force_place_block(Block material, sf::Vector2i pos, bool absolute = 0);
 
 	void force_break_block(sf::Vector2i pos);
 

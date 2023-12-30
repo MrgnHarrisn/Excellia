@@ -171,7 +171,7 @@ void Client::game()
 			packet << "break_block";
 			packet << block_pos.x;
 			packet << block_pos.y;
-			printf("X: %i Y:%i\n", block_pos.x, block_pos.y);
+			printf("X: %f Y:%f\n", block_pos.x, block_pos.y);
 			send_packet(packet);
 		}
 
@@ -287,20 +287,20 @@ void Client::parse(sf::Packet& packet)
 			else if (data == "break_block") {
 				/* Will be stressful with lots of people changing stuff */
 				printf("SOmeone else broke a block!\n");
-				sf::Vector2i position;
+				sf::Vector2f position;
 				packet >> position.x;
 				packet >> position.y;
 				
-				m_wm.break_block(position, true);
+				m_wm.break_block(static_cast<sf::Vector2i>(position), true);
 			}
-			/*else if (data == "place_block") {
+			else if (data == "place_block") {
 				sf::Vector2i position;
 				unsigned int block_type = 0;
 				packet >> position.x;
 				packet >> position.y;
 				packet >> block_type;
 				m_wm.force_place_block(static_cast<Block>(block_type), position, true);
-			}*/
+			}
 		}
 	}
 

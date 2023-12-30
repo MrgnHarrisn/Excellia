@@ -215,8 +215,9 @@ sf::Vector2f WorldManager::place_block(Block material, sf::Vector2i mouse_pos, b
 
 }
 
-void WorldManager::force_place_block(Block material, sf::Vector2i pos)
+void WorldManager::force_place_block(Block material, sf::Vector2i pos, bool absolute)
 {
+	sf::Vector2f block = absolute ? static_cast<sf::Vector2f>(pos) : sf::Vector2f(1, 1);
 
 	// Check world bounds
 	if (pos.x >= 0 && pos.x <= m_width && pos.y >= 0 && pos.y < m_height) {
