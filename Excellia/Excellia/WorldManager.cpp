@@ -78,7 +78,7 @@ void WorldManager::create()
 			
 			for (int d_x = 0; d_x < 3; d_x++) {
 				for (int d_y = 0; d_y < 3; d_y++) {
-					force_place_block(Block::Void, position_a + sf::Vector2i(d_x, d_y));
+					force_place_block(Block::Void, position_a + sf::Vector2i(d_x, d_y), true);
 				}
 			}
 
@@ -217,12 +217,12 @@ sf::Vector2f WorldManager::place_block(Block material, sf::Vector2i mouse_pos, b
 
 void WorldManager::force_place_block(Block material, sf::Vector2i pos, bool absolute)
 {
-	sf::Vector2f block = absolute ? static_cast<sf::Vector2f>(pos) : sf::Vector2f(1, 1);
+	sf::Vector2f block = absolute ? static_cast<sf::Vector2f>(pos) : screen_pos_to_world_pos(pos);
 
 	// Check world bounds
-	if (pos.x >= 0 && pos.x <= m_width && pos.y >= 0 && pos.y < m_height) {
+	if (block.x >= 0 && block.x <= m_width && block.y >= 0 && block.y < m_height) {
 
-		m_image.setPixel(pos.x, pos.y, BlockManager::hex_to_color(material));
+		m_image.setPixel(block.x, block.y, BlockManager::hex_to_color(material));
 	}
 }
 

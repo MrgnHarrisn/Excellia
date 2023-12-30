@@ -162,7 +162,7 @@ void Client::game()
 
 		// Break blocks
 		if (is_block_break) {
-			// 
+			
 			sf::Vector2i mouse_pos = sf::Mouse::getPosition(window);
 			sf::Vector2f block_pos = m_wm.break_block(mouse_pos, false);
 
@@ -171,20 +171,21 @@ void Client::game()
 			packet << "break_block";
 			packet << block_pos.x;
 			packet << block_pos.y;
-			printf("X: %f Y:%f\n", block_pos.x, block_pos.y);
 			send_packet(packet);
 		}
 
 		// Place blocks
 		if (is_block_placed) {
+
 			sf::Vector2i mouse_pos = sf::Mouse::getPosition(window);
 			sf::Vector2f block_pos = m_wm.place_block(m_current_block, sf::Mouse::getPosition(window), false);
+
 			/* Send information */
 			sf::Packet packet;
 			packet << "place_block";
 			packet << block_pos.x;
 			packet << block_pos.y;
-			packet << m_current_block;
+			packet << static_cast<unsigned int>(m_current_block);
 			send_packet(packet);
 		}
 
@@ -256,6 +257,10 @@ void Client::parse(sf::Packet& packet)
 
 		/* We only want to run stuff if the world is ready */
 		if (m_is_world_setup) {
+			if (data != "updated_positions")
+			{
+				std::cout << data << std::endl;
+			}
 			/* read packet information */
 			if (data == "msg") {
 				packet >> data;
@@ -286,7 +291,6 @@ void Client::parse(sf::Packet& packet)
 			}
 			else if (data == "break_block") {
 				/* Will be stressful with lots of people changing stuff */
-				printf("SOmeone else broke a block!\n");
 				sf::Vector2f position;
 				packet >> position.x;
 				packet >> position.y;
@@ -294,12 +298,15 @@ void Client::parse(sf::Packet& packet)
 				m_wm.break_block(static_cast<sf::Vector2i>(position), true);
 			}
 			else if (data == "place_block") {
-				sf::Vector2i position;
-				unsigned int block_type = 0;
+				printf("SOmeone else placed a block!\n");
+				sf::Vector2f position;
+				unsigned int block_type;
 				packet >> position.x;
 				packet >> position.y;
 				packet >> block_type;
-				m_wm.force_place_block(static_cast<Block>(block_type), position, true);
+				m_wm.force_place_block(static_cast<Block>(block_type), static_cast<sf::Vector2i>(position), true);
+
+				printf("X: %f Y:%f B:%u\n", position.x, position.y, block_type);
 			}
 		}
 	}
