@@ -107,6 +107,7 @@ void WorldManager::set_render_window(sf::RenderWindow* window)
 	m_window = window;
 }
 
+// function here
 void WorldManager::build_texture()
 {
 	m_texture.loadFromImage(m_image);
