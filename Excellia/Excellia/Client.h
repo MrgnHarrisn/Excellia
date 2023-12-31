@@ -30,7 +30,7 @@ public:
 	void recieve_packets();
 	void update_server();
 	void parse(sf::Packet& packet);
-	void send_packet(sf::Packet& packet);
+	sf::Socket::Status send_packet(sf::Packet& packet);
 	void send_player_pos();
 private:
 	sf::TcpSocket m_server;

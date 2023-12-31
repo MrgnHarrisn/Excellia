@@ -164,6 +164,7 @@ void Client::game()
 		if (is_block_break) {
 			
 			sf::Vector2i mouse_pos = sf::Mouse::getPosition(window);
+			Block temp_block = (Block)m_wm.get_block(static_cast<sf::Vector2i>(m_wm.screen_pos_to_world_pos(sf::Mouse::getPosition(window))));
 			sf::Vector2f block_pos = m_wm.break_block(mouse_pos, false);
 
 			/* Send Information */
@@ -171,13 +172,17 @@ void Client::game()
 			packet << "break_block";
 			packet << block_pos.x;
 			packet << block_pos.y;
-			send_packet(packet);
+			sf::Socket::Status status = send_packet(packet);
+			if (status != sf::Socket::Done) {
+				m_wm.place_block(temp_block, mouse_pos, false);
+			}
 		}
 
 		// Place blocks
 		if (is_block_placed) {
 
 			sf::Vector2i mouse_pos = sf::Mouse::getPosition(window);
+			Block temp_block = (Block)m_wm.get_block(static_cast<sf::Vector2i>(m_wm.screen_pos_to_world_pos(sf::Mouse::getPosition(window))));
 			sf::Vector2f block_pos = m_wm.place_block(m_current_block, sf::Mouse::getPosition(window), false);
 
 			/* Send information */
@@ -186,7 +191,10 @@ void Client::game()
 			packet << block_pos.x;
 			packet << block_pos.y;
 			packet << static_cast<unsigned int>(m_current_block);
-			send_packet(packet);
+			sf::Socket::Status status = send_packet(packet);
+			if (status != sf::Socket::Done) {
+				m_wm.place_block(temp_block, mouse_pos, false);
+			}
 		}
 
 		// Create cursor
@@ -314,11 +322,15 @@ void Client::parse(sf::Packet& packet)
 
 }
 
-void Client::send_packet(sf::Packet& packet)
+sf::Socket::Status Client::send_packet(sf::Packet& packet)
 {
 	sf::Socket::Status status = m_server.send(packet);
 
 	if (status != sf::Socket::Done) {
 		// printf("Failed to send packet\n");
+		status = m_server.send(packet);
 	}
+
+	return status;
+
 }
