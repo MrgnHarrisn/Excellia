@@ -179,7 +179,7 @@ void Server::parse(sf::Packet& packet, sf::TcpSocket* client, size_t index)
 	}
 	else if (data == "place_block") {
 		sf::Packet new_packet;
-		sf::Vector2i position;
+		sf::Vector2f position;
 		unsigned int block_type;
 		packet >> position.x;
 		packet >> position.y;

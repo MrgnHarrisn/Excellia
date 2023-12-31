@@ -300,12 +300,12 @@ void Client::parse(sf::Packet& packet)
 			}
 			else if (data == "place_block") {
 				printf("SOmeone else placed a block!\n");
-				sf::Vector2i position;
+				sf::Vector2f position;
 				unsigned int block_type;
 				packet >> position.x;
 				packet >> position.y;
 				packet >> block_type;
-				m_wm.place_block((Block)block_type, position, true);
+				m_wm.place_block((Block)block_type, static_cast<sf::Vector2i>(position), true);
 				m_wm.build_texture();
 				// printf("X: %f Y:%f B:%u\n", position.x, position.y, block_type);
 			}
