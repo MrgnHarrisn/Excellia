@@ -201,7 +201,10 @@ void Server::send_packet(sf::Packet& packet, sf::TcpSocket* client)
 {
 	sf::Socket::Status status = client->send(packet);
 	if (status != sf::Socket::Done) {
-		printf("Failed to send packet\n");
+		status = client->send(packet);
+		if (status != sf::Socket::Done) {
+			printf("Failed to send packet\n");
+		}
 	}
 }
 
