@@ -68,8 +68,7 @@ std::vector<sf::Vector2f> TerrainGeneration::generate_caves(sf::Vector2f min, sf
 	std::vector<sf::Vector2f> caves;
 	sf::Vector2f cave_pos;
 
-	int num_caves = (max.x * 0.2) * (max.y * 0.2);
-	num_caves *= 0.007;
+	int num_caves = (max.x - min.x) * (max.y - min.y) / 2000;
 
 	// Loop for number of caves
 	for (int i = 0; i < num_caves; i++) {
