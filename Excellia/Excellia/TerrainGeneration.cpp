@@ -57,7 +57,7 @@ std::vector<int> TerrainGeneration::generate_dirt(int n, Random& random)
 	for (size_t i = 0; i < n; i++) {
 		
 		// Store random depth
-		depths.push_back(static_cast<int>(random.random(3, 6)));
+		depths.push_back(static_cast<int>(random.random(7, 9)));
 	}
 
 	return depths;

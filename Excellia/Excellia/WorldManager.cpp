@@ -36,15 +36,18 @@ void WorldManager::create()
 	// Loop over columns
 	for (int i = 0; i < m_heights.size(); i++) {
 
-		// Draw stone
+		// Draw Stone
 		for (int j = m_heights[i] + m_dirt_heights[i]; j < m_height; j++) {
 			m_image.setPixel(i, j, BlockManager::hex_to_color(Block::Stone));
 		}
 
-		// Draw dirt
-		for (int j = m_heights[i]; j <= m_heights[i] + m_dirt_heights[i]; j++) {
+		// Draw Dirt
+		for (int j = m_heights[i]; j < m_heights[i] + m_dirt_heights[i]; j++) {
 			m_image.setPixel(i, j, BlockManager::hex_to_color(Block::Dirt));
 		}
+
+		// Draw Grass
+		m_image.setPixel(i, m_heights[i], BlockManager::hex_to_color(Block::Grass));
 
 	}
 
