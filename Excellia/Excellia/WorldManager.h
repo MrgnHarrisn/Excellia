@@ -95,6 +95,7 @@ private:
 	Random m_random;
 	std::vector<int> m_dirt_heights;	/* This is how much dirt should be on top */
 	std::vector<int> m_heights;
+	std::vector<int> m_trees;
 	std::vector<sf::Vector2f> m_caves;
 	sf::Image m_image;
 	sf::Texture m_texture;

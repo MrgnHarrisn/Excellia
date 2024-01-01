@@ -32,6 +32,7 @@ void WorldManager::create()
 
 
 	m_caves = TerrainGeneration::generate_caves(min, max, m_random);
+	m_trees = TerrainGeneration::generate_trees(m_width, m_random);
 
 	// Loop over columns
 	for (int i = 0; i < m_heights.size(); i++) {
@@ -69,6 +70,15 @@ void WorldManager::create()
 
 			position_a += delta;
 		}
+	}
+
+	/* Generates trees */
+	for (int i = 0; i < m_trees.size(); i++)
+	{
+		sf::Vector2i pos;
+		pos.x = m_trees[i];
+		pos.y = m_heights[m_trees[i]] - 1;
+		place_block(Block::Wood, pos);
 	}
 
 	// Store Map

@@ -49,15 +49,15 @@ std::vector<int> TerrainGeneration::generate_heights(int map_width, float epsilo
 	return interpolate(heights, height * 0.5);
 }
 
-std::vector<int> TerrainGeneration::generate_dirt(int n, Random& random)
+std::vector<int> TerrainGeneration::generate_dirt(int map_width, Random& r)
 {
 	std::vector<int> depths;
 
 	// Loop over columns
-	for (size_t i = 0; i < n; i++) {
+	for (size_t i = 0; i < map_width; i++) {
 		
 		// Store random depth
-		depths.push_back(static_cast<int>(random.random(7, 9)));
+		depths.push_back(static_cast<int>(r.random(7, 9)));
 	}
 
 	return depths;
@@ -75,7 +75,7 @@ std::vector<sf::Vector2f> TerrainGeneration::generate_caves(sf::Vector2f min, sf
 	for (int i = 0; i < num_caves; i++) {
 
 		// Randomise position
-		cave_pos.x = r.random(min.x, max.x); // maybe not needed
+		cave_pos.x = r.random(min.x, max.x);
 		cave_pos.y = r.random(min.y, max.y);
 
 		// Repeat until positon is valid
@@ -89,4 +89,26 @@ std::vector<sf::Vector2f> TerrainGeneration::generate_caves(sf::Vector2f min, sf
 	}
 
 	return caves;
+}
+
+std::vector<int> TerrainGeneration::generate_trees(int map_width, Random& r)
+{
+	std::vector<int> trees;
+
+	// Stops first tree from being on the edge
+	int tree_pos = r.random(5, 15);
+
+	// Randomise position
+	while (tree_pos < map_width - 5)
+	{
+		if (true) // WIP: will check it can spawn there
+		{
+			trees.push_back(tree_pos);
+		}
+		
+		// Move along
+		tree_pos += r.random(10, 50);
+	}
+
+	return trees;
 }

@@ -36,7 +36,7 @@ public:
 	/// <param name="n">Number of columns</param>
 	/// <param name="random">instance of Random to use</param>
 	/// <returns>Vector of dirt depths</returns>
-	static std::vector<int> generate_dirt(int n, Random& random);
+	static std::vector<int> generate_dirt(int map_width, Random& r);
 
 	/// <summary>
 	/// Generates caves at a random position
@@ -46,5 +46,7 @@ public:
 	/// <param name="r">instance of Random to use</param>
 	/// <returns>A set of caves</returns>
 	static std::vector<sf::Vector2f> generate_caves(sf::Vector2f min, sf::Vector2f max, Random& r);
+
+	static std::vector<int> generate_trees(int map_width, Random& r);
 };
 
