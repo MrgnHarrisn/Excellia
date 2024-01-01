@@ -47,6 +47,12 @@ public:
 	/// <returns>A set of caves</returns>
 	static std::vector<sf::Vector2f> generate_caves(sf::Vector2f min, sf::Vector2f max, Random& r);
 
+	/// <summary>
+	/// Generates trees at a random position
+	/// </summary>
+	/// <param name="map_width">Number of columns</param>
+	/// <param name="r">instance of Random to use</param>
+	/// <returns></returns>
 	static std::vector<int> generate_trees(int map_width, Random& r);
 };
 

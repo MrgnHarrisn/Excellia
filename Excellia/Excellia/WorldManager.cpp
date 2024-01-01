@@ -78,7 +78,33 @@ void WorldManager::create()
 		sf::Vector2i pos;
 		pos.x = m_trees[i];
 		pos.y = m_heights[m_trees[i]] - 1;
-		place_block(Block::Wood, pos);
+		force_place_block(Block::Wood, pos);
+
+		// Temp tree
+		for (int i = 0; i < 5; i++) {
+			pos.y--;
+			force_place_block(Block::Wood, pos);
+		}
+		force_place_block(Block::Grass, sf::Vector2i(pos.x - 1, pos.y));
+		force_place_block(Block::Grass, sf::Vector2i(pos.x - 2, pos.y));
+		force_place_block(Block::Grass, sf::Vector2i(pos.x + 1, pos.y));
+		force_place_block(Block::Grass, sf::Vector2i(pos.x + 2, pos.y));
+		pos.y--;
+		force_place_block(Block::Grass, sf::Vector2i(pos.x, pos.y));
+		force_place_block(Block::Grass, sf::Vector2i(pos.x - 1, pos.y));
+		force_place_block(Block::Grass, sf::Vector2i(pos.x - 2, pos.y));
+		force_place_block(Block::Grass, sf::Vector2i(pos.x + 1, pos.y));
+		force_place_block(Block::Grass, sf::Vector2i(pos.x + 2, pos.y));
+		pos.y--;
+		force_place_block(Block::Grass, sf::Vector2i(pos.x, pos.y));
+		force_place_block(Block::Grass, sf::Vector2i(pos.x - 1, pos.y));
+		force_place_block(Block::Grass, sf::Vector2i(pos.x - 2, pos.y));
+		force_place_block(Block::Grass, sf::Vector2i(pos.x + 1, pos.y));
+		force_place_block(Block::Grass, sf::Vector2i(pos.x + 2, pos.y));
+		pos.y--;
+		force_place_block(Block::Grass, sf::Vector2i(pos.x, pos.y));
+		force_place_block(Block::Grass, sf::Vector2i(pos.x - 1, pos.y));
+		force_place_block(Block::Grass, sf::Vector2i(pos.x + 1, pos.y));
 	}
 
 	// Store Map
