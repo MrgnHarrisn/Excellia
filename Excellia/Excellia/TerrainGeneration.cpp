@@ -68,21 +68,15 @@ std::vector<sf::Vector2f> TerrainGeneration::generate_caves(sf::Vector2f min, sf
 	std::vector<sf::Vector2f> caves;
 	sf::Vector2f cave_pos;
 
-	int num_caves = (max.x * 0.2) * (max.y * 0.1);
+	int num_caves = (max.x * 0.2) * (max.y * 0.2);
 	num_caves *= 0.007;
 
 	// Loop for number of caves
 	for (int i = 0; i < num_caves; i++) {
 
 		// Randomise position
-		cave_pos.x = r.random(min.x, max.x);
-		cave_pos.y = r.random(min.y, max.y);
-
-		// Repeat until positon is valid
-		do {
-			cave_pos.x = r.random(min.x, max.x);
-			cave_pos.y = r.random(min.y, max.y);
-		} while ((cave_pos.x < 10) || (cave_pos.x > max.x - 10) || (cave_pos.y < 10) || (cave_pos.y > max.y - 10));
+		cave_pos.x = r.random(min.x + 10, max.x - 10);
+		cave_pos.y = r.random(min.y + 10, max.y - 10);
 
 		// Store positions
 		caves.push_back(cave_pos);
