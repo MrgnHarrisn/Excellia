@@ -49,13 +49,16 @@ void Player::update(float dt)
 		velocity.y += m_speed;
 	}
 
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
-        velocity.y -= m_move_speed + 30;
-		
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && m_can_jump) {
+		m_jump_timer = 0.3;
+		m_can_jump = false;
     }
 
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
-		/* Move Up */
+	// Jumping
+	if (m_jump_timer > 0)
+	{
+		m_jump_timer -= dt;
+		velocity.y -= m_speed + 30;
 	}
 
     // Temp gravity
@@ -67,7 +70,18 @@ void Player::update(float dt)
 	
 	while (dt > 0.0001)
 	{
-		pos += can_move_pos(pos, temp_v);
+		sf::Vector2f temp_pos = can_move_pos(pos, temp_v);
+		if (temp_pos.y == 0 && velocity.y > 0)
+		{
+			m_can_jump = true;
+		}
+		else if (temp_pos == sf::Vector2f(0, 0))
+		{
+			break;
+		}
+
+		pos.x += temp_pos.x;
+		pos.y += temp_pos.y;
 		set_position(pos);
 		dt -= 0.0001;
 	}

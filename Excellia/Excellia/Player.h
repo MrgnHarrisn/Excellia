@@ -56,4 +56,7 @@ private:
 	sf::Texture m_texture;
 	sf::Sprite m_sprite;
 	WorldManager& m_wm;
+
+	bool m_can_jump = true;
+	float m_jump_timer;
 };
