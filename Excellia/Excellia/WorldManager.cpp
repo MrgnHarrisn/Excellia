@@ -26,7 +26,7 @@ void WorldManager::create()
 	m_dirt_heights = TerrainGeneration::generate_dirt(m_width, m_random);
 
 	// Places Caves
-	sf::Vector2f min = sf::Vector2f(0, find_highest_point());
+	sf::Vector2f min = sf::Vector2f(0, find_highest_point() * 1.3);
 	sf::Vector2f max = sf::Vector2f(m_width, m_height);
 
 
@@ -226,7 +226,7 @@ sf::Sprite WorldManager::get_view_sprite() {
 
 int WorldManager::find_highest_point()
 {
-	int lowest = 0;
+	int lowest = m_height;
 	for (int i = 0; i < m_heights.size(); i++) {
 		if (m_heights[i] < lowest) {
 			lowest = m_heights[i];
