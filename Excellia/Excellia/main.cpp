@@ -41,7 +41,7 @@ int main()
 	Player p(position, wm);
 	
 	// Create camera attached to player
-	Camera cam(position, sf::Vector2u{1920, 1080}, p, 10);
+	Camera cam(position, sf::Vector2u{1080 * settings.get_screen_size().x / settings.get_screen_size().y, 1080}, p, 10);
 	cam.zoom_in();
 	cam.zoom_in();
 
