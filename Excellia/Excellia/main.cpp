@@ -41,7 +41,9 @@ int main()
 	Player p(position, wm);
 	
 	// Create camera attached to player
-	Camera cam(position, settings.get_screen_size(), p, 10);
+	Camera cam(position, sf::Vector2u{1920, 1080}, p, 10);
+	cam.zoom_in();
+	cam.zoom_in();
 
 	// Set build/destroy defaults
 	bool is_block_placed = false;
