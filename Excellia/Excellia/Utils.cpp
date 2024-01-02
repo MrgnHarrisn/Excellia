@@ -1,7 +1,7 @@
 #include "Utils.h"
 
 float Utils::clip(float n, float lower, float upper) {
-	 return std::max(lower, std::min(n, upper));
+	return std::max(lower, std::min(n, upper));
 }
 
 float Utils::dot_product(sf::Vector2f a, sf::Vector2f b, sf::Vector2f c) {

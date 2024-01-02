@@ -37,7 +37,7 @@ int main()
 	wm.create();
 
 	// Spawn player
-	sf::Vector2f position(settings.get_world_size().x / 2, wm.place_player(settings.get_world_size().x / 2));
+	sf::Vector2f position((float)settings.get_world_size().x / 2, (float)wm.place_player(settings.get_world_size().x / 2));
 	Player p(position, wm);
 	
 	// Create camera attached to player
