@@ -185,7 +185,7 @@ sf::Sprite WorldManager::get_view_sprite() {
 
 	// Find screen location
 	sf::Vector2i half_size((unsigned int)m_window.getView().getSize().x / 2, (unsigned int)m_window.getView().getSize().y / 2);
-	sf::Vector2i top_left = (sf::Vector2i)(m_window.getView().getCenter()) - half_size - sf::Vector2i(1, 0);
+	sf::Vector2i top_left = (sf::Vector2i)(m_window.getView().getCenter()) - half_size - sf::Vector2i(1, 1);
 
 	// Make image
 	sf::Image temp;
