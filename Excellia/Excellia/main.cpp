@@ -147,7 +147,7 @@ int main()
 
 		// Clear and draw
 		window.clear();
-		window.draw(wm.get_render(), &shader);
+		window.draw(wm.get_view_sprite());
 		// window.draw(wm.get_render());
 		window.draw(p.render_shape());
 		window.draw(cursor);
