@@ -26,8 +26,8 @@ void WorldManager::create()
 	m_dirt_heights = TerrainGeneration::generate_dirt(m_width, m_random);
 
 	// Places Caves
-	sf::Vector2f min = sf::Vector2f(0, find_highest_point() * 1.3);
-	sf::Vector2f max = sf::Vector2f(m_width, m_height);
+	sf::Vector2i min = sf::Vector2i(0, find_highest_point() * 1.3);
+	sf::Vector2i max = sf::Vector2i(m_width, m_height);
 
 
 
@@ -141,7 +141,7 @@ sf::Vector2i WorldManager::game_pos_to_screen_pos(sf::Vector2f mouse_pos)
 
 void WorldManager::break_block(sf::Vector2i mouse_pos)
 {
-	sf::Vector2f block = screen_pos_to_world_pos(mouse_pos);
+	sf::Vector2u block = (sf::Vector2u)screen_pos_to_world_pos(mouse_pos);
 
 	// Check world bounds
 	if (block.x >= 0 && block.x <= m_width && block.y >= 0 && block.y < m_height) {
@@ -157,7 +157,7 @@ void WorldManager::break_block(sf::Vector2i mouse_pos)
 
 void WorldManager::place_block(Block material, sf::Vector2i mouse_pos)
 {
-	sf::Vector2f block = screen_pos_to_world_pos(mouse_pos);
+	sf::Vector2u block = (sf::Vector2u)screen_pos_to_world_pos(mouse_pos);
 
 	// Check world bounds
 	if (block.x >= 0 && block.x <= m_width && block.y >= 0 && block.y < m_height) {
@@ -184,12 +184,12 @@ void WorldManager::force_place_block(Block material, sf::Vector2i pos)
 sf::Sprite WorldManager::get_view_sprite() {
 
 	// Find screen location
-	sf::Vector2i half_size(m_window.getView().getSize().x / 2, m_window.getView().getSize().y / 2);
+	sf::Vector2i half_size((unsigned int)m_window.getView().getSize().x / 2, (unsigned int)m_window.getView().getSize().y / 2);
 	sf::Vector2i top_left = (sf::Vector2i)(m_window.getView().getCenter()) - half_size - sf::Vector2i(1, 0);
 
 	// Make image
 	sf::Image temp;
-	temp.create(m_window.getView().getSize().x + 7, m_window.getView().getSize().y + 3);
+	temp.create((unsigned int)m_window.getView().getSize().x + 7, (unsigned int)m_window.getView().getSize().y + 3);
 	
 	// Get pixels in view of texture
 	int loop_max_x = (int)(top_left.x + half_size.x * 2) + 3;

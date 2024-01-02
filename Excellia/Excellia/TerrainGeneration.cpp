@@ -46,7 +46,7 @@ std::vector<int> TerrainGeneration::generate_heights(int map_width, float epsilo
 		heights.push_back(nh);
 	}
 
-	return interpolate(heights, height * 0.5);
+	return interpolate(heights, (int)(height * 0.5));
 }
 
 std::vector<int> TerrainGeneration::generate_dirt(int map_width, Random& r)
@@ -54,7 +54,7 @@ std::vector<int> TerrainGeneration::generate_dirt(int map_width, Random& r)
 	std::vector<int> depths;
 
 	// Loop over columns
-	for (size_t i = 0; i < map_width; i++) {
+	for (int i = 0; i < map_width; i++) {
 		
 		// Store random depth
 		depths.push_back(static_cast<int>(r.random(7, 9)));
@@ -63,19 +63,19 @@ std::vector<int> TerrainGeneration::generate_dirt(int map_width, Random& r)
 	return depths;
 }
 
-std::vector<sf::Vector2f> TerrainGeneration::generate_caves(sf::Vector2f min, sf::Vector2f max, Random& r)
+std::vector<sf::Vector2i> TerrainGeneration::generate_caves(sf::Vector2i min, sf::Vector2i max, Random& r)
 {
-	std::vector<sf::Vector2f> caves;
-	sf::Vector2f cave_pos;
+	std::vector<sf::Vector2i> caves;
+	sf::Vector2i cave_pos;
 
-	int num_caves = (max.x - min.x) * (max.y - min.y) / 2000;
+	int num_caves = (int)((max.x - min.x) * (max.y - min.y) / 2000.0f);
 
 	// Loop for number of caves
 	for (int i = 0; i < num_caves; i++) {
 
 		// Randomise position
-		cave_pos.x = r.random(min.x + 10, max.x - 10);
-		cave_pos.y = r.random(min.y + 10, max.y - 10);
+		cave_pos.x = (int)r.random(min.x + 10, max.x - 10);
+		cave_pos.y = (int)r.random(min.y + 10, max.y - 10);
 
 		// Store positions
 		caves.push_back(cave_pos);
@@ -89,7 +89,7 @@ std::vector<int> TerrainGeneration::generate_trees(int map_width, Random& r)
 	std::vector<int> trees;
 
 	// Stops first tree from being on the edge
-	int tree_pos = r.random(5, 15);
+	int tree_pos = (int)r.random(5, 15);
 
 	// Randomise position
 	while (tree_pos < map_width - 5)
@@ -100,7 +100,7 @@ std::vector<int> TerrainGeneration::generate_trees(int map_width, Random& r)
 		}
 		
 		// Move along
-		tree_pos += r.random(10, 50);
+		tree_pos += (int)r.random(10, 50);
 	}
 
 	return trees;

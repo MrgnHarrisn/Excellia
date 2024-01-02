@@ -50,7 +50,7 @@ void Player::update(float dt)
 	}
 
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && m_can_jump) {
-		m_jump_timer = 0.3;
+		m_jump_timer = 0.3f;
 		m_can_jump = false;
     }
 
@@ -66,7 +66,7 @@ void Player::update(float dt)
 
     // Call collision
     sf::Vector2f pos = get_position();
-	sf::Vector2f temp_v = sf::Vector2f(velocity.x *= 0.0001, velocity.y *= 0.0001);
+	sf::Vector2f temp_v = sf::Vector2f(velocity.x *= 0.0001f, velocity.y *= 0.0001f);
 	
 	while (dt > 0.0001)
 	{
@@ -83,7 +83,7 @@ void Player::update(float dt)
 		pos.x += temp_pos.x;
 		pos.y += temp_pos.y;
 		set_position(pos);
-		dt -= 0.0001;
+		dt -= 0.0001f;
 	}
 
 	velocity.x *= dt;
@@ -105,43 +105,43 @@ sf::Sprite Player::get_sprite()
 
 sf::Vector2f Player::can_move_pos(sf::Vector2f &position, sf::Vector2f velocity)
 {
-	const float e = 0.01;
+	const float e = 0.01f;
 
 	/* For X */
 	if (velocity.x < 0) {
-		if (!BlockManager::can_move_through((Block)m_wm.get_block((sf::Vector2i)((get_position() - sf::Vector2f(0, 0.01)) + sf::Vector2f(velocity.x, 0))))) {
+		if (!BlockManager::can_move_through((Block)m_wm.get_block((sf::Vector2i)((get_position() - sf::Vector2f(0, 0.01f)) + sf::Vector2f(velocity.x, 0))))) {
 			velocity.x = 0;
-			position.x = static_cast<int>(position.x + 0.5-e);
+			position.x = std::floor(position.x + 0.5f - e);
 		}
 		else if (!BlockManager::can_move_through((Block)m_wm.get_block((sf::Vector2i)((get_position() - sf::Vector2f(0, 1)) + sf::Vector2f(velocity.x, 0))))) {
 			velocity.x = 0;
-			position.x = static_cast<int>(position.x + 0.5-e);
+			position.x = std::floor(position.x + 0.5f-e);
 		}
 		else if (!BlockManager::can_move_through((Block)m_wm.get_block((sf::Vector2i)((get_position() - sf::Vector2f(0, 2)) + sf::Vector2f(velocity.x, 0))))) {
 			velocity.x = 0;
-			position.x = static_cast<int>(position.x + 0.5-e);
+			position.x = std::floor(position.x + 0.5f-e);
 		}
 		else if (!BlockManager::can_move_through((Block)m_wm.get_block((sf::Vector2i)((get_position() - sf::Vector2f(0, 3-e)) + sf::Vector2f(velocity.x, 0))))) {
 			velocity.x = 0;
-			position.x = static_cast<int>(position.x + 0.5-e);
+			position.x = std::floor(position.x + 0.5f-e);
 		}
 	}
 	else if (velocity.x > 0) {
-		if (!BlockManager::can_move_through((Block)m_wm.get_block((sf::Vector2i)((get_position() - sf::Vector2f(-1, 0.01)) + sf::Vector2f(velocity.x, 0))))) {
+		if (!BlockManager::can_move_through((Block)m_wm.get_block((sf::Vector2i)((get_position() - sf::Vector2f(-1, 0.01f)) + sf::Vector2f(velocity.x, 0))))) {
 			velocity.x = 0;
-			position.x = static_cast<int>(position.x + 0.5-e);
+			position.x = std::floor(position.x + 0.5f-e);
 		}
 		else if (!BlockManager::can_move_through((Block)m_wm.get_block((sf::Vector2i)((get_position() - sf::Vector2f(-1, 1)) + sf::Vector2f(velocity.x, 0))))) {
 			velocity.x = 0;
-			position.x = static_cast<int>(position.x + 0.5-e);
+			position.x = std::floor(position.x + 0.5f-e);
 		}
 		else if (!BlockManager::can_move_through((Block)m_wm.get_block((sf::Vector2i)((get_position() - sf::Vector2f(-1, 2)) + sf::Vector2f(velocity.x, 0))))) {
 			velocity.x = 0;
-			position.x = static_cast<int>(position.x + 0.5-e);
+			position.x = std::floor(position.x + 0.5f-e);
 		}
 		else if (!BlockManager::can_move_through((Block)m_wm.get_block((sf::Vector2i)((get_position() - sf::Vector2f(-1, 3-e)) + sf::Vector2f(velocity.x, 0))))) {
 			velocity.x = 0;
-			position.x = static_cast<int>(position.x + 0.5-e);
+			position.x = std::floor(position.x + 0.5f-e);
 		}
 	}
 
@@ -150,38 +150,38 @@ sf::Vector2f Player::can_move_pos(sf::Vector2f &position, sf::Vector2f velocity)
 	{
 		if (!BlockManager::can_move_through((Block)m_wm.get_block((sf::Vector2i)(get_position() - sf::Vector2f(0-e, 0) + sf::Vector2f(0, velocity.y))))) {
 			velocity.y = 0;
-			position.y = static_cast<int>(position.y + 0.5-e) - e;
+			position.y = std::floor(position.y + 0.5f-e) - e;
 		}
 		else if (!BlockManager::can_move_through((Block)m_wm.get_block((sf::Vector2i)(get_position() - sf::Vector2f(e-1, 0) + sf::Vector2f(0, velocity.y))))) {
 			velocity.y = 0;
-			position.y = static_cast<int>(position.y + 0.5-e) - e;
+			position.y = std::floor(position.y + 0.5f-e) - e;
 		}
 		else if (!BlockManager::can_move_through((Block)m_wm.get_block((sf::Vector2i)(get_position() - sf::Vector2f(0-e, 3-e) + sf::Vector2f(0, velocity.y))))) {
 			velocity.y = 0;
-			position.y = static_cast<int>(position.y + 0.5-e) - e;
+			position.y = std::floor(position.y + 0.5f-e) - e;
 		}
 		else if (!BlockManager::can_move_through((Block)m_wm.get_block((sf::Vector2i)(get_position() - sf::Vector2f(e-1, 3-e) + sf::Vector2f(0, velocity.y))))) {
 			velocity.y = 0;
-			position.y = static_cast<int>(position.y + 0.5-e) - e;
+			position.y = std::floor(position.y + 0.5f-e) - e;
 		}
 	}
 	else if (velocity.y < 0)
 	{
 		if (!BlockManager::can_move_through((Block)m_wm.get_block((sf::Vector2i)(get_position() - sf::Vector2f(0-e, e) + sf::Vector2f(0, velocity.y))))) {
 			velocity.y = 0;
-			position.y = static_cast<int>(position.y + 0.5-e);
+			position.y = std::floor(position.y + 0.5f-e);
 		}
 		else if (!BlockManager::can_move_through((Block)m_wm.get_block((sf::Vector2i)(get_position() - sf::Vector2f(e-1, e) + sf::Vector2f(0, velocity.y))))) {
 			velocity.y = 0;
-			position.y = static_cast<int>(position.y + 0.5-e);
+			position.y = std::floor(position.y + 0.5f-e);
 		}
 		else if (!BlockManager::can_move_through((Block)m_wm.get_block((sf::Vector2i)(get_position() - sf::Vector2f(0-e, 3-e) + sf::Vector2f(0, velocity.y))))) {
 			velocity.y = 0;
-			position.y = static_cast<int>(position.y + 0.5-e);
+			position.y = std::floor(position.y + 0.5f-e);
 		}
 		else if (!BlockManager::can_move_through((Block)m_wm.get_block((sf::Vector2i)(get_position() - sf::Vector2f(e-1, 3-e) + sf::Vector2f(0, velocity.y))))) {
 			velocity.y = 0;
-			position.y = static_cast<int>(position.y + 0.5-e);
+			position.y = std::floor(position.y + 0.5f-e);
 		}
 	}
 

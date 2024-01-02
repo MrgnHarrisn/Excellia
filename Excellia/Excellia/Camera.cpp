@@ -25,7 +25,7 @@ void Camera::zoom_out()
 	if (m_zoom < 5)
 	{
 		m_zoom++;
-		m_view.zoom(1.2);
+		m_view.zoom(1.2f);
 	}
 }
 
@@ -34,7 +34,7 @@ void Camera::zoom_in()
 	if (m_zoom > -5)
 	{
 		m_zoom--;
-		m_view.zoom(1 / 1.2);
+		m_view.zoom(1.0f / 1.2f);
 	}
 }
 

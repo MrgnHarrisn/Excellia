@@ -45,7 +45,7 @@ public:
 	/// <param name="max">Maximum position of the cave</param>
 	/// <param name="r">instance of Random to use</param>
 	/// <returns>A set of caves</returns>
-	static std::vector<sf::Vector2f> generate_caves(sf::Vector2f min, sf::Vector2f max, Random& r);
+	static std::vector<sf::Vector2i> generate_caves(sf::Vector2i min, sf::Vector2i max, Random& r);
 
 	/// <summary>
 	/// Generates trees at a random position
