@@ -151,8 +151,6 @@ void WorldManager::break_block(sf::Vector2i mouse_pos)
 
 			// Update Image
 			m_image.setPixel(block.x, block.y, BlockManager::hex_to_color(Block::Void));
-			m_texture.loadFromImage(m_image);
-			m_sprite.setTexture(m_texture);
 		}
 	}
 }
@@ -169,8 +167,6 @@ void WorldManager::place_block(Block material, sf::Vector2i mouse_pos)
 
 			// Update Image
 			m_image.setPixel(block.x, block.y, BlockManager::hex_to_color(material));
-			m_texture.loadFromImage(m_image);
-			m_sprite.setTexture(m_texture);
 		}
 	}
 }
