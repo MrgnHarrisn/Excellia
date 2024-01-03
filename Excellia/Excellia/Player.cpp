@@ -64,7 +64,7 @@ void Player::update(float dt)
 	}
 
     // apply gravity
-	m_velocity.y += gravity * dt;
+	m_velocity.y += gravity;
 
     // Call collision
     sf::Vector2f pos = get_position();
@@ -72,7 +72,7 @@ void Player::update(float dt)
 	
 	
 
-	m_velocity.x *= dt;
+	m_velocity *= dt;
 
 	pos += can_move_pos(pos, m_velocity);
 	set_position(pos);
@@ -91,7 +91,7 @@ sf::Sprite Player::get_sprite()
 void Player::jump()
 {
 	/* Downward is positive, upwards is negative */
-	m_velocity.y = -m_jump_force * 100;
+	m_velocity.y -= m_jump_force * 100;
 	m_jump_timer = 0.5;
 	m_can_jump = false;
 }
