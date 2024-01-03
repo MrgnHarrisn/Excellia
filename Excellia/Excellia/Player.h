@@ -49,14 +49,18 @@ public:
 
 private:
 
+	void jump();
+
 	sf::RectangleShape m_shape;
 	float m_move_speed = 15;
 	float m_sprint_speed = 25;
 	float m_speed = m_move_speed;
+	float m_jump_force = 40;
 	sf::Texture m_texture;
 	sf::Sprite m_sprite;
 	WorldManager& m_wm;
-
+	float gravity = 40;
 	bool m_can_jump = true;
-	float m_jump_timer;
+	float m_jump_timer = 0.0f;
+	sf::Vector2f m_velocity;
 };

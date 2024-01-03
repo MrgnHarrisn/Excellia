@@ -19,11 +19,13 @@ Player::Player(sf::Vector2f position, WorldManager& wm) : m_wm(wm)
     
     // Store shape
 	m_shape = shape;
+	m_velocity.x = 0;
+	m_velocity.y = 0;
 }
 
 void Player::update(float dt)
 {
-	sf::Vector2f velocity(0, 0);
+	// sf::Vector2f velocity(0, 0);
 
 	// Check Sprinting
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift)) {
@@ -34,62 +36,45 @@ void Player::update(float dt)
 
 	// Check Movement
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
-		velocity.x += m_speed;
+		m_velocity.x += m_speed;
 	}
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
-		velocity.x -= m_speed;
+		m_velocity.x -= m_speed;
 	}
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
-		velocity.y -= m_speed;
+		m_velocity.y -= m_speed;
 	}
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
-		velocity.y += m_speed;
+		m_velocity.y += m_speed;
 	}
 
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && m_can_jump) {
-		m_jump_timer = 0.3f;
-		m_can_jump = false;
-    }
-
-	// Jumping
-	if (m_jump_timer > 0)
-	{
-		m_jump_timer -= dt;
-		velocity.y -= m_speed + 30;
+		jump();
 	}
 
-    // Temp gravity
-    velocity.y += 30;
+	// Jumping
+	if (m_jump_timer > 0) {
+		m_jump_timer -= dt;
+	} else {
+		m_can_jump = true;
+		m_jump_timer = 0.f;
+	}
+
+    // apply gravity
+	m_velocity.y += gravity * dt;
 
     // Call collision
     sf::Vector2f pos = get_position();
-	sf::Vector2f temp_v = sf::Vector2f(velocity.x *= 0.0001f, velocity.y *= 0.0001f);
+	// sf::Vector2f temp_v = sf::Vector2f(m_velocity.x *= 0.0001f, m_velocity.y *= 0.0001f);
 	
-	while (dt > 0.0001)
-	{
-		sf::Vector2f temp_pos = can_move_pos(pos, temp_v);
-		if (temp_pos.y == 0 && velocity.y > 0)
-		{
-			m_can_jump = true;
-		}
-		else if (temp_pos == sf::Vector2f(0, 0))
-		{
-			break;
-		}
+	
 
-		pos.x += temp_pos.x;
-		pos.y += temp_pos.y;
-		set_position(pos);
-		dt -= 0.0001f;
-	}
+	m_velocity.x *= dt;
 
-	velocity.x *= dt;
-	velocity.y *= dt;
-
-	pos += can_move_pos(pos, velocity);
+	pos += can_move_pos(pos, m_velocity);
 	set_position(pos);
 
     // Update shape position
@@ -101,6 +86,14 @@ sf::Sprite Player::get_sprite()
     m_sprite.setTexture(m_texture);
     m_sprite.setPosition(get_position());
     return m_sprite;
+}
+
+void Player::jump()
+{
+	/* Downward is positive, upwards is negative */
+	m_velocity.y = -m_jump_force * 100;
+	m_jump_timer = 0.5;
+	m_can_jump = false;
 }
 
 sf::Vector2f Player::can_move_pos(sf::Vector2f &position, sf::Vector2f velocity)

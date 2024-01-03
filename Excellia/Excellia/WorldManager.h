@@ -98,8 +98,8 @@ private:
 	std::vector<int> m_trees;
 	std::vector<sf::Vector2i> m_caves;
 	sf::Image m_image;
-	sf::Texture m_texture;
-	sf::Sprite m_sprite;
+	/*sf::Texture m_texture;
+	sf::Sprite m_sprite;*/
 	sf::RenderWindow& m_window;
 
 	sf::Texture m_perspective_tex;

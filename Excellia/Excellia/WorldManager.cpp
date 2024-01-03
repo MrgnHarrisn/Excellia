@@ -108,15 +108,14 @@ void WorldManager::create()
 	}
 
 	// Store Map
-	m_texture.loadFromImage(m_image);
-	m_sprite.setTexture(m_texture);
+	/*m_texture.loadFromImage(m_image);
+	m_sprite.setTexture(m_texture);*/
 
 }
 
 sf::Sprite WorldManager::get_render()
 {
-	return m_sprite;
-	// return get_view_sprite();
+	return get_view_sprite();
 }
 
 int WorldManager::place_player(int x)
@@ -183,10 +182,16 @@ void WorldManager::force_place_block(Block material, sf::Vector2i pos)
 
 sf::Sprite WorldManager::get_view_sprite() {
 
-	// Find screen location
-	sf::Vector2i half_size((unsigned int)m_window.getView().getSize().x / 2, (unsigned int)m_window.getView().getSize().y / 2);
-	sf::Vector2i top_left = (sf::Vector2i)(m_window.getView().getCenter()) - half_size - sf::Vector2i(1, 1);
 
+	/*
+	The size of the actual view is being changed but we aren't
+	*/
+
+	// Find screen location
+	sf::Vector2f view_size = m_window.getView().getSize();
+	sf::Vector2i half_size(view_size.x / 2, view_size.y / 2);
+	sf::Vector2i top_left = (sf::Vector2i)(m_window.getView().getCenter()) - half_size - sf::Vector2i(1, 1);
+	
 	// Make image
 	sf::Image temp;
 	temp.create((unsigned int)m_window.getView().getSize().x + 7, (unsigned int)m_window.getView().getSize().y + 3);
@@ -197,6 +202,7 @@ sf::Sprite WorldManager::get_view_sprite() {
 
 	// Loop over image
 	int i_x = 0;
+	// printf("Loop Max: %i, %i\n", loop_max_x - top_left.x, loop_max_y - top_left.y);
 	for (int x = (int)(top_left.x); x < loop_max_x; x++) {
 		int i_y = 0;
 		for (int y = (int)(top_left.y); y < loop_max_y; y++) {
@@ -214,7 +220,7 @@ sf::Sprite WorldManager::get_view_sprite() {
 	// Load and draw sprite
 	m_perspective_tex.loadFromImage(temp);
 	m_perspective_sprite.setTexture(m_perspective_tex);
-	m_perspective_sprite.setPosition((sf::Vector2f)top_left);
+	m_perspective_sprite.setPosition((sf::Vector2f)(top_left));
 	// m_window.draw(sprite);
 
 	return m_perspective_sprite;
