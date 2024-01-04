@@ -24,7 +24,12 @@ int main()
 	// Delta Time
 	sf::Clock clock;
 	float dt = 0;
-
+	float end_of_day_time = 300;	/* 300 seconds is 5 minutes */
+	float current_time = 0;
+	sf::Color night_color(0, 0, 40); // Dark blue for night sky
+	sf::Color day_color(135, 206, 235); // Light blue for daylight sky
+	sf::Color current_color = night_color;
+	bool is_transitioning = true;
 	// Creates window
 	sf::RenderWindow window(sf::VideoMode(settings.get_screen_size().x, settings.get_screen_size().y), "Pixellia", sf::Style::None);
 	// window.setFramerateLimit(30);
@@ -124,6 +129,8 @@ int main()
 			wm.break_block(sf::Mouse::getPosition(window));
 		}
 
+		
+
 		// Place blocks
 		if (is_placing_block) {
 			wm.place_block(current_block, sf::Mouse::getPosition(window));
@@ -147,8 +154,31 @@ int main()
 		cam.update(dt);
 		window.setView(cam.get_view());
 
+		/* Sky color stuff */
+		current_time += dt;
+		
+		float transition_percentage = current_time / end_of_day_time;
+		if (transition_percentage > 1.0f) {
+			transition_percentage = 1.0f;
+		}
+
+		if (current_time <= end_of_day_time / 2) {
+			current_color.r = static_cast<sf::Uint8>((1.0f - transition_percentage) * night_color.r + transition_percentage * day_color.r);
+			current_color.g = static_cast<sf::Uint8>((1.0f - transition_percentage) * night_color.g + transition_percentage * day_color.g);
+			current_color.b = static_cast<sf::Uint8>((1.0f - transition_percentage) * night_color.b + transition_percentage * day_color.b);
+		}
+		else {
+			current_color.r = static_cast<sf::Uint8>((1.0f - transition_percentage) * day_color.r + transition_percentage * night_color.r);
+			current_color.g = static_cast<sf::Uint8>((1.0f - transition_percentage) * day_color.g + transition_percentage * night_color.g);
+			current_color.b = static_cast<sf::Uint8>((1.0f - transition_percentage) * day_color.b + transition_percentage * night_color.b);
+		}
+
+		if (current_time >= end_of_day_time) {
+			current_time = 0.0f;
+		}
+
 		// Clear and draw
-		window.clear();
+		window.clear(current_color);
 		wm.get_view_sprite();
 		// window.draw(wm.get_render());
 		window.draw(p.render_shape());
