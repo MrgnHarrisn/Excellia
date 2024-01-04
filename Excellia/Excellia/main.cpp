@@ -27,7 +27,7 @@ int main()
 
 	// Creates window
 	sf::RenderWindow window(sf::VideoMode(settings.get_screen_size().x, settings.get_screen_size().y), "Pixellia", sf::Style::None);
-	// window.setFramerateLimit(10);
+	// window.setFramerateLimit(30);
 
 	/* 573849 test seed */
 	/* 42069 is a good seed */
@@ -149,7 +149,7 @@ int main()
 
 		// Clear and draw
 		window.clear();
-		window.draw(wm.get_view_sprite());
+		wm.get_view_sprite();
 		// window.draw(wm.get_render());
 		window.draw(p.render_shape());
 		window.draw(cursor);

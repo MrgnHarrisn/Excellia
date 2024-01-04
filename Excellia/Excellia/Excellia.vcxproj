@@ -130,11 +130,11 @@
     <ClCompile Include="Actor.cpp" />
     <ClCompile Include="BlockManager.cpp" />
     <ClCompile Include="Camera.cpp" />
-    <ClCompile Include="Collision.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Random.cpp" />
     <ClCompile Include="TerrainGeneration.cpp" />
+    <ClCompile Include="TextureManager.cpp" />
     <ClCompile Include="Utils.cpp" />
     <ClCompile Include="WorldManager.cpp" />
   </ItemGroup>
@@ -143,13 +143,13 @@
     <ClInclude Include="Block.h" />
     <ClInclude Include="BlockManager.h" />
     <ClInclude Include="Camera.h" />
-    <ClInclude Include="Collision.hpp" />
     <ClInclude Include="Physics.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Random.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="Settings.h" />
     <ClInclude Include="TerrainGeneration.h" />
+    <ClInclude Include="TextureManager.h" />
     <ClInclude Include="Utils.h" />
     <ClInclude Include="WorldManager.h" />
   </ItemGroup>

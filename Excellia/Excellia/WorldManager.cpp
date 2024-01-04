@@ -2,6 +2,20 @@
 
 WorldManager::WorldManager(sf::RenderWindow& window, sf::Vector2u size, long int seed) : m_window(window)
 {
+
+	m_texture_manager.set_path("textures/");
+
+	/* Load textures */
+	m_texture_manager.load_texture("Dirt", "Dirt.png");
+	m_texture_manager.load_texture("Diamond", "Diamond.png");
+	m_texture_manager.load_texture("Grass", "Grass.png");
+	m_texture_manager.load_texture("Stone", "Stone.png");
+	m_texture_manager.load_texture("Lava", "Lava.png");
+	m_texture_manager.load_texture("Wood", "Wood.png");
+	m_texture_manager.load_texture("Water", "Water.png");
+
+	m_texture_manager.display_items();
+
 	if (size.x != 0 && size.y != 0)
 	{
 		m_width = size.x;
@@ -115,7 +129,7 @@ void WorldManager::create()
 
 sf::Sprite WorldManager::get_render()
 {
-	return get_view_sprite();
+	// return get_view_sprite();
 }
 
 int WorldManager::place_player(int x)
@@ -180,7 +194,53 @@ void WorldManager::force_place_block(Block material, sf::Vector2i pos)
 	}
 }
 
-sf::Sprite WorldManager::get_view_sprite() {
+//sf::Sprite WorldManager::get_view_sprite() {
+//
+//
+//	/*
+//	The size of the actual view is being changed but we aren't
+//	*/
+//
+//	// Find screen location
+//	sf::Vector2f view_size = m_window.getView().getSize();
+//	sf::Vector2i half_size(view_size.x / 2, view_size.y / 2);
+//	sf::Vector2i top_left = (sf::Vector2i)(m_window.getView().getCenter()) - half_size - sf::Vector2i(1, 1);
+//
+//	// Make image
+//	sf::Image temp;
+//	temp.create((unsigned int)m_window.getView().getSize().x + 7, (unsigned int)m_window.getView().getSize().y + 3);
+//
+//	// Get pixels in view of texture
+//	int loop_max_x = (int)(top_left.x + half_size.x * 2) + 3;
+//	int loop_max_y = (int)(top_left.y + half_size.y * 2) + 3;
+//
+//	// Loop over image
+//	int i_x = 0;
+//	// printf("Loop Max: %i, %i\n", loop_max_x - top_left.x, loop_max_y - top_left.y);
+//	for (int x = (int)(top_left.x); x < loop_max_x; x++) {
+//		int i_y = 0;
+//		for (int y = (int)(top_left.y); y < loop_max_y; y++) {
+//			if (x >= 0 && x < m_width && y >= 0 && y < m_height) {
+//				temp.setPixel(i_x, i_y, m_image.getPixel(x, y));
+//			}
+//			else {
+//				temp.setPixel(i_x, i_y, BlockManager::hex_to_color(Block::Void));
+//			}
+//			i_y++;
+//		}
+//		i_x++;
+//	}
+//
+//	// Load and draw sprite
+//	m_perspective_tex.loadFromImage(temp);
+//	m_perspective_sprite.setTexture(m_perspective_tex);
+//	m_perspective_sprite.setPosition((sf::Vector2f)(top_left));
+//	// m_window.draw(sprite);
+//
+//	return m_perspective_sprite;
+//}
+
+void WorldManager::get_view_sprite() {
 
 
 	/*
@@ -193,8 +253,8 @@ sf::Sprite WorldManager::get_view_sprite() {
 	sf::Vector2i top_left = (sf::Vector2i)(m_window.getView().getCenter()) - half_size - sf::Vector2i(1, 1);
 	
 	// Make image
-	sf::Image temp;
-	temp.create((unsigned int)m_window.getView().getSize().x + 7, (unsigned int)m_window.getView().getSize().y + 3);
+	/*sf::Image temp;
+	temp.create((unsigned int)m_window.getView().getSize().x + 7, (unsigned int)m_window.getView().getSize().y + 3);*/
 	
 	// Get pixels in view of texture
 	int loop_max_x = (int)(top_left.x + half_size.x * 2) + 3;
@@ -207,23 +267,27 @@ sf::Sprite WorldManager::get_view_sprite() {
 		int i_y = 0;
 		for (int y = (int)(top_left.y); y < loop_max_y; y++) {
 			if (x >= 0 && x < m_width && y >= 0 && y < m_height) {
-				temp.setPixel(i_x, i_y, m_image.getPixel(x, y));
-			}
-			else {
-				temp.setPixel(i_x, i_y, BlockManager::hex_to_color(Block::Void));
+				// temp.setPixel(i_x, i_y, m_image.getPixel(x, y));
+				Block block = (Block)get_block({ x, y });
+				if (block != Block::Void) {
+					sf::Vector2f current_pos;
+					current_pos.x = top_left.x + i_x;
+					current_pos.y = top_left.y + i_y;
+					sf::RectangleShape sprite;
+					sprite.setSize({ 1, 1 });
+					sprite.setTexture(m_texture_manager.get_by_type(block));
+					sprite.setPosition(current_pos);
+					m_window.draw(sprite);
+				}
 			}
 			i_y++;
 		}
 		i_x++;
 	}
 	
-	// Load and draw sprite
-	m_perspective_tex.loadFromImage(temp);
-	m_perspective_sprite.setTexture(m_perspective_tex);
-	m_perspective_sprite.setPosition((sf::Vector2f)(top_left));
-	// m_window.draw(sprite);
+	
 
-	return m_perspective_sprite;
+	// return m_perspective_sprite;
 }
 
 int WorldManager::find_highest_point()

@@ -23,6 +23,59 @@ bool BlockManager::can_move_through(Block b)
 	}
 }
 
+std::string BlockManager::block_name(Block b)
+{
+	switch (b)
+	{
+	case Block::Void:
+		return "Void";
+	case Block::Water:
+		return "Water";
+	case Block::Lava:
+		return "Lava";
+	case Block::Dirt:
+		return "Dirt";
+	case Block::Diamond:
+		return "Diamond";
+	case Block::Grass:
+		return "Grass";
+	case Block::Stone:
+		return "Stone";
+	case Block::Wood:
+		return "Wood";
+	default:
+		return "Unknown";
+	}
+}
+
+Block BlockManager::block_value(std::string& name)
+{
+	if (name == "Stone") {
+		return Block::Stone;
+	}
+	else if (name == "Dirt") {
+		return Block::Dirt;
+	}
+	else if (name == "Wood") {
+		return Block::Wood;
+	}
+	else if (name == "Diamond") {
+		return Block::Diamond;
+	}
+	else if (name == "Grass") {
+		return Block::Grass;
+	}
+	else if (name == "Water") {
+		return Block::Water;
+	}
+	else if (name == "Lava") {
+		return Block::Lava;
+	}
+	else {
+		return Block::Void;
+	}
+}
+
 Block BlockManager::color_to_block(sf::Color color)
 {
 	return static_cast<Block>(color_to_hex(color));

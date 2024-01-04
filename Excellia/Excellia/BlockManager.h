@@ -1,8 +1,8 @@
 #pragma once
 
 #include <SFML/Graphics/Color.hpp>
-
 #include "Block.h"
+#include <string>
 
 class BlockManager
 {
@@ -35,4 +35,9 @@ public:
 	/// <param name="b">Block to check</param>
 	/// <returns>Is it non solid?</returns>
 	static bool can_move_through(Block b);
+
+	static std::string block_name(Block b);
+
+	static Block block_value(std::string& name);
+
 };

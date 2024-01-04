@@ -5,11 +5,11 @@
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Graphics/Image.hpp>
 #include <SFML/Graphics/Color.hpp>
-
+#include <SFML/Graphics/RectangleShape.hpp>
 #include <SFML/System/Vector2.hpp>
 
 #include "TerrainGeneration.h"
-#include "Collision.hpp"
+#include "TextureManager.h"
 #include "BlockManager.h"
 #include "Random.h"
 
@@ -84,7 +84,7 @@ public:
 	/// Creates a sprite of the current view
 	/// </summary>
 	/// <returns>Sprite of the current view</returns>
-	sf::Sprite get_view_sprite();
+	void get_view_sprite();
 
 	int find_highest_point();
 
@@ -104,7 +104,7 @@ private:
 
 	sf::Texture m_perspective_tex;
 	sf::Sprite m_perspective_sprite;
-
+	TextureManager m_texture_manager;
 	int m_width = 800;
 	int m_height = 800;
 };
