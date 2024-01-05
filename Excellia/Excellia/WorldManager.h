@@ -48,7 +48,7 @@ public:
 	/// </summary>
 	/// <param name="block">The position we want to check</param>
 	/// <returns>the integer value of the block</returns>
-	unsigned int get_block(sf::Vector2i block);
+	Block get_block(sf::Vector2i block);
 
 	/// <summary>
 	/// Converts a screen position to a world position

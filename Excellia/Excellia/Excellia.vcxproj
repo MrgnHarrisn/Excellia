@@ -154,13 +154,20 @@
     <ClInclude Include="WorldManager.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="fragment_shader.frag" />
-    <None Include="Settings.conf" />
-    <None Include="vertex_shader.vert" />
+    <None Include="Config\Settings.conf" />
+    <None Include="Shaders\fragment_shader.frag" />
+    <None Include="Shaders\vertex_shader.vert" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="..\..\..\..\..\Downloads\Dirt.png" />
-    <Image Include="player.png" />
+    <Image Include="Textures\Diamond.png" />
+    <Image Include="Textures\Dirt.png" />
+    <Image Include="Textures\Grass.png" />
+    <Image Include="Textures\Lava.png" />
+    <Image Include="Textures\Leaf.png" />
+    <Image Include="Textures\Player.png" />
+    <Image Include="Textures\Stone.png" />
+    <Image Include="Textures\Water.png" />
+    <Image Include="Textures\Wood.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

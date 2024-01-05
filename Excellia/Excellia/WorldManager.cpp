@@ -3,7 +3,7 @@
 WorldManager::WorldManager(sf::RenderWindow& window, sf::Vector2u size, long int seed) : m_window(window)
 {
 
-	m_texture_manager.set_path("textures/");
+	m_texture_manager.set_path("Textures/");
 
 	/* Load textures */
 	m_texture_manager.load_texture("Dirt", "Dirt.png");
@@ -59,7 +59,7 @@ void WorldManager::create()
 	m_dirt_heights = TerrainGeneration::generate_dirt(m_width, m_random);
 
 	// Places Caves
-	sf::Vector2i min = sf::Vector2i(0, find_highest_point() * 1.3);
+	sf::Vector2i min = sf::Vector2i(0, (int)(find_highest_point() * 1.3));
 	sf::Vector2i max = sf::Vector2i(m_width, m_height);
 
 
@@ -68,7 +68,7 @@ void WorldManager::create()
 	m_trees = TerrainGeneration::generate_trees(m_width, m_random);
 
 	// Loop over columns
-	for (int i = 0; i < m_heights.size(); i++) {
+	for (size_t i = 0; i < m_heights.size(); i++) {
 
 		// Draw Stone
 		for (int j = m_heights[i] + m_dirt_heights[i]; j < m_height; j++) {
@@ -86,7 +86,7 @@ void WorldManager::create()
 	}
 
 	/* Generate caves with random walking */
-	for (int i = 0; i < m_caves.size(); i++) {
+	for (size_t i = 0; i < m_caves.size(); i++) {
 		sf::Vector2i position_a = (sf::Vector2i)m_caves[i];
 		int cave_size = (m_caves[i].y > m_height * 0.75 ? 400 : 200);
 		for (int j = 0; j < cave_size; j++) {
@@ -106,7 +106,7 @@ void WorldManager::create()
 	}
 
 	/* Generates trees */
-	for (int i = 0; i < m_trees.size(); i++)
+	for (size_t i = 0; i < m_trees.size(); i++)
 	{
 		sf::Vector2i pos;
 		pos.x = m_trees[i];
@@ -156,9 +156,9 @@ int WorldManager::place_player(int x)
 	return m_heights[x - 1] - 1; // -1 is to avoid collision problems
 }
 
-unsigned int WorldManager::get_block(sf::Vector2i pos)
+Block WorldManager::get_block(sf::Vector2i pos)
 {
-	return BlockManager::color_to_hex(m_image.getPixel(pos.x, pos.y));
+	return BlockManager::color_to_block(m_image.getPixel(pos.x, pos.y));
 }
 
 sf::Vector2f WorldManager::screen_pos_to_world_pos(sf::Vector2i mouse_pos)
@@ -176,7 +176,7 @@ void WorldManager::break_block(sf::Vector2i mouse_pos)
 	sf::Vector2u block = (sf::Vector2u)screen_pos_to_world_pos(mouse_pos);
 
 	// Check world bounds
-	if (block.x >= 0 && block.x <= m_width && block.y >= 0 && block.y < m_height) {
+	if (block.x >= 0u && block.x <= (unsigned int)m_width && block.y >= 0u && block.y < (unsigned int)m_height) {
 
 		// Check theres block to break
 		if (BlockManager::color_to_hex(m_image.getPixel(block.x, block.y)) != Block::Void) {
@@ -192,7 +192,7 @@ void WorldManager::place_block(Block material, sf::Vector2i mouse_pos)
 	sf::Vector2u block = (sf::Vector2u)screen_pos_to_world_pos(mouse_pos);
 
 	// Check world bounds
-	if (block.x >= 0 && block.x <= m_width && block.y >= 0 && block.y < m_height) {
+	if (block.x >= 0 && block.x <= (unsigned int)m_width && block.y >= 0 && block.y < (unsigned int)m_height) {
 
 		// Check there is nothing there
 		if (BlockManager::color_to_hex(m_image.getPixel(block.x, block.y)) == Block::Void) {
@@ -267,7 +267,7 @@ void WorldManager::get_view_sprite() {
 	*/
 
 	// Find screen location
-	sf::Vector2f view_size = m_window.getView().getSize();
+	sf::Vector2i view_size = (sf::Vector2i)m_window.getView().getSize();
 	sf::Vector2i half_size(view_size.x / 2, view_size.y / 2);
 	sf::Vector2i top_left = (sf::Vector2i)(m_window.getView().getCenter()) - half_size - sf::Vector2i(1, 1);
 	
@@ -276,18 +276,18 @@ void WorldManager::get_view_sprite() {
 	temp.create((unsigned int)m_window.getView().getSize().x + 7, (unsigned int)m_window.getView().getSize().y + 3);*/
 	
 	// Get pixels in view of texture
-	int loop_max_x = (int)(top_left.x + half_size.x * 2) + 3;
-	int loop_max_y = (int)(top_left.y + half_size.y * 2) + 3;
+	int loop_max_x = (top_left.x + half_size.x * 2) + 3;
+	int loop_max_y = (top_left.y + half_size.y * 2) + 3;
 	sf::RectangleShape* sprite = nullptr;
 	// Loop over image
 	int i_x = 0;
 	// printf("Loop Max: %i, %i\n", loop_max_x - top_left.x, loop_max_y - top_left.y);
-	for (int x = (int)(top_left.x); x < loop_max_x; x++) {
+	for (int x = top_left.x; x < loop_max_x; x++) {
 		int i_y = 0;
-		for (int y = (int)(top_left.y); y < loop_max_y; y++) {
+		for (int y = top_left.y; y < loop_max_y; y++) {
 			if (x >= 0 && x < m_width && y >= 0 && y < m_height) {
 				// temp.setPixel(i_x, i_y, m_image.getPixel(x, y));
-				Block block = (Block)get_block({ x, y });
+				Block block = get_block({ x, y });
 				if (block != Block::Void) {
 
 					switch (block)
@@ -320,11 +320,11 @@ void WorldManager::get_view_sprite() {
 						break;
 					}
 
-					sf::Vector2f current_pos;
+					sf::Vector2i current_pos;
 					current_pos.x = top_left.x + i_x;
 					current_pos.y = top_left.y + i_y;
 					
-					sprite->setPosition(current_pos);
+					sprite->setPosition((sf::Vector2f)current_pos);
 					m_window.draw(*sprite);
 				}
 			}
@@ -341,7 +341,7 @@ void WorldManager::get_view_sprite() {
 int WorldManager::find_highest_point()
 {
 	int lowest = m_height;
-	for (int i = 0; i < m_heights.size(); i++) {
+	for (size_t i = 0; i < m_heights.size(); i++) {
 		if (m_heights[i] < lowest) {
 			lowest = m_heights[i];
 		}

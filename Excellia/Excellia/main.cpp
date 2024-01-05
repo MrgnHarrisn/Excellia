@@ -12,7 +12,7 @@ int main()
 {
 
 	sf::Shader shader;
-	if (!shader.loadFromFile("vertex_shader.vert", "fragment_shader.frag")) {
+	if (!shader.loadFromFile("Shaders/vertex_shader.vert", "Shaders/fragment_shader.frag")) {
 		printf("Something went wrong!");
 		return -1;
 	}
@@ -46,9 +46,7 @@ int main()
 	Player p(position, wm);
 	
 	// Create camera attached to player
-	Camera cam(position, sf::Vector2u{1080 * settings.get_screen_size().x / settings.get_screen_size().y, 1080}, p, 10);
-	cam.zoom_in();
-	cam.zoom_in();
+	Camera cam(position, sf::Vector2u{1080 * settings.get_screen_size().x / settings.get_screen_size().y, 1080}, p, 20);
 
 	// Set build/destroy defaults
 	bool is_block_placed = false;
@@ -93,7 +91,7 @@ int main()
 				}
 				else if (event.mouseButton.button == sf::Mouse::Middle)
 				{
-					Block temp_block = static_cast<Block>(wm.get_block(static_cast<sf::Vector2i>(wm.screen_pos_to_world_pos(sf::Mouse::getPosition(window)))));
+					Block temp_block = wm.get_block(static_cast<sf::Vector2i>(wm.screen_pos_to_world_pos(sf::Mouse::getPosition(window))));
 					if (temp_block != Block::Void) current_block = temp_block;
 				}
 			}
@@ -121,6 +119,10 @@ int main()
 				 current_block = Block::Lava;
 			 } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num6)) {
 				 current_block = Block::Diamond;
+			 } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num7)) {
+				 current_block = Block::Grass;
+			 } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num8)) {
+				 current_block = Block::Leaf;
 			 }
 		}
 
