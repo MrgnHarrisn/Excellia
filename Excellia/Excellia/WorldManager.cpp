@@ -259,7 +259,7 @@ void WorldManager::get_view_sprite() {
 	// Get pixels in view of texture
 	int loop_max_x = (int)(top_left.x + half_size.x * 2) + 3;
 	int loop_max_y = (int)(top_left.y + half_size.y * 2) + 3;
-
+	sf::RectangleShape sprite;
 	// Loop over image
 	int i_x = 0;
 	// printf("Loop Max: %i, %i\n", loop_max_x - top_left.x, loop_max_y - top_left.y);
@@ -273,7 +273,7 @@ void WorldManager::get_view_sprite() {
 					sf::Vector2f current_pos;
 					current_pos.x = top_left.x + i_x;
 					current_pos.y = top_left.y + i_y;
-					sf::RectangleShape sprite;
+					
 					sprite.setSize({ 1, 1 });
 					sprite.setTexture(m_texture_manager.get_by_type(block));
 					sprite.setPosition(current_pos);
