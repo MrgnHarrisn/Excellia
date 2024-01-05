@@ -43,6 +43,8 @@ std::string BlockManager::block_name(Block b)
 		return "Stone";
 	case Block::Wood:
 		return "Wood";
+	case Block::Leaf:
+		return "Leaf";
 	default:
 		return "Unknown";
 	}
@@ -70,6 +72,9 @@ Block BlockManager::block_value(std::string& name)
 	}
 	else if (name == "Lava") {
 		return Block::Lava;
+	}
+	else if (name == "Leaf") {
+		return Block::Leaf;
 	}
 	else {
 		return Block::Void;

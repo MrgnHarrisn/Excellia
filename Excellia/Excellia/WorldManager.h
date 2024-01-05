@@ -117,4 +117,5 @@ private:
 	sf::RectangleShape s_water;
 	sf::RectangleShape s_lava;
 	sf::RectangleShape s_void;
+	sf::RectangleShape s_leaf;
 };

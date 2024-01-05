@@ -13,6 +13,7 @@ WorldManager::WorldManager(sf::RenderWindow& window, sf::Vector2u size, long int
 	m_texture_manager.load_texture("Lava", "Lava.png");
 	m_texture_manager.load_texture("Wood", "Wood.png");
 	m_texture_manager.load_texture("Water", "Water.png");
+	m_texture_manager.load_texture("Leaf", "Leaf.png");
 
 	m_texture_manager.display_items();
 
@@ -31,6 +32,8 @@ WorldManager::WorldManager(sf::RenderWindow& window, sf::Vector2u size, long int
 	s_wood.setTexture(m_texture_manager.get_by_type(Block::Wood));
 	s_water.setSize({ 1,1 });
 	s_water.setTexture(m_texture_manager.get_by_type(Block::Water));
+	s_leaf.setSize({ 1,1 });
+	s_leaf.setTexture(m_texture_manager.get_by_type(Block::Leaf));
 
 	if (size.x != 0 && size.y != 0)
 	{
@@ -115,26 +118,26 @@ void WorldManager::create()
 			pos.y--;
 			force_place_block(Block::Wood, pos);
 		}
-		force_place_block(Block::Grass, sf::Vector2i(pos.x - 1, pos.y));
-		force_place_block(Block::Grass, sf::Vector2i(pos.x - 2, pos.y));
-		force_place_block(Block::Grass, sf::Vector2i(pos.x + 1, pos.y));
-		force_place_block(Block::Grass, sf::Vector2i(pos.x + 2, pos.y));
+		force_place_block(Block::Leaf, sf::Vector2i(pos.x - 1, pos.y));
+		force_place_block(Block::Leaf, sf::Vector2i(pos.x - 2, pos.y));
+		force_place_block(Block::Leaf, sf::Vector2i(pos.x + 1, pos.y));
+		force_place_block(Block::Leaf, sf::Vector2i(pos.x + 2, pos.y));
 		pos.y--;
-		force_place_block(Block::Grass, sf::Vector2i(pos.x, pos.y));
-		force_place_block(Block::Grass, sf::Vector2i(pos.x - 1, pos.y));
-		force_place_block(Block::Grass, sf::Vector2i(pos.x - 2, pos.y));
-		force_place_block(Block::Grass, sf::Vector2i(pos.x + 1, pos.y));
-		force_place_block(Block::Grass, sf::Vector2i(pos.x + 2, pos.y));
+		force_place_block(Block::Leaf, sf::Vector2i(pos.x, pos.y));
+		force_place_block(Block::Leaf, sf::Vector2i(pos.x - 1, pos.y));
+		force_place_block(Block::Leaf, sf::Vector2i(pos.x - 2, pos.y));
+		force_place_block(Block::Leaf, sf::Vector2i(pos.x + 1, pos.y));
+		force_place_block(Block::Leaf, sf::Vector2i(pos.x + 2, pos.y));
 		pos.y--;
-		force_place_block(Block::Grass, sf::Vector2i(pos.x, pos.y));
-		force_place_block(Block::Grass, sf::Vector2i(pos.x - 1, pos.y));
-		force_place_block(Block::Grass, sf::Vector2i(pos.x - 2, pos.y));
-		force_place_block(Block::Grass, sf::Vector2i(pos.x + 1, pos.y));
-		force_place_block(Block::Grass, sf::Vector2i(pos.x + 2, pos.y));
+		force_place_block(Block::Leaf, sf::Vector2i(pos.x, pos.y));
+		force_place_block(Block::Leaf, sf::Vector2i(pos.x - 1, pos.y));
+		force_place_block(Block::Leaf, sf::Vector2i(pos.x - 2, pos.y));
+		force_place_block(Block::Leaf, sf::Vector2i(pos.x + 1, pos.y));
+		force_place_block(Block::Leaf, sf::Vector2i(pos.x + 2, pos.y));
 		pos.y--;
-		force_place_block(Block::Grass, sf::Vector2i(pos.x, pos.y));
-		force_place_block(Block::Grass, sf::Vector2i(pos.x - 1, pos.y));
-		force_place_block(Block::Grass, sf::Vector2i(pos.x + 1, pos.y));
+		force_place_block(Block::Leaf, sf::Vector2i(pos.x, pos.y));
+		force_place_block(Block::Leaf, sf::Vector2i(pos.x - 1, pos.y));
+		force_place_block(Block::Leaf, sf::Vector2i(pos.x + 1, pos.y));
 	}
 
 	// Store Map
@@ -309,6 +312,9 @@ void WorldManager::get_view_sprite() {
 						break;
 					case Lava:
 						sprite = &s_lava;
+						break;
+					case Leaf:
+						sprite = &s_leaf;
 						break;
 					default:
 						break;
