@@ -107,4 +107,14 @@ private:
 	TextureManager m_texture_manager;
 	int m_width = 800;
 	int m_height = 800;
+
+	// Premade sprites
+	sf::RectangleShape s_stone;
+	sf::RectangleShape s_dirt;
+	sf::RectangleShape s_wood;
+	sf::RectangleShape s_diamond;
+	sf::RectangleShape s_grass;
+	sf::RectangleShape s_water;
+	sf::RectangleShape s_lava;
+	sf::RectangleShape s_void;
 };

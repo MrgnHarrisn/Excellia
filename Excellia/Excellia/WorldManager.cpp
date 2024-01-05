@@ -16,6 +16,22 @@ WorldManager::WorldManager(sf::RenderWindow& window, sf::Vector2u size, long int
 
 	m_texture_manager.display_items();
 
+	/* Create textures */
+	s_dirt.setSize({ 1,1 });
+	s_dirt.setTexture(m_texture_manager.get_by_type(Block::Dirt));
+	s_diamond.setSize({ 1,1 });
+	s_diamond.setTexture(m_texture_manager.get_by_type(Block::Diamond));
+	s_grass.setSize({ 1,1 });
+	s_grass.setTexture(m_texture_manager.get_by_type(Block::Grass));
+	s_stone.setSize({ 1,1 });
+	s_stone.setTexture(m_texture_manager.get_by_type(Block::Stone));
+	s_lava.setSize({ 1,1 });
+	s_lava.setTexture(m_texture_manager.get_by_type(Block::Lava));
+	s_wood.setSize({ 1,1 });
+	s_wood.setTexture(m_texture_manager.get_by_type(Block::Wood));
+	s_water.setSize({ 1,1 });
+	s_water.setTexture(m_texture_manager.get_by_type(Block::Water));
+
 	if (size.x != 0 && size.y != 0)
 	{
 		m_width = size.x;
@@ -129,7 +145,7 @@ void WorldManager::create()
 
 sf::Sprite WorldManager::get_render()
 {
-	// return get_view_sprite();
+	return m_perspective_sprite;
 }
 
 int WorldManager::place_player(int x)
@@ -259,7 +275,7 @@ void WorldManager::get_view_sprite() {
 	// Get pixels in view of texture
 	int loop_max_x = (int)(top_left.x + half_size.x * 2) + 3;
 	int loop_max_y = (int)(top_left.y + half_size.y * 2) + 3;
-	sf::RectangleShape sprite;
+	sf::RectangleShape* sprite = nullptr;
 	// Loop over image
 	int i_x = 0;
 	// printf("Loop Max: %i, %i\n", loop_max_x - top_left.x, loop_max_y - top_left.y);
@@ -270,14 +286,40 @@ void WorldManager::get_view_sprite() {
 				// temp.setPixel(i_x, i_y, m_image.getPixel(x, y));
 				Block block = (Block)get_block({ x, y });
 				if (block != Block::Void) {
+
+					switch (block)
+					{
+					case Stone:
+						sprite = &s_stone;
+						break;
+					case Dirt:
+						sprite = &s_dirt;
+						break;
+					case Wood:
+						sprite = &s_wood;
+						break;
+					case Diamond:
+						sprite = &s_diamond;
+						break;
+					case Grass:
+						sprite = &s_grass;
+						break;
+					case Water:
+						sprite = &s_water;
+						break;
+					case Lava:
+						sprite = &s_lava;
+						break;
+					default:
+						break;
+					}
+
 					sf::Vector2f current_pos;
 					current_pos.x = top_left.x + i_x;
 					current_pos.y = top_left.y + i_y;
 					
-					sprite.setSize({ 1, 1 });
-					sprite.setTexture(m_texture_manager.get_by_type(block));
-					sprite.setPosition(current_pos);
-					m_window.draw(sprite);
+					sprite->setPosition(current_pos);
+					m_window.draw(*sprite);
 				}
 			}
 			i_y++;
