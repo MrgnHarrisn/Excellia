@@ -7,7 +7,7 @@ Player::Player(sf::Vector2f position, WorldManager& wm) : m_wm(wm)
 
 	set_position(position);
 
-    m_texture.loadFromFile("Textures/player.png");
+    m_texture.loadFromFile("Textures/Frankly.png");
 
     // Create shape
 	shape.setSize(sf::Vector2f(1, 3));
@@ -40,6 +40,7 @@ void Player::update(float dt)
 	else {
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
 			m_velocity.x = m_speed;
+			// m_sprite.
 		}
 
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
@@ -170,6 +171,11 @@ sf::Vector2f Player::can_move_pos(sf::Vector2f &position, sf::Vector2f velocity)
 			velocity.y = 0;
 			position.y = std::floor(position.y + 0.5f-e) - e;
 		}
+		if (velocity.y == 0) {
+			m_can_jump = true;
+			m_velocity.y = 0;
+		}
+
 	}
 	else if (velocity.y < 0)
 	{
@@ -189,11 +195,12 @@ sf::Vector2f Player::can_move_pos(sf::Vector2f &position, sf::Vector2f velocity)
 			velocity.y = 0;
 			position.y = std::floor(position.y + 0.5f-e);
 		}
+		
+
 	}
-	if (velocity.y == 0) {
-		m_can_jump = true;
-		m_velocity.y = 0;
-	}
+
+	
+	
     return velocity;
 }
 
