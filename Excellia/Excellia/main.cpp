@@ -189,8 +189,8 @@ int main()
 		window.display();
 
 		// fps and ms
-		if (1 / dt > 1000) printf("fps: %.4f    ms: %.4f\n", 1 / dt, dt);
-		else printf("fps: %.4f     ms: %.4f\n", 1 / dt, dt);
+		/*if (1 / dt > 1000) printf("fps: %.4f    ms: %.4f\n", 1 / dt, dt);
+		else printf("fps: %.4f     ms: %.4f\n", 1 / dt, dt);*/
 	}
 
 	return 0;

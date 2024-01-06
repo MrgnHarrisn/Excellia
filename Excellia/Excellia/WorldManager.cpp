@@ -35,6 +35,10 @@ WorldManager::WorldManager(sf::RenderWindow& window, sf::Vector2u size, long int
 	s_leaf.setSize({ 1,1 });
 	s_leaf.setTexture(m_texture_manager.get_by_type(Block::Leaf));
 
+	/* Create Structures */
+	s_tree.Load_Image("Structures/Tree.png");
+	s_tree.Set_Origin(2, 8);
+
 	if (size.x != 0 && size.y != 0)
 	{
 		m_width = size.x;
@@ -109,35 +113,11 @@ void WorldManager::create()
 	for (size_t i = 0; i < m_trees.size(); i++)
 	{
 		sf::Vector2i pos;
+
 		pos.x = m_trees[i];
 		pos.y = m_heights[m_trees[i]] - 1;
-		force_place_block(Block::Wood, pos);
 
-		// Temp tree
-		for (int i = 0; i < 5; i++) {
-			pos.y--;
-			force_place_block(Block::Wood, pos);
-		}
-		force_place_block(Block::Leaf, sf::Vector2i(pos.x - 1, pos.y));
-		force_place_block(Block::Leaf, sf::Vector2i(pos.x - 2, pos.y));
-		force_place_block(Block::Leaf, sf::Vector2i(pos.x + 1, pos.y));
-		force_place_block(Block::Leaf, sf::Vector2i(pos.x + 2, pos.y));
-		pos.y--;
-		force_place_block(Block::Leaf, sf::Vector2i(pos.x, pos.y));
-		force_place_block(Block::Leaf, sf::Vector2i(pos.x - 1, pos.y));
-		force_place_block(Block::Leaf, sf::Vector2i(pos.x - 2, pos.y));
-		force_place_block(Block::Leaf, sf::Vector2i(pos.x + 1, pos.y));
-		force_place_block(Block::Leaf, sf::Vector2i(pos.x + 2, pos.y));
-		pos.y--;
-		force_place_block(Block::Leaf, sf::Vector2i(pos.x, pos.y));
-		force_place_block(Block::Leaf, sf::Vector2i(pos.x - 1, pos.y));
-		force_place_block(Block::Leaf, sf::Vector2i(pos.x - 2, pos.y));
-		force_place_block(Block::Leaf, sf::Vector2i(pos.x + 1, pos.y));
-		force_place_block(Block::Leaf, sf::Vector2i(pos.x + 2, pos.y));
-		pos.y--;
-		force_place_block(Block::Leaf, sf::Vector2i(pos.x, pos.y));
-		force_place_block(Block::Leaf, sf::Vector2i(pos.x - 1, pos.y));
-		force_place_block(Block::Leaf, sf::Vector2i(pos.x + 1, pos.y));
+		s_tree.Build(m_image, pos);
 	}
 
 	// Store Map

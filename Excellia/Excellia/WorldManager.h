@@ -11,6 +11,7 @@
 #include "TerrainGeneration.h"
 #include "TextureManager.h"
 #include "BlockManager.h"
+#include "Structure.h"
 #include "Random.h"
 
 /// <summary>
@@ -118,4 +119,7 @@ private:
 	sf::RectangleShape s_lava;
 	sf::RectangleShape s_void;
 	sf::RectangleShape s_leaf;
+
+	// Premade structures
+	Structure s_tree;
 };

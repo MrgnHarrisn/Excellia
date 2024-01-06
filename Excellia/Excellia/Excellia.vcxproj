@@ -133,6 +133,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Random.cpp" />
+    <ClCompile Include="Structure.cpp" />
     <ClCompile Include="TerrainGeneration.cpp" />
     <ClCompile Include="TextureManager.cpp" />
     <ClCompile Include="Utils.cpp" />
@@ -148,6 +149,7 @@
     <ClInclude Include="Random.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="Settings.h" />
+    <ClInclude Include="Structure.h" />
     <ClInclude Include="TerrainGeneration.h" />
     <ClInclude Include="TextureManager.h" />
     <ClInclude Include="Utils.h" />
@@ -159,6 +161,7 @@
     <None Include="Shaders\vertex_shader.vert" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="..\Release\Structures\Tree.png" />
     <Image Include="Textures\Diamond.png" />
     <Image Include="Textures\Dirt.png" />
     <Image Include="Textures\Grass.png" />

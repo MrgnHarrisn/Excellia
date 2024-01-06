@@ -13,11 +13,17 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Resource Files\Art">
-      <UniqueIdentifier>{90614a2b-91da-4a00-b464-e50f070df421}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Resource Files\Shaders">
       <UniqueIdentifier>{277aa37c-527b-44de-a770-8eca2074754d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Textures">
+      <UniqueIdentifier>{2af9b70a-264d-43a8-98c6-4a1aa17d2a4f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Config">
+      <UniqueIdentifier>{98faca50-3750-4de6-b06e-e5bd89ff9342}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Structures">
+      <UniqueIdentifier>{f294ef5d-8bc5-4583-81f8-88d7b2be06c3}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -49,6 +55,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="TextureManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Structure.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -92,23 +101,50 @@
     <ClInclude Include="TextureManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Structure.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="..\..\..\..\..\Downloads\Dirt.png">
-      <Filter>Resource Files\Art</Filter>
+    <Image Include="Textures\Diamond.png">
+      <Filter>Resource Files\Textures</Filter>
     </Image>
-    <Image Include="player.png">
-      <Filter>Resource Files\Art</Filter>
+    <Image Include="Textures\Dirt.png">
+      <Filter>Resource Files\Textures</Filter>
+    </Image>
+    <Image Include="Textures\Grass.png">
+      <Filter>Resource Files\Textures</Filter>
+    </Image>
+    <Image Include="Textures\Lava.png">
+      <Filter>Resource Files\Textures</Filter>
+    </Image>
+    <Image Include="Textures\Leaf.png">
+      <Filter>Resource Files\Textures</Filter>
+    </Image>
+    <Image Include="Textures\Player.png">
+      <Filter>Resource Files\Textures</Filter>
+    </Image>
+    <Image Include="Textures\Stone.png">
+      <Filter>Resource Files\Textures</Filter>
+    </Image>
+    <Image Include="Textures\Water.png">
+      <Filter>Resource Files\Textures</Filter>
+    </Image>
+    <Image Include="Textures\Wood.png">
+      <Filter>Resource Files\Textures</Filter>
+    </Image>
+    <Image Include="..\Release\Structures\Tree.png">
+      <Filter>Resource Files\Structures</Filter>
     </Image>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Settings.conf">
-      <Filter>Resource Files</Filter>
+    <None Include="Config\Settings.conf">
+      <Filter>Resource Files\Config</Filter>
     </None>
-    <None Include="vertex_shader.vert">
+    <None Include="Shaders\vertex_shader.vert">
       <Filter>Resource Files\Shaders</Filter>
     </None>
-    <None Include="fragment_shader.frag">
+    <None Include="Shaders\fragment_shader.frag">
       <Filter>Resource Files\Shaders</Filter>
     </None>
   </ItemGroup>
