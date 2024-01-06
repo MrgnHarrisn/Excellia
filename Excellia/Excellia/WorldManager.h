@@ -122,4 +122,5 @@ private:
 
 	// Premade structures
 	Structure s_tree;
+	Structure s_tree2;
 };

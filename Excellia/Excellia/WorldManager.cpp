@@ -38,6 +38,8 @@ WorldManager::WorldManager(sf::RenderWindow& window, sf::Vector2u size, long int
 	/* Create Structures */
 	s_tree.Load_Image("Structures/Tree.png");
 	s_tree.Set_Origin(2, 8);
+	s_tree2.Load_Image("Structures/Tree2.png");
+	s_tree2.Set_Origin(7, 14);
 
 	if (size.x != 0 && size.y != 0)
 	{
@@ -117,13 +119,12 @@ void WorldManager::create()
 		pos.x = m_trees[i];
 		pos.y = m_heights[m_trees[i]] - 1;
 
-		s_tree.Build(m_image, pos);
+		if (m_random.random(0, 5) >= 1) {
+			s_tree.Build(m_image, pos);
+		} else {
+			s_tree2.Build(m_image, pos);
+		}
 	}
-
-	// Store Map
-	/*m_texture.loadFromImage(m_image);
-	m_sprite.setTexture(m_texture);*/
-
 }
 
 sf::Sprite WorldManager::get_render()
@@ -193,52 +194,6 @@ void WorldManager::force_place_block(Block material, sf::Vector2i pos)
 	}
 }
 
-//sf::Sprite WorldManager::get_view_sprite() {
-//
-//
-//	/*
-//	The size of the actual view is being changed but we aren't
-//	*/
-//
-//	// Find screen location
-//	sf::Vector2f view_size = m_window.getView().getSize();
-//	sf::Vector2i half_size(view_size.x / 2, view_size.y / 2);
-//	sf::Vector2i top_left = (sf::Vector2i)(m_window.getView().getCenter()) - half_size - sf::Vector2i(1, 1);
-//
-//	// Make image
-//	sf::Image temp;
-//	temp.create((unsigned int)m_window.getView().getSize().x + 7, (unsigned int)m_window.getView().getSize().y + 3);
-//
-//	// Get pixels in view of texture
-//	int loop_max_x = (int)(top_left.x + half_size.x * 2) + 3;
-//	int loop_max_y = (int)(top_left.y + half_size.y * 2) + 3;
-//
-//	// Loop over image
-//	int i_x = 0;
-//	// printf("Loop Max: %i, %i\n", loop_max_x - top_left.x, loop_max_y - top_left.y);
-//	for (int x = (int)(top_left.x); x < loop_max_x; x++) {
-//		int i_y = 0;
-//		for (int y = (int)(top_left.y); y < loop_max_y; y++) {
-//			if (x >= 0 && x < m_width && y >= 0 && y < m_height) {
-//				temp.setPixel(i_x, i_y, m_image.getPixel(x, y));
-//			}
-//			else {
-//				temp.setPixel(i_x, i_y, BlockManager::hex_to_color(Block::Void));
-//			}
-//			i_y++;
-//		}
-//		i_x++;
-//	}
-//
-//	// Load and draw sprite
-//	m_perspective_tex.loadFromImage(temp);
-//	m_perspective_sprite.setTexture(m_perspective_tex);
-//	m_perspective_sprite.setPosition((sf::Vector2f)(top_left));
-//	// m_window.draw(sprite);
-//
-//	return m_perspective_sprite;
-//}
-
 void WorldManager::get_view_sprite() {
 
 
@@ -251,17 +206,13 @@ void WorldManager::get_view_sprite() {
 	sf::Vector2i half_size(view_size.x / 2, view_size.y / 2);
 	sf::Vector2i top_left = (sf::Vector2i)(m_window.getView().getCenter()) - half_size - sf::Vector2i(1, 1);
 	
-	// Make image
-	/*sf::Image temp;
-	temp.create((unsigned int)m_window.getView().getSize().x + 7, (unsigned int)m_window.getView().getSize().y + 3);*/
-	
 	// Get pixels in view of texture
 	int loop_max_x = (top_left.x + half_size.x * 2) + 3;
 	int loop_max_y = (top_left.y + half_size.y * 2) + 3;
 	sf::RectangleShape* sprite = nullptr;
+
 	// Loop over image
 	int i_x = 0;
-	// printf("Loop Max: %i, %i\n", loop_max_x - top_left.x, loop_max_y - top_left.y);
 	for (int x = top_left.x; x < loop_max_x; x++) {
 		int i_y = 0;
 		for (int y = top_left.y; y < loop_max_y; y++) {
@@ -312,10 +263,6 @@ void WorldManager::get_view_sprite() {
 		}
 		i_x++;
 	}
-	
-	
-
-	// return m_perspective_sprite;
 }
 
 int WorldManager::find_highest_point()

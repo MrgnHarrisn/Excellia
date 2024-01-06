@@ -162,6 +162,7 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="..\Release\Structures\Tree.png" />
+    <Image Include="Structures\Tree2.png" />
     <Image Include="Textures\Diamond.png" />
     <Image Include="Textures\Dirt.png" />
     <Image Include="Textures\Grass.png" />

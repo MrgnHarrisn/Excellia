@@ -136,6 +136,9 @@
     <Image Include="..\Release\Structures\Tree.png">
       <Filter>Resource Files\Structures</Filter>
     </Image>
+    <Image Include="Structures\Tree2.png">
+      <Filter>Resource Files\Structures</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <None Include="Config\Settings.conf">
