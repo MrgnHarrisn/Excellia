@@ -188,9 +188,10 @@ void WorldManager::get_view_sprite()
 	sf::Image* image = nullptr;
 
 	sf::Image _image;
+	sf::Sprite _sprite;
 	_image.create((loop_max_x - top_left.x) * 8, (loop_max_y - top_left.y) * 8, sf::Color(0,0,0,0));
 	
-	sf::Sprite _sprite;
+	
 
 	// Loop over image
 	int i_x = 0;
