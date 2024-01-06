@@ -119,7 +119,19 @@ private:
 	sf::RectangleShape s_void;
 	sf::RectangleShape s_leaf;
 
+	sf::Image i_stone;
+	sf::Image i_dirt;
+	sf::Image i_wood;
+	sf::Image i_diamond;
+	sf::Image i_grass;
+	sf::Image i_water;
+	sf::Image i_lava;
+	sf::Image i_void;
+	sf::Image i_leaf;
+
 	// Premade structures
 	Structure s_tree;
 	Structure s_tree2;
+
+	sf::Texture _texture;
 };

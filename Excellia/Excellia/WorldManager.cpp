@@ -37,6 +37,15 @@ WorldManager::WorldManager(sf::RenderWindow& window, sf::Vector2u size, long int
 	s_leaf.setSize({ 1,1 });
 	s_leaf.setTexture(m_texture_manager.get_by_type(Block::Leaf));
 
+	i_dirt = s_dirt.getTexture()->copyToImage();
+	i_diamond = s_diamond.getTexture()->copyToImage();
+	i_grass = s_grass.getTexture()->copyToImage();
+	i_stone = s_stone.getTexture()->copyToImage();
+	i_lava = s_lava.getTexture()->copyToImage();
+	i_wood = s_wood.getTexture()->copyToImage();
+	i_water = s_water.getTexture()->copyToImage();
+	i_leaf = s_leaf.getTexture()->copyToImage();
+
 	/* Create Structures */
 	s_tree.Load_Image("Structures/Tree.png");
 	s_tree.Set_Origin(2, 8);
@@ -213,7 +222,12 @@ void WorldManager::get_view_sprite()
 	// Get pixels in view of texture
 	int loop_max_x = (top_left.x + half_size.x * 2) + 3;
 	int loop_max_y = (top_left.y + half_size.y * 2) + 3;
-	sf::RectangleShape* sprite = nullptr;
+	sf::Image* image = nullptr;
+
+	sf::Image _image;
+	_image.create((loop_max_x - top_left.x) * 8, (loop_max_y - top_left.y) * 8, sf::Color(0,0,0,0));
+	
+	sf::Sprite _sprite;
 
 	// Loop over image
 	int i_x = 0;
@@ -227,45 +241,53 @@ void WorldManager::get_view_sprite()
 					switch (block)
 					{
 					case Stone:
-						sprite = &s_stone;
+						image = &i_stone;
 						break;
 					case Dirt:
-						sprite = &s_dirt;
+						image = &i_dirt;
 						break;
 					case Wood:
-						sprite = &s_wood;
+						image = &i_wood;
 						break;
 					case Diamond:
-						sprite = &s_diamond;
+						image = &i_diamond;
 						break;
 					case Grass:
-						sprite = &s_grass;
+						image = &i_grass;
 						break;
 					case Water:
-						sprite = &s_water;
+						image = &i_water;
 						break;
 					case Lava:
-						sprite = &s_lava;
+						image = &i_lava;
 						break;
 					case Leaf:
-						sprite = &s_leaf;
+						image = &i_leaf;
 						break;
 					default:
 						break;
 					}
 
-					sf::Vector2i current_pos;
-					current_pos.x = top_left.x + i_x;
-					current_pos.y = top_left.y + i_y;
-					
-					sprite->setPosition((sf::Vector2f)current_pos);
-					m_window.draw(*sprite);
+					for (int w = 0; w < 8; w++)
+					{
+						for (int z = 0; z < 8; z++)
+						{
+							_image.setPixel(i_x * 8 + w, i_y * 8 + z, image->getPixel(w,z));
+						}
+					}
 				}
 			}
 			i_y++;
 		}
 		i_x++;
 	}
+	_texture.loadFromImage(_image);
+
+	_sprite.setTexture(_texture);
+	_sprite.setPosition((sf::Vector2f)(top_left));
+	_sprite.setOrigin(0, 0);
+	_sprite.setScale(0.125, 0.125);
+	m_window.draw(_sprite);
 }
 
 int WorldManager::find_highest_point()
