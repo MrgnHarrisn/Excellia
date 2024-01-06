@@ -34,12 +34,17 @@ void Player::update(float dt)
 	}
 
 	// Check Movement
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
-		m_velocity.x = m_speed;
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A) && sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
+		m_velocity.x = 0;
 	}
+	else {
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
+			m_velocity.x = m_speed;
+		}
 
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
-		m_velocity.x = -m_speed;
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
+			m_velocity.x = -m_speed;
+		}
 	}
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
@@ -84,7 +89,10 @@ void Player::update(float dt)
 
 	// Update shape position
 	// set_position(pos);
-	m_velocity.x = 0;
+	m_velocity.x *= dt;
+	if (std::abs(m_velocity.x) <= 0.02) {
+		m_velocity.x = 0;
+	}
 	m_shape.setPosition(get_position());
 }
 
