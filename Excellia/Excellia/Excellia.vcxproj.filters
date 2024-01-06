@@ -115,9 +115,6 @@
     <Image Include="Textures\Leaf.png">
       <Filter>Resource Files\Textures</Filter>
     </Image>
-    <Image Include="Textures\Player.png">
-      <Filter>Resource Files\Textures</Filter>
-    </Image>
     <Image Include="Textures\Stone.png">
       <Filter>Resource Files\Textures</Filter>
     </Image>
@@ -132,6 +129,9 @@
     </Image>
     <Image Include="Structures\Tree2.png">
       <Filter>Resource Files\Structures</Filter>
+    </Image>
+    <Image Include="Textures\Frankly.png">
+      <Filter>Resource Files\Textures</Filter>
     </Image>
   </ItemGroup>
   <ItemGroup>

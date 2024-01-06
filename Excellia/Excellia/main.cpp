@@ -54,7 +54,7 @@ int main()
 	
 
 	// Create Camera
-	Camera cam(position, sf::Vector2u{1080 * settings.get_screen_size().x / settings.get_screen_size().y, 1080}, player, 20);
+	Camera cam(position, sf::Vector2u{1080 * settings.get_screen_size().x / settings.get_screen_size().y, 1080}, player, 35);
 
 
 	// Set Build/Destroy Defaults

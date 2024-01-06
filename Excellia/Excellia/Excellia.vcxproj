@@ -163,10 +163,10 @@
     <Image Include="Structures\Tree2.png" />
     <Image Include="Textures\Diamond.png" />
     <Image Include="Textures\Dirt.png" />
+    <Image Include="Textures\Frankly.png" />
     <Image Include="Textures\Grass.png" />
     <Image Include="Textures\Lava.png" />
     <Image Include="Textures\Leaf.png" />
-    <Image Include="Textures\Player.png" />
     <Image Include="Textures\Stone.png" />
     <Image Include="Textures\Water.png" />
     <Image Include="Textures\Wood.png" />
