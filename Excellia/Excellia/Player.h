@@ -3,7 +3,7 @@
 #include <SFML/Graphics/RectangleShape.hpp>
 
 #include <SFML/Window/Keyboard.hpp>
-
+#include <SFML/Window/Mouse.hpp>
 #include "WorldManager.h"
 #include "BlockManager.h"
 #include "Actor.h"
@@ -63,4 +63,5 @@ private:
 	bool m_can_jump = true;
 	float m_jump_timer = 0.0f;
 	sf::Vector2f m_velocity{ 0,0 };
+	bool facing_right = false;
 };
