@@ -40,11 +40,20 @@ void Player::update(float dt)
 	else {
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
 			m_velocity.x = m_speed;
-			// m_sprite.
+			if (facing_right) {
+				m_shape.setOrigin(0, 3);
+				m_shape.setScale(1, 1);
+				facing_right = false;
+			}
 		}
 
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
 			m_velocity.x = -m_speed;
+			if (!facing_right) {
+				m_shape.setOrigin(1, 3);
+				m_shape.setScale(-1, 1);
+				facing_right = true;
+			}
 		}
 	}
 
@@ -95,6 +104,7 @@ void Player::update(float dt)
 		m_velocity.x = 0;
 	}
 	m_shape.setPosition(get_position());
+
 }
 
 sf::Sprite Player::get_sprite()
