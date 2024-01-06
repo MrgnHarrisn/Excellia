@@ -25,7 +25,11 @@ void Player::update(float dt)
 	// Check Sprinting
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift)) {
 		m_speed = m_sprint_speed;
-	} else {
+	}
+	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::LAlt)) {
+		m_speed = m_slow_move_speed;
+	}
+	else {
 		m_speed = m_move_speed;
 	}
 
@@ -46,22 +50,40 @@ void Player::update(float dt)
 		m_velocity.y = m_speed;
 	}
 
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && m_can_jump) {
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && m_can_jump) {
 		jump(dt);
 	}
 
-    // Apply Gravity
+	// Apply Gravity
 	m_velocity.y += gravity * dt;
 
 	// Update Velocity
 	// m_velocity *= dt;
 
-    // Call Collision
-    sf::Vector2f pos = get_position();
-	pos += can_move_pos(pos, m_velocity * dt);
-	
-    // Update shape position
-	set_position(pos);
+	// Call Collision
+	sf::Vector2f pos = get_position();
+	sf::Vector2f temp_v = sf::Vector2f(m_velocity.x * 0.0001, m_velocity.y * 0.0001);
+
+	while (dt > 0.0001)
+	{
+		sf::Vector2f temp_pos = can_move_pos(pos, sf::Vector2f{ temp_v.x, temp_v.y });
+		if (temp_pos.y == 0 && m_velocity.y > 0)
+		{
+			m_can_jump = true;
+		}
+		else if (temp_pos == sf::Vector2f(0, 0))
+		{
+			break;
+		}
+
+		pos.x += temp_pos.x;
+		pos.y += temp_pos.y;
+		set_position(pos);
+		dt -= 0.0001;
+	}
+
+	// Update shape position
+	// set_position(pos);
 	m_velocity.x = 0;
 	m_shape.setPosition(get_position());
 }
