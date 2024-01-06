@@ -41,7 +41,7 @@ int main()
 
 	// Create window
 	sf::RenderWindow window(sf::VideoMode(settings.get_screen_size().x, settings.get_screen_size().y), "Pixellia", sf::Style::None);
-
+	window.setFramerateLimit(30);
 
 	// Creates world
 	WorldManager wm(window, settings.get_world_size(), 573849); // 573849 test seed, 42069 is a good seed

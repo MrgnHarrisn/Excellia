@@ -31,45 +31,38 @@ void Player::update(float dt)
 
 	// Check Movement
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
-		m_velocity.x += m_speed;
+		m_velocity.x = m_speed;
 	}
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
-		m_velocity.x -= m_speed;
+		m_velocity.x = -m_speed;
 	}
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
-		m_velocity.y -= m_speed;
+		m_velocity.y = -m_speed;
 	}
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
-		m_velocity.y += m_speed;
+		m_velocity.y = m_speed;
 	}
 
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && m_can_jump) {
-		jump();
-	}
-
-	// Check Jumping
-	if (m_jump_timer > 0) {
-		m_jump_timer -= dt;
-	} else {
-		m_can_jump = true;
-		m_jump_timer = 0.f;
+		jump(dt);
 	}
 
     // Apply Gravity
-	m_velocity.y += gravity;
+	m_velocity.y += gravity * dt;
 
 	// Update Velocity
-	m_velocity *= dt;
+	// m_velocity *= dt;
 
     // Call Collision
     sf::Vector2f pos = get_position();
-	pos += can_move_pos(pos, m_velocity);
+	pos += can_move_pos(pos, m_velocity * dt);
 	
     // Update shape position
 	set_position(pos);
+	m_velocity.x = 0;
 	m_shape.setPosition(get_position());
 }
 
@@ -78,10 +71,10 @@ sf::Sprite Player::get_sprite()
     return m_sprite;
 }
 
-void Player::jump()
+void Player::jump(float dt)
 {
 	/* Downward is positive, upwards is negative */
-	m_velocity.y -= m_jump_force * 100;
+	m_velocity.y = -m_jump_force;
 	m_jump_timer = 0.5;
 	m_can_jump = false;
 }
@@ -167,7 +160,10 @@ sf::Vector2f Player::can_move_pos(sf::Vector2f &position, sf::Vector2f velocity)
 			position.y = std::floor(position.y + 0.5f-e);
 		}
 	}
-
+	if (velocity.y == 0) {
+		m_can_jump = true;
+		m_velocity.y = 0;
+	}
     return velocity;
 }
 
