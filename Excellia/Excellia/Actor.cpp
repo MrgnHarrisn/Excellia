@@ -3,10 +3,7 @@
 
 Actor::Actor() {}
 
-void Actor::update(float dt)
-{
-
-}
+void Actor::update(float dt) {}
 
 sf::Drawable& Actor::render_shape()
 {

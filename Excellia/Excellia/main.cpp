@@ -1,75 +1,92 @@
 
 #include <SFML/Graphics.hpp>
 
-#include "Settings.h"
-#include "Player.h"
-#include "Utils.h"
-#include "Camera.h"
 #include "WorldManager.h"
 #include "BlockManager.h"
+#include "Settings.h"
+#include "Player.h"
+#include "Camera.h"
+#include "Utils.h"
 
 int main()
 {
 
+	// Load Shader
 	sf::Shader shader;
 	if (!shader.loadFromFile("Shaders/vertex_shader.vert", "Shaders/fragment_shader.frag")) {
 		printf("Something went wrong!");
 		return -1;
 	}
 
-	// Creates and loads settings
+
+	// Load Settings
 	Settings settings;
 	settings.update();
 	
+
 	// Delta Time
 	sf::Clock clock;
 	float dt = 0;
-	float end_of_day_time = 300;	/* 300 seconds is 5 minutes */
+
+
+	// Day/Night Cycle
+	float end_of_day_time = 5 * 60;
 	float current_time = 0;
-	sf::Color night_color(0, 0, 40); // Dark blue for night sky
-	sf::Color day_color(135, 206, 235); // Light blue for daylight sky
+
+	sf::Color night_color(0, 0, 40);		// Dark blue for night sky
+	sf::Color day_color(135, 206, 235);		// Light blue for daylight sky
 	sf::Color current_color = night_color;
 	bool is_transitioning = true;
-	// Creates window
-	sf::RenderWindow window(sf::VideoMode(settings.get_screen_size().x, settings.get_screen_size().y), "Pixellia", sf::Style::None);
-	// window.setFramerateLimit(30);
 
-	/* 573849 test seed */
-	/* 42069 is a good seed */
+
+	// Create window
+	sf::RenderWindow window(sf::VideoMode(settings.get_screen_size().x, settings.get_screen_size().y), "Pixellia", sf::Style::None);
+
 
 	// Creates world
-	WorldManager wm(window, settings.get_world_size(), 573849);
+	WorldManager wm(window, settings.get_world_size(), 573849); // 573849 test seed, 42069 is a good seed
 	wm.create();
 
-	// Spawn player
-	sf::Vector2f position((float)settings.get_world_size().x / 2, (float)wm.place_player(settings.get_world_size().x / 2));
-	Player p(position, wm);
-	
-	// Create camera attached to player
-	Camera cam(position, sf::Vector2u{1080 * settings.get_screen_size().x / settings.get_screen_size().y, 1080}, p, 20);
 
-	// Set build/destroy defaults
+	// Create Player
+	sf::Vector2f position((float)settings.get_world_size().x / 2, (float)wm.place_player(settings.get_world_size().x / 2));
+	Player player(position, wm);
+	
+
+	// Create Camera
+	Camera cam(position, sf::Vector2u{1080 * settings.get_screen_size().x / settings.get_screen_size().y, 1080}, player, 20);
+
+
+	// Set Build/Destroy Defaults
 	bool is_block_placed = false;
 	bool is_placing_block = false;
 	Block current_block = Block::Wood;
 
+
+	// Create Cursor
+	sf::RectangleShape cursor;
+
+
 	// Main loop
 	while (window.isOpen())
 	{
-		// Delta time
+
+		// Reset Delta Time
 		dt = clock.restart().asSeconds();
 		
-		// Events and inputs
+
+		// Events And Inputs
 		sf::Event event;
 		while (window.pollEvent(event))
 		{
-			// Close window
+
+			// Close Window
 			if (event.type == sf::Event::Closed)
 			{
 				window.close();
 			}
 
-			// Zoom in and out
+			// Zoom In/Out
 			if (event.type == sf::Event::MouseWheelScrolled) {
 				if (event.mouseWheelScroll.wheel == sf::Mouse::VerticalWheel) {
 					if (event.mouseWheelScroll.delta > 0) {
@@ -81,7 +98,7 @@ int main()
 				}
 			}
 
-			// Place and break start
+			// Start Placing/Breaking
 			if (event.type == sf::Event::MouseButtonPressed) {
 				if (event.mouseButton.button == sf::Mouse::Left) {
 					is_block_placed = true;
@@ -96,7 +113,7 @@ int main()
 				}
 			}
 
-			// Place and break stop
+			// Stop Placing/Breaking
 			 if (event.type == sf::Event::MouseButtonReleased) {
 				if (event.mouseButton.button == sf::Mouse::Left) {
 					is_block_placed = false;
@@ -106,7 +123,7 @@ int main()
 				}
 			}
 
-			// Change current_block
+			// Change Selected Block
 			 if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num1)) {
 				 current_block = Block::Stone;
 			 } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num2)) {
@@ -124,42 +141,42 @@ int main()
 			 } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num8)) {
 				 current_block = Block::Leaf;
 			 }
+
 		}
 
-		// Break blocks
+
+		// Place/Break Block
 		if (is_block_placed) {
 			wm.break_block(sf::Mouse::getPosition(window));
-		}
-
-		
-
-		// Place blocks
-		if (is_placing_block) {
+		} else if (is_placing_block) {
 			wm.place_block(current_block, sf::Mouse::getPosition(window));
 		}
 
-		// Create cursor
-		sf::RectangleShape cursor;
-		sf::Vector2i world_pos = static_cast<sf::Vector2i>(wm.screen_pos_to_world_pos(sf::Mouse::getPosition(window)));
 
-		// Update cursor
-		cursor.setPosition(static_cast<sf::Vector2f>(world_pos));
+		// Update Cursor
+		cursor.setPosition((sf::Vector2f)(sf::Vector2i)(wm.screen_pos_to_world_pos(sf::Mouse::getPosition(window))));
 		cursor.setSize({ 1, 1 });
 		cursor.setFillColor(sf::Color(255, 255, 255, 50));
 
-		// Update player
-		p.update(dt);
 
-		shader.setUniform("playerPosition", sf::Vector2f(p.get_position().x / settings.get_world_size().x, p.get_position().y / settings.get_world_size().y));
+		// Update Player
+		player.update(dt);
 
-		// Update view
+
+		// Update Shader
+		shader.setUniform("playerPosition", sf::Vector2f(player.get_position().x / settings.get_world_size().x, player.get_position().y / settings.get_world_size().y));
+
+
+		// Update Camera
 		cam.update(dt);
 		window.setView(cam.get_view());
 
-		/* Sky color stuff */
+
+		// Update Skybox
 		current_time += dt;
 		
 		float transition_percentage = current_time / end_of_day_time;
+
 		if (transition_percentage > 1.0f) {
 			transition_percentage = 1.0f;
 		}
@@ -179,18 +196,31 @@ int main()
 			current_time = 0.0f;
 		}
 
-		// Clear and draw
+
+		// Clear Window
 		window.clear(current_color);
+
+
+		// Render View
 		wm.get_view_sprite();
-		// window.draw(wm.get_render());
-		window.draw(p.render_shape());
+
+
+		// Draw Player
+		window.draw(player.render_shape());
+
+
+		// Draw Cursor
 		window.draw(cursor);
 		
+
+		// Display Window
 		window.display();
 
-		// fps and ms
+
+		// FPS And MS
 		if (1 / dt > 1000) printf("fps: %.4f    ms: %.4f\n", 1 / dt, dt);
 		else printf("fps: %.4f     ms: %.4f\n", 1 / dt, dt);
+
 	}
 
 	return 0;

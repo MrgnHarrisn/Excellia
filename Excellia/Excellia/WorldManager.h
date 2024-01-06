@@ -1,11 +1,12 @@
 #pragma once
 
+#include <SFML/Graphics/RectangleShape.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Graphics/Texture.hpp>
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Graphics/Image.hpp>
 #include <SFML/Graphics/Color.hpp>
-#include <SFML/Graphics/RectangleShape.hpp>
+
 #include <SFML/System/Vector2.hpp>
 
 #include "TerrainGeneration.h"
@@ -99,8 +100,6 @@ private:
 	std::vector<int> m_trees;
 	std::vector<sf::Vector2i> m_caves;
 	sf::Image m_image;
-	/*sf::Texture m_texture;
-	sf::Sprite m_sprite;*/
 	sf::RenderWindow& m_window;
 
 	sf::Texture m_perspective_tex;

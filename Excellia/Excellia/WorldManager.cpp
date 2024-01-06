@@ -1,3 +1,4 @@
+
 #include "WorldManager.h"
 
 WorldManager::WorldManager(sf::RenderWindow& window, sf::Vector2u size, long int seed) : m_window(window)
@@ -15,6 +16,7 @@ WorldManager::WorldManager(sf::RenderWindow& window, sf::Vector2u size, long int
 	m_texture_manager.load_texture("Water", "Water.png");
 	m_texture_manager.load_texture("Leaf", "Leaf.png");
 
+	/* Print what loaded */
 	m_texture_manager.display_items();
 
 	/* Create textures */
@@ -41,39 +43,38 @@ WorldManager::WorldManager(sf::RenderWindow& window, sf::Vector2u size, long int
 	s_tree2.Load_Image("Structures/Tree2.png");
 	s_tree2.Set_Origin(7, 14);
 
+	// Set World Size
 	if (size.x != 0 && size.y != 0)
 	{
 		m_width = size.x;
 		m_height = size.y;
 	}
 
+	// Set World Seed
 	if (seed != -1)
 	{
 		Random r(seed);
 		m_random = r;
 	}
 
+	// Create Blank World
 	m_image.create(m_width, m_height, BlockManager::hex_to_color(Block::Void));
 }
 
 void WorldManager::create()
 {
-	// Places stone
+	// Place Stone
 	m_heights = TerrainGeneration::generate_heights(m_width, 0.005f, m_height, m_random);
 
-	// Places dirt
+	// Place Dirt
 	m_dirt_heights = TerrainGeneration::generate_dirt(m_width, m_random);
 
-	// Places Caves
+	// Place Caves
 	sf::Vector2i min = sf::Vector2i(0, (int)(find_highest_point() * 1.3));
 	sf::Vector2i max = sf::Vector2i(m_width, m_height);
-
-
-
 	m_caves = TerrainGeneration::generate_caves(min, max, m_random);
-	m_trees = TerrainGeneration::generate_trees(m_width, m_random);
 
-	// Loop over columns
+	// Loop Over Columns
 	for (size_t i = 0; i < m_heights.size(); i++) {
 
 		// Draw Stone
@@ -93,32 +94,39 @@ void WorldManager::create()
 
 	/* Generate caves with random walking */
 	for (size_t i = 0; i < m_caves.size(); i++) {
-		sf::Vector2i position_a = (sf::Vector2i)m_caves[i];
-		int cave_size = (m_caves[i].y > m_height * 0.75 ? 400 : 200);
+
+		sf::Vector2i position_a = m_caves[i];
+		int cave_size = (m_caves[i].y > m_height * 0.75 ? 1000 : 400);
+
+		// Loop Over Caves
 		for (int j = 0; j < cave_size; j++) {
-			
+
+			// Draw Square
 			for (int d_x = 0; d_x < 3; d_x++) {
 				for (int d_y = 0; d_y < 3; d_y++) {
 					force_place_block(Block::Void, position_a + sf::Vector2i(d_x, d_y));
 				}
 			}
 
+			// Walk
 			sf::Vector2i delta;
 			delta.x = m_random.random(-1, 1) < 0 ? -1 : 1;
 			delta.y = m_random.random(-1, 1) < 0 ? -1 : 1;
-
 			position_a += delta;
 		}
 	}
 
 	/* Generates trees */
+	m_trees = TerrainGeneration::generate_trees(m_width, m_random);
+
+	// For Each Tree
 	for (size_t i = 0; i < m_trees.size(); i++)
 	{
 		sf::Vector2i pos;
-
 		pos.x = m_trees[i];
 		pos.y = m_heights[m_trees[i]] - 1;
 
+		// Randomise Tree Type
 		if (m_random.random(0, 5) >= 1) {
 			s_tree.Build(m_image, pos);
 		} else {
@@ -186,7 +194,6 @@ void WorldManager::place_block(Block material, sf::Vector2i mouse_pos)
 
 void WorldManager::force_place_block(Block material, sf::Vector2i pos)
 {
-
 	// Check world bounds
 	if (pos.x >= 0 && pos.x <= m_width && pos.y >= 0 && pos.y < m_height) {
 
@@ -194,12 +201,9 @@ void WorldManager::force_place_block(Block material, sf::Vector2i pos)
 	}
 }
 
-void WorldManager::get_view_sprite() {
-
-
-	/*
-	The size of the actual view is being changed but we aren't
-	*/
+void WorldManager::get_view_sprite()
+{
+	/* The size of the actual view is being changed but we aren't */
 
 	// Find screen location
 	sf::Vector2i view_size = (sf::Vector2i)m_window.getView().getSize();
@@ -217,7 +221,6 @@ void WorldManager::get_view_sprite() {
 		int i_y = 0;
 		for (int y = top_left.y; y < loop_max_y; y++) {
 			if (x >= 0 && x < m_width && y >= 0 && y < m_height) {
-				// temp.setPixel(i_x, i_y, m_image.getPixel(x, y));
 				Block block = get_block({ x, y });
 				if (block != Block::Void) {
 

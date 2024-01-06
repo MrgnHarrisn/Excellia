@@ -1,7 +1,9 @@
 #pragma once
 
 #include <SFML/Graphics/Color.hpp>
+
 #include "Block.h"
+ 
 #include <string>
 
 class BlockManager
@@ -36,8 +38,18 @@ public:
 	/// <returns>Is it non solid?</returns>
 	static bool can_move_through(Block b);
 
+	/// <summary>
+	/// Gets name of block as a string
+	/// </summary>
+	/// <param name="b">Block</param>
+	/// <returns>Name</returns>
 	static std::string block_name(Block b);
 
+	/// <summary>
+	/// Gets block form name as string
+	/// </summary>
+	/// <param name="name">Name of block</param>
+	/// <returns>Block</returns>
 	static Block block_value(std::string& name);
 
 };

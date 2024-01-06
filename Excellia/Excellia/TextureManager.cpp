@@ -1,12 +1,12 @@
+
 #include "TextureManager.h"
 
-TextureManager::TextureManager()
-{
-}
+TextureManager::TextureManager() {}
 
 bool TextureManager::load_texture(const std::string name, const std::string& file_name)
 {
 	sf::Texture* texture = new sf::Texture;
+
 	/* Check if we have a specified path or not */
 	if (!texture->loadFromFile(m_folder == "-1" ? file_name : m_folder + file_name)) {
 		return false;
@@ -32,7 +32,6 @@ bool TextureManager::find_by_type(Block block)
 
 sf::Texture* TextureManager::get_by_type(Block block)
 {
-	// std::cout << BlockManager::block_name(block) << std::endl;
 	return m_textures[BlockManager::block_name(block)];
 }
 

@@ -1,3 +1,4 @@
+
 #include "TerrainGeneration.h"
 
 std::vector<int> TerrainGeneration::interpolate(std::vector<sf::Vector2f> heights, int max_height)
@@ -68,14 +69,14 @@ std::vector<sf::Vector2i> TerrainGeneration::generate_caves(sf::Vector2i min, sf
 	std::vector<sf::Vector2i> caves;
 	sf::Vector2i cave_pos;
 
-	int num_caves = (int)((max.x - min.x) * (max.y - min.y) / 2000.0f);
+	int num_caves = (int)((max.x - min.x) * (max.y - min.y) / 5000.0f);
 
 	// Loop for number of caves
 	for (int i = 0; i < num_caves; i++) {
 
 		// Randomise position
-		cave_pos.x = (int)r.random(min.x + 10, max.x - 10);
-		cave_pos.y = (int)r.random(min.y + 10, max.y - 10);
+		cave_pos.x = (int)r.random(min.x + 10.0f, max.x - 10.0f);
+		cave_pos.y = (int)r.random(min.y + 10.0f, max.y - 10.0f);
 
 		// Store positions
 		caves.push_back(cave_pos);

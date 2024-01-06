@@ -1,3 +1,4 @@
+
 #include "Utils.h"
 
 float Utils::clip(float n, float lower, float upper) {

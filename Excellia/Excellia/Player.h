@@ -61,5 +61,5 @@ private:
 	float gravity = 40;
 	bool m_can_jump = true;
 	float m_jump_timer = 0.0f;
-	sf::Vector2f m_velocity;
+	sf::Vector2f m_velocity{ 0,0 };
 };

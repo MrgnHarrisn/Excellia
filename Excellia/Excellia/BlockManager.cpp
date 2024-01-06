@@ -1,3 +1,4 @@
+
 #include "BlockManager.h"
 
 unsigned int BlockManager::color_to_hex(sf::Color color)

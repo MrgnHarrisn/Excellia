@@ -5,27 +5,22 @@ Player::Player(sf::Vector2f position, WorldManager& wm) : m_wm(wm)
 {
     sf::RectangleShape shape;
 
-    // Set start position
 	set_position(position);
 
-    // Load player texture
     m_texture.loadFromFile("Textures/player.png");
 
     // Create shape
 	shape.setSize(sf::Vector2f(1, 3));
 	shape.setOrigin(0, 3);
 	shape.setPosition(get_position());
-    shape.setTexture(&m_texture);
+	shape.setTexture(&m_texture);
     
     // Store shape
 	m_shape = shape;
-	m_velocity.x = 0;
-	m_velocity.y = 0;
 }
 
 void Player::update(float dt)
 {
-	// sf::Vector2f velocity(0, 0);
 
 	// Check Sprinting
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift)) {
@@ -55,7 +50,7 @@ void Player::update(float dt)
 		jump();
 	}
 
-	// Jumping
+	// Check Jumping
 	if (m_jump_timer > 0) {
 		m_jump_timer -= dt;
 	} else {
@@ -63,28 +58,23 @@ void Player::update(float dt)
 		m_jump_timer = 0.f;
 	}
 
-    // apply gravity
+    // Apply Gravity
 	m_velocity.y += gravity;
 
-    // Call collision
-    sf::Vector2f pos = get_position();
-	// sf::Vector2f temp_v = sf::Vector2f(m_velocity.x *= 0.0001f, m_velocity.y *= 0.0001f);
-	
-	
-
+	// Update Velocity
 	m_velocity *= dt;
 
+    // Call Collision
+    sf::Vector2f pos = get_position();
 	pos += can_move_pos(pos, m_velocity);
-	set_position(pos);
-
+	
     // Update shape position
+	set_position(pos);
 	m_shape.setPosition(get_position());
 }
 
 sf::Sprite Player::get_sprite()
 {
-    m_sprite.setTexture(m_texture);
-    m_sprite.setPosition(get_position());
     return m_sprite;
 }
 
@@ -138,7 +128,7 @@ sf::Vector2f Player::can_move_pos(sf::Vector2f &position, sf::Vector2f velocity)
 		}
 	}
 
-	/* For Y*/
+	/* For Y */
 	if (velocity.y > 0)
 	{
 		if (!BlockManager::can_move_through(m_wm.get_block((sf::Vector2i)(get_position() - sf::Vector2f(0-e, 0) + sf::Vector2f(0, velocity.y))))) {
