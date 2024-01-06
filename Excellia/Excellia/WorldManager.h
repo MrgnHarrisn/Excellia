@@ -10,7 +10,6 @@
 #include <SFML/System/Vector2.hpp>
 
 #include "TerrainGeneration.h"
-#include "TextureManager.h"
 #include "BlockManager.h"
 #include "Structure.h"
 #include "Random.h"
@@ -102,23 +101,12 @@ private:
 	sf::Image m_image;
 	sf::RenderWindow& m_window;
 
-	sf::Texture m_perspective_tex;
-	sf::Sprite m_perspective_sprite;
-	TextureManager m_texture_manager;
 	int m_width = 800;
 	int m_height = 800;
 
-	// Premade sprites
-	sf::RectangleShape s_stone;
-	sf::RectangleShape s_dirt;
-	sf::RectangleShape s_wood;
-	sf::RectangleShape s_diamond;
-	sf::RectangleShape s_grass;
-	sf::RectangleShape s_water;
-	sf::RectangleShape s_lava;
-	sf::RectangleShape s_void;
-	sf::RectangleShape s_leaf;
+	sf::Texture m_view_texture;
 
+	// Premade Blocks
 	sf::Image i_stone;
 	sf::Image i_dirt;
 	sf::Image i_wood;
@@ -129,9 +117,7 @@ private:
 	sf::Image i_void;
 	sf::Image i_leaf;
 
-	// Premade structures
+	// Premade Structures
 	Structure s_tree;
 	Structure s_tree2;
-
-	sf::Texture _texture;
 };

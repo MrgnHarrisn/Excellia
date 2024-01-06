@@ -4,47 +4,15 @@
 WorldManager::WorldManager(sf::RenderWindow& window, sf::Vector2u size, long int seed) : m_window(window)
 {
 
-	m_texture_manager.set_path("Textures/");
-
-	/* Load textures */
-	m_texture_manager.load_texture("Dirt", "Dirt.png");
-	m_texture_manager.load_texture("Diamond", "Diamond.png");
-	m_texture_manager.load_texture("Grass", "Grass.png");
-	m_texture_manager.load_texture("Stone", "Stone.png");
-	m_texture_manager.load_texture("Lava", "Lava.png");
-	m_texture_manager.load_texture("Wood", "Wood.png");
-	m_texture_manager.load_texture("Water", "Water.png");
-	m_texture_manager.load_texture("Leaf", "Leaf.png");
-
-	/* Print what loaded */
-	m_texture_manager.display_items();
-
-	/* Create textures */
-	s_dirt.setSize({ 1,1 });
-	s_dirt.setTexture(m_texture_manager.get_by_type(Block::Dirt));
-	s_diamond.setSize({ 1,1 });
-	s_diamond.setTexture(m_texture_manager.get_by_type(Block::Diamond));
-	s_grass.setSize({ 1,1 });
-	s_grass.setTexture(m_texture_manager.get_by_type(Block::Grass));
-	s_stone.setSize({ 1,1 });
-	s_stone.setTexture(m_texture_manager.get_by_type(Block::Stone));
-	s_lava.setSize({ 1,1 });
-	s_lava.setTexture(m_texture_manager.get_by_type(Block::Lava));
-	s_wood.setSize({ 1,1 });
-	s_wood.setTexture(m_texture_manager.get_by_type(Block::Wood));
-	s_water.setSize({ 1,1 });
-	s_water.setTexture(m_texture_manager.get_by_type(Block::Water));
-	s_leaf.setSize({ 1,1 });
-	s_leaf.setTexture(m_texture_manager.get_by_type(Block::Leaf));
-
-	i_dirt = s_dirt.getTexture()->copyToImage();
-	i_diamond = s_diamond.getTexture()->copyToImage();
-	i_grass = s_grass.getTexture()->copyToImage();
-	i_stone = s_stone.getTexture()->copyToImage();
-	i_lava = s_lava.getTexture()->copyToImage();
-	i_wood = s_wood.getTexture()->copyToImage();
-	i_water = s_water.getTexture()->copyToImage();
-	i_leaf = s_leaf.getTexture()->copyToImage();
+	/* Create Blocks */
+	i_dirt.loadFromFile("Textures/Dirt.png");
+	i_diamond.loadFromFile("Textures/Diamond.png");
+	i_grass.loadFromFile("Textures/Grass.png");
+	i_stone.loadFromFile("Textures/Stone.png");
+	i_lava.loadFromFile("Textures/Lava.png");
+	i_wood.loadFromFile("Textures/Wood.png");
+	i_water.loadFromFile("Textures/Water.png");
+	i_leaf.loadFromFile("Textures/Leaf.png");
 
 	/* Create Structures */
 	s_tree.Load_Image("Structures/Tree.png");
@@ -142,11 +110,6 @@ void WorldManager::create()
 			s_tree2.Build(m_image, pos);
 		}
 	}
-}
-
-sf::Sprite WorldManager::get_render()
-{
-	return m_perspective_sprite;
 }
 
 int WorldManager::place_player(int x)
@@ -281,9 +244,9 @@ void WorldManager::get_view_sprite()
 		}
 		i_x++;
 	}
-	_texture.loadFromImage(_image);
+	m_view_texture.loadFromImage(_image);
 
-	_sprite.setTexture(_texture);
+	_sprite.setTexture(m_view_texture);
 	_sprite.setPosition((sf::Vector2f)(top_left));
 	_sprite.setOrigin(0, 0);
 	_sprite.setScale(0.125, 0.125);
