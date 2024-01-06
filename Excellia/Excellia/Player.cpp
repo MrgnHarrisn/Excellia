@@ -107,7 +107,7 @@ sf::Vector2f Player::can_move_pos(sf::Vector2f &position, sf::Vector2f velocity)
 
 	/* For X */
 	if (velocity.x < 0) {
-		if (!BlockManager::can_move_through(m_wm.get_block((sf::Vector2i)((get_position() - sf::Vector2f(0, 0.01f)) + sf::Vector2f(velocity.x, 0))))) {
+		if (!BlockManager::can_move_through(m_wm.get_block((sf::Vector2i)((get_position() - sf::Vector2f(e, 0.01f)) + sf::Vector2f(velocity.x, 0))))) {
 			velocity.x = 0;
 			position.x = std::floor(position.x + 0.5f - e);
 		}
@@ -125,7 +125,7 @@ sf::Vector2f Player::can_move_pos(sf::Vector2f &position, sf::Vector2f velocity)
 		}
 	}
 	else if (velocity.x > 0) {
-		if (!BlockManager::can_move_through(m_wm.get_block((sf::Vector2i)((get_position() - sf::Vector2f(-1, 0.01f)) + sf::Vector2f(velocity.x, 0))))) {
+		if (!BlockManager::can_move_through(m_wm.get_block((sf::Vector2i)((get_position() - sf::Vector2f(-1 + e, 0.01f)) + sf::Vector2f(velocity.x, 0))))) {
 			velocity.x = 0;
 			position.x = std::floor(position.x + 0.5f-e);
 		}

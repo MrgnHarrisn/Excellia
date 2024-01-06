@@ -51,7 +51,7 @@ private:
 	void jump(float dt);
 
 	sf::RectangleShape m_shape;
-	float m_move_speed = 15;
+	float m_move_speed = 13;
 	float m_slow_move_speed = 4;
 	float m_sprint_speed = 25;
 	float m_speed = m_move_speed;
