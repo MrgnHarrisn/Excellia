@@ -39,12 +39,6 @@ public:
 	int place_player(int x);
 
 	/// <summary>
-	/// Returns the rendered image fo the world
-	/// </summary>
-	/// <returns></returns>
-	sf::Sprite get_render();
-
-	/// <summary>
 	/// Get's block at specific position
 	/// </summary>
 	/// <param name="block">The position we want to check</param>
@@ -105,6 +99,8 @@ private:
 	int m_height = 800;
 
 	sf::Texture m_view_texture;
+	sf::Sprite m_view_sprite;
+	sf::Image m_view_image;
 
 	// Premade Blocks
 	sf::Image i_stone;

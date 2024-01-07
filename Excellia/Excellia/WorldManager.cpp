@@ -5,6 +5,7 @@ WorldManager::WorldManager(sf::RenderWindow& window, sf::Vector2u size, long int
 {
 
 	/* Create Blocks */
+	i_void.create(8, 8, sf::Color(0, 0, 0, 0));
 	i_dirt.loadFromFile("Textures/Dirt.png");
 	i_diamond.loadFromFile("Textures/Diamond.png");
 	i_grass.loadFromFile("Textures/Grass.png");
@@ -22,6 +23,7 @@ WorldManager::WorldManager(sf::RenderWindow& window, sf::Vector2u size, long int
 	i_ruby.loadFromFile("Textures/Ruby.png");
 	i_iron.loadFromFile("Textures/Iron.png");
 	i_copper.loadFromFile("Textures/Copper.png");
+
 
 	/* Create Structures */
 	s_tree.Load_Image("Structures/Tree.png");
@@ -45,6 +47,11 @@ WorldManager::WorldManager(sf::RenderWindow& window, sf::Vector2u size, long int
 
 	// Create Blank World
 	m_image.create(m_width, m_height, BlockManager::hex_to_color(Block::Void));
+
+	// Setup View Image
+	m_view_image.create(265.0f / window.getSize().y * window.getSize().x, 265, sf::Color(0, 0, 0, 0));
+	m_view_sprite.setOrigin(0, 0);
+	m_view_sprite.setScale(0.125, 0.125);
 }
 
 void WorldManager::create()
@@ -205,12 +212,6 @@ void WorldManager::get_view_sprite()
 
 	sf::Image* _block = &i_stone;
 
-	sf::Image _image;
-	sf::Sprite _sprite;
-	_image.create((loop_max_x - top_left.x) * 8, (loop_max_y - top_left.y) * 8, sf::Color(0,0,0,0));
-	
-	
-
 	// Loop over image
 	int i_x = 0;
 	for (int x = top_left.x; x < loop_max_x; x++) {
@@ -276,26 +277,22 @@ void WorldManager::get_view_sprite()
 						break;
 					}
 
-					for (int w = 0; w < 8; w++)
-					{
-						for (int z = 0; z < 8; z++)
-						{
-							_image.setPixel(i_x * 8 + w, i_y * 8 + z, _block->getPixel(w,z));
-						}
-					}
+					m_view_image.copy(*_block, i_x * 8, i_y * 8);
+				}
+				else
+				{
+					m_view_image.copy(i_void, i_x * 8, i_y * 8);
 				}
 			}
 			i_y++;
 		}
 		i_x++;
 	}
-	m_view_texture.loadFromImage(_image);
+	m_view_texture.loadFromImage(m_view_image);
 
-	_sprite.setTexture(m_view_texture);
-	_sprite.setPosition((sf::Vector2f)(top_left));
-	_sprite.setOrigin(0, 0);
-	_sprite.setScale(0.125, 0.125);
-	m_window.draw(_sprite);
+	m_view_sprite.setTexture(m_view_texture);
+	m_view_sprite.setPosition((sf::Vector2f)(top_left));
+	m_window.draw(m_view_sprite);
 }
 
 int WorldManager::find_highest_point()

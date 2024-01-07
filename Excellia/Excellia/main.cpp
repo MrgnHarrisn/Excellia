@@ -43,16 +43,17 @@ int main()
 	sf::RenderWindow window(sf::VideoMode(settings.get_screen_size().x, settings.get_screen_size().y), "Pixellia", sf::Style::None);
 	// window.setFramerateLimit(30);
 
+
 	// Creates world
 	WorldManager wm(window, settings.get_world_size(), 573849); // 573849 test seed, 42069 is a good seed
 	wm.create();
 
 
 	// Create Player
-	sf::Vector2f position((float)settings.get_world_size().x / 2, (float)wm.place_player(settings.get_world_size().x / 2));
+	sf::Vector2f position((float)settings.get_world_size().x / 2.0f, (float)wm.place_player(settings.get_world_size().x / 2.0f));
 	Player player(position, wm);
 	
-
+	 
 	// Create Camera
 	Camera cam(position, sf::Vector2u{1080 * settings.get_screen_size().x / settings.get_screen_size().y, 1080}, player, 35);
 
@@ -233,8 +234,8 @@ int main()
 
 
 		// FPS And MS
-		/*if (1 / dt > 1000) printf("fps: %.4f    ms: %.4f\n", 1 / dt, dt);
-		else printf("fps: %.4f     ms: %.4f\n", 1 / dt, dt);*/
+		if (1 / dt > 1000) printf("fps: %.4f    ms: %.4f\n", 1 / dt, dt);
+		else printf("fps: %.4f     ms: %.4f\n", 1 / dt, dt);
 
 	}
 
