@@ -140,8 +140,23 @@ int main()
 				 current_block = Block::Grass;
 			 } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num8)) {
 				 current_block = Block::Leaf;
+			 } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num9)) {
+				 current_block = Block::Brick;
+			 } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num0)) {
+				 current_block = Block::Red_Wood;
+			 } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::F1)) {
+				 current_block = Block::Hell_Steel;
+			 } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::F2)) {
+				 current_block = Block::Crystal;
+			 } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::F3)) {
+				 current_block = Block::Malachite;
+			 } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::F4)) {
+				 current_block = Block::Ruby;
+			 } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::F5)) {
+				 current_block = Block::Iron;
+			 } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::F6)) {
+				 current_block = Block::Copper;
 			 }
-
 		}
 
 

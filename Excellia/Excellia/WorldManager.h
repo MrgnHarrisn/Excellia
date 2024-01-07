@@ -117,6 +117,14 @@ private:
 	sf::Image i_void;
 	sf::Image i_leaf;
 	sf::Image i_bedrock;
+	sf::Image i_brick;
+	sf::Image i_red_wood;
+	sf::Image i_hell_steel;
+	sf::Image i_crystal;
+	sf::Image i_malachite;
+	sf::Image i_ruby;
+	sf::Image i_iron;
+	sf::Image i_copper;
 
 	// Premade Structures
 	Structure s_tree;

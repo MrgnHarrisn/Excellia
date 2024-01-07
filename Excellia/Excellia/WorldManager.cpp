@@ -14,6 +14,14 @@ WorldManager::WorldManager(sf::RenderWindow& window, sf::Vector2u size, long int
 	i_water.loadFromFile("Textures/Water.png");
 	i_leaf.loadFromFile("Textures/Leaf.png");
 	i_bedrock.loadFromFile("Textures/Bedrock.png");
+	i_brick.loadFromFile("Textures/Brick.png");
+	i_red_wood.loadFromFile("Textures/RedWood.png");
+	i_hell_steel.loadFromFile("Textures/HellSteel.png");
+	i_crystal.loadFromFile("Textures/Crystal.png");
+	i_malachite.loadFromFile("Textures/Malachite.png");
+	i_ruby.loadFromFile("Textures/Ruby.png");
+	i_iron.loadFromFile("Textures/Iron.png");
+	i_copper.loadFromFile("Textures/Copper.png");
 
 	/* Create Structures */
 	s_tree.Load_Image("Structures/Tree.png");
@@ -194,7 +202,8 @@ void WorldManager::get_view_sprite()
 	// Get pixels in view of texture
 	int loop_max_x = (top_left.x + half_size.x * 2) + 3;
 	int loop_max_y = (top_left.y + half_size.y * 2) + 3;
-	sf::Image* image = &i_stone;
+
+	sf::Image* _block = &i_stone;
 
 	sf::Image _image;
 	sf::Sprite _sprite;
@@ -214,31 +223,55 @@ void WorldManager::get_view_sprite()
 					switch (block)
 					{
 					case Stone:
-						image = &i_stone;
+						_block = &i_stone;
 						break;
 					case Dirt:
-						image = &i_dirt;
+						_block = &i_dirt;
 						break;
 					case Wood:
-						image = &i_wood;
+						_block = &i_wood;
 						break;
 					case Diamond:
-						image = &i_diamond;
+						_block = &i_diamond;
 						break;
 					case Grass:
-						image = &i_grass;
+						_block = &i_grass;
 						break;
 					case Water:
-						image = &i_water;
+						_block = &i_water;
 						break;
 					case Lava:
-						image = &i_lava;
+						_block = &i_lava;
 						break;
 					case Leaf:
-						image = &i_leaf;
+						_block = &i_leaf;
+						break;
+					case Brick:
+						_block = &i_brick;
+						break;
+					case Red_Wood:
+						_block = &i_red_wood;
+						break;
+					case Hell_Steel:
+						_block = &i_hell_steel;
+						break;
+					case Crystal:
+						_block = &i_crystal;
+						break;
+					case Malachite:
+						_block = &i_malachite;
+						break;
+					case Ruby:
+						_block = &i_ruby;
+						break;
+					case Iron:
+						_block = &i_iron;
+						break;
+					case Copper:
+						_block = &i_copper;
 						break;
 					case Bedrock:
-						image = &i_bedrock;
+						_block = &i_bedrock;
 					default:
 						break;
 					}
@@ -247,7 +280,7 @@ void WorldManager::get_view_sprite()
 					{
 						for (int z = 0; z < 8; z++)
 						{
-							_image.setPixel(i_x * 8 + w, i_y * 8 + z, image->getPixel(w,z));
+							_image.setPixel(i_x * 8 + w, i_y * 8 + z, _block->getPixel(w,z));
 						}
 					}
 				}
