@@ -46,6 +46,8 @@ std::string BlockManager::block_name(Block b)
 		return "Wood";
 	case Block::Leaf:
 		return "Leaf";
+	case Block::Bedrock:
+		return "Bedrock";
 	default:
 		return "Unknown";
 	}
@@ -77,7 +79,9 @@ Block BlockManager::block_value(std::string& name)
 	else if (name == "Leaf") {
 		return Block::Leaf;
 	}
-	else {
+	else if (name == "Bedrock") {
+		return Block::Bedrock;
+	} else {
 		return Block::Void;
 	}
 }
@@ -85,4 +89,12 @@ Block BlockManager::block_value(std::string& name)
 Block BlockManager::color_to_block(sf::Color color)
 {
 	return static_cast<Block>(color_to_hex(color));
+}
+
+bool BlockManager::can_break(Block block)
+{
+	if (block == Block::Bedrock) {
+		return false;
+	}
+	return true;
 }

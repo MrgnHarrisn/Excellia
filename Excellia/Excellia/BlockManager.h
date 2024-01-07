@@ -52,4 +52,6 @@ public:
 	/// <returns>Block</returns>
 	static Block block_value(std::string& name);
 
+	static bool can_break(Block block);
+
 };

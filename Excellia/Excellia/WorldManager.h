@@ -116,6 +116,7 @@ private:
 	sf::Image i_lava;
 	sf::Image i_void;
 	sf::Image i_leaf;
+	sf::Image i_bedrock;
 
 	// Premade Structures
 	Structure s_tree;

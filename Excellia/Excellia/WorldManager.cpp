@@ -13,6 +13,7 @@ WorldManager::WorldManager(sf::RenderWindow& window, sf::Vector2u size, long int
 	i_wood.loadFromFile("Textures/Wood.png");
 	i_water.loadFromFile("Textures/Water.png");
 	i_leaf.loadFromFile("Textures/Leaf.png");
+	i_bedrock.loadFromFile("Textures/Bedrock.png");
 
 	/* Create Structures */
 	s_tree.Load_Image("Structures/Tree.png");
@@ -110,6 +111,14 @@ void WorldManager::create()
 			s_tree2.Build(m_image, pos);
 		}
 	}
+
+	for (int i = 0; i < m_width; i++) {
+		/* Draw bedrock */
+		for (int j = m_height - 1; j > m_height - 1 - m_dirt_heights[i]; j--) {
+			m_image.setPixel(i, j, BlockManager::hex_to_color(Block::Bedrock));
+		}
+	}
+
 }
 
 int WorldManager::place_player(int x)
@@ -140,7 +149,7 @@ void WorldManager::break_block(sf::Vector2i mouse_pos)
 	if (block.x >= 0u && block.x <= (unsigned int)m_width && block.y >= 0u && block.y < (unsigned int)m_height) {
 
 		// Check theres block to break
-		if (BlockManager::color_to_hex(m_image.getPixel(block.x, block.y)) != Block::Void) {
+		if (BlockManager::color_to_hex(m_image.getPixel(block.x, block.y)) != Block::Void && BlockManager::color_to_hex(m_image.getPixel(block.x, block.y)) != Block::Bedrock) {
 
 			// Update Image
 			m_image.setPixel(block.x, block.y, BlockManager::hex_to_color(Block::Void));
@@ -185,7 +194,7 @@ void WorldManager::get_view_sprite()
 	// Get pixels in view of texture
 	int loop_max_x = (top_left.x + half_size.x * 2) + 3;
 	int loop_max_y = (top_left.y + half_size.y * 2) + 3;
-	sf::Image* image = nullptr;
+	sf::Image* image = &i_stone;
 
 	sf::Image _image;
 	sf::Sprite _sprite;
@@ -228,6 +237,8 @@ void WorldManager::get_view_sprite()
 					case Leaf:
 						image = &i_leaf;
 						break;
+					case Bedrock:
+						image = &i_bedrock;
 					default:
 						break;
 					}

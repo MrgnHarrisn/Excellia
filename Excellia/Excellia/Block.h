@@ -8,6 +8,7 @@ enum Block
 	Diamond = 	 0xB9F7F2FF,		// Light Blue
 	Grass =		 0x4E8647FF,		// Green Color
 	Leaf =		 0x4E8847FF,		// Leaf Color
+	Bedrock =	0x646466FF,			// Black
 
 	Water =      0x2389DAFF,		// Bluey Color
 	Lava =       0xFF5000FF,		// OrangeyRed color
