@@ -234,8 +234,8 @@ int main()
 
 
 		// FPS And MS
-		if (1 / dt > 1000) printf("fps: %.4f    ms: %.4f\n", 1 / dt, dt);
-		else printf("fps: %.4f     ms: %.4f\n", 1 / dt, dt);
+		if (1 / dt > 1000) printf("fps: %.4f    ms: %.4f\n", 1 / dt, 1000 * dt);
+		else printf("fps: %.4f     ms: %.4f\n", 1 / dt, 1000 * dt);
 
 	}
 
