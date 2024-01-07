@@ -106,3 +106,24 @@ std::vector<int> TerrainGeneration::generate_trees(int map_width, Random& r)
 
 	return trees;
 }
+
+std::vector<sf::Vector2i> TerrainGeneration::generate_ores(sf::Vector2i min, sf::Vector2i max, Random& r)
+{
+	std::vector<sf::Vector2i> ores;
+	sf::Vector2i ore_pos;
+
+	int num_caves = (int)((max.x - min.x) * (max.y - min.y) / 5000.0f);
+
+	// Loop for number of caves
+	for (int i = 0; i < num_caves; i++) {
+
+		// Randomise position
+		ore_pos.x = (int)r.random(min.x + 10.0f, max.x - 10.0f);
+		ore_pos.y = (int)r.random(min.y + 10.0f, max.y - 10.0f);
+
+		// Store positions
+		ores.push_back(ore_pos);
+	}
+
+	return ores;
+}

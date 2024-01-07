@@ -54,5 +54,14 @@ public:
 	/// <param name="r">instance of Random to use</param>
 	/// <returns></returns>
 	static std::vector<int> generate_trees(int map_width, Random& r);
+
+	/// <summary>
+	/// Generates position of different ores
+	/// </summary>
+	/// <param name="min"Minimum spawn position></param>
+	/// <param name="max">Maximum spawn position</param>
+	/// <param name="r">Instance of random to use</param>
+	/// <returns>A vector of ore positions to spawn at</returns>
+	static std::vector<sf::Vector2i> generate_ores(sf::Vector2i min, sf::Vector2i max, Random& r);
 };
 

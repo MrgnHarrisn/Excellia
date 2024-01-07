@@ -66,6 +66,7 @@ void WorldManager::create()
 	sf::Vector2i min = sf::Vector2i(0, (int)(find_highest_point() * 1.3));
 	sf::Vector2i max = sf::Vector2i(m_width, m_height);
 	m_caves = TerrainGeneration::generate_caves(min, max, m_random);
+	m_ores = TerrainGeneration::generate_ores(min, max, m_random);
 
 	// Loop Over Columns
 	for (size_t i = 0; i < m_heights.size(); i++) {
@@ -106,6 +107,26 @@ void WorldManager::create()
 			delta.x = m_random.random(-1, 1) < 0 ? -1 : 1;
 			delta.y = m_random.random(-1, 1) < 0 ? -1 : 1;
 			position_a += delta;
+		}
+	}
+
+	for (size_t i = 0; i < m_ores.size(); i++) {
+
+		sf::Vector2i position_a = m_caves[i];
+		int cave_size = (m_caves[i].y > m_height * 0.75 ? 1000 : 400);
+
+		/* Define the type of ore */
+		Block block;
+		
+		std::vector<Block> blocks = ore_spawn_in_range(position_a);
+		if (blocks.size() == 0) { continue;  }
+		int index = (int)m_random.random(0, blocks.size() - 1);
+		block = blocks[index];
+		// Draw Square
+		for (int d_x = 0; d_x < 3; d_x++) {
+			for (int d_y = 0; d_y < 3; d_y++) {
+				force_place_block(block, position_a + sf::Vector2i(d_x, d_y));
+			}
 		}
 	}
 
@@ -154,6 +175,25 @@ sf::Vector2f WorldManager::screen_pos_to_world_pos(sf::Vector2i mouse_pos)
 sf::Vector2i WorldManager::game_pos_to_screen_pos(sf::Vector2f mouse_pos)
 {
 	return m_window.mapCoordsToPixel(mouse_pos, m_window.getView());
+}
+
+std::vector<Block> WorldManager::ore_spawn_in_range(sf::Vector2i pos)
+{
+
+	std::vector<Block> ores;
+	/*
+	Crystal
+	Malachite
+	Ruby
+	Diamond
+	Iron
+	Copper
+	*/
+
+	if (pos.y > m_height * 0.6 && pos.y < m_height * 0.8 && m_heights[pos.x] < pos.y) { ores.push_back(Block::Diamond); }
+	if (pos.y > m_height * 0.56 && pos.y < m_height * 0.9 && m_heights[pos.x] < pos.y) { ores.push_back(Block::Ruby); }
+	
+	return ores;
 }
 
 void WorldManager::break_block(sf::Vector2i mouse_pos)

@@ -85,12 +85,15 @@ public:
 
 	sf::Vector2i game_pos_to_screen_pos(sf::Vector2f pos);
 
+	std::vector<Block> ore_spawn_in_range(sf::Vector2i pos);
+
 private:
 
 	Random m_random;
 	std::vector<int> m_dirt_heights;	/* This is how much dirt should be on top */
 	std::vector<int> m_heights;
 	std::vector<int> m_trees;
+	std::vector<sf::Vector2i> m_ores;
 	std::vector<sf::Vector2i> m_caves;
 	sf::Image m_image;
 	sf::RenderWindow& m_window;
