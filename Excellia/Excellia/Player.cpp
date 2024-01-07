@@ -82,19 +82,30 @@ void Player::update(float dt)
 	while (dt > 0.0001)
 	{
 		sf::Vector2f temp_pos = can_move_pos(pos, sf::Vector2f{ temp_v.x, temp_v.y });
-		if (temp_pos.y == 0 && m_velocity.y > 0)
-		{
-			m_can_jump = true;
-		}
-		else if (temp_pos == sf::Vector2f(0, 0))
+
+		if (temp_pos == sf::Vector2f(0, 0))
 		{
 			break;
+		}
+		if (pos.y + temp_v.y < 3 && temp_v.y < 0)
+		{
+			temp_pos.y = 0;
+		}
+		if (pos.x + temp_v.x < 1 && temp_v.x < 0)
+		{
+			temp_pos.x = 0;
 		}
 
 		pos.x += temp_pos.x;
 		pos.y += temp_pos.y;
 		set_position(pos);
 		dt -= 0.0001;
+
+		if (temp_pos.y == 0 && m_velocity.y > 0)
+		{
+			m_can_jump = true;
+		}
+
 	}
 
 	// Update shape position
