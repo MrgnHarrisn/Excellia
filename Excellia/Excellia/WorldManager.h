@@ -109,7 +109,7 @@ private:
 	sf::Image i_stone;
 	sf::Image i_dirt;
 	sf::Image i_wood;
-	sf::Image i_diamond;
+	sf::Image i_diamond_ore;
 	sf::Image i_grass;
 	sf::Image i_water;
 	sf::Image i_lava;
@@ -118,14 +118,16 @@ private:
 	sf::Image i_bedrock;
 	sf::Image i_brick;
 	sf::Image i_red_wood;
-	sf::Image i_hell_steel;
-	sf::Image i_crystal;
-	sf::Image i_malachite;
-	sf::Image i_ruby;
-	sf::Image i_iron;
-	sf::Image i_copper;
+	sf::Image i_hell_steel_ore;
+	sf::Image i_crystal_ore;
+	sf::Image i_malachite_ore;
+	sf::Image i_ruby_ore;
+	sf::Image i_iron_ore;
+	sf::Image i_copper_ore;
+	sf::Image i_void_ore;
 
 	// Premade Structures
 	Structure s_tree;
 	Structure s_tree2;
+	Structure s_palette;
 };

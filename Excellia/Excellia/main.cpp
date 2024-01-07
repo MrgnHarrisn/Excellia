@@ -136,7 +136,7 @@ int main()
 			 } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num5)) {
 				 current_block = Block::Lava;
 			 } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num6)) {
-				 current_block = Block::Diamond;
+				 current_block = Block::Diamond_Ore;
 			 } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num7)) {
 				 current_block = Block::Grass;
 			 } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num8)) {
@@ -146,17 +146,19 @@ int main()
 			 } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num0)) {
 				 current_block = Block::Red_Wood;
 			 } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::F1)) {
-				 current_block = Block::Hell_Steel;
+				 current_block = Block::Hell_Steel_Ore;
 			 } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::F2)) {
-				 current_block = Block::Crystal;
+				 current_block = Block::Crystal_Ore;
 			 } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::F3)) {
-				 current_block = Block::Malachite;
+				 current_block = Block::Malachite_Ore;
 			 } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::F4)) {
-				 current_block = Block::Ruby;
+				 current_block = Block::Ruby_Ore;
 			 } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::F5)) {
-				 current_block = Block::Iron;
+				 current_block = Block::Iron_Ore;
 			 } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::F6)) {
-				 current_block = Block::Copper;
+				 current_block = Block::Copper_Ore;
+			 } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::F7)) {
+				 current_block = Block::Void_Ore;
 			 }
 		}
 

@@ -7,7 +7,7 @@ WorldManager::WorldManager(sf::RenderWindow& window, sf::Vector2u size, long int
 	/* Create Blocks */
 	i_void.create(8, 8, sf::Color(0, 0, 0, 0));
 	i_dirt.loadFromFile("Textures/Dirt.png");
-	i_diamond.loadFromFile("Textures/Diamond.png");
+	i_diamond_ore.loadFromFile("Textures/Diamond_Ore.png");
 	i_grass.loadFromFile("Textures/Grass.png");
 	i_stone.loadFromFile("Textures/Stone.png");
 	i_lava.loadFromFile("Textures/Lava.png");
@@ -16,13 +16,14 @@ WorldManager::WorldManager(sf::RenderWindow& window, sf::Vector2u size, long int
 	i_leaf.loadFromFile("Textures/Leaf.png");
 	i_bedrock.loadFromFile("Textures/Bedrock.png");
 	i_brick.loadFromFile("Textures/Brick.png");
-	i_red_wood.loadFromFile("Textures/RedWood.png");
-	i_hell_steel.loadFromFile("Textures/HellSteel.png");
-	i_crystal.loadFromFile("Textures/Crystal.png");
-	i_malachite.loadFromFile("Textures/Malachite.png");
-	i_ruby.loadFromFile("Textures/Ruby.png");
-	i_iron.loadFromFile("Textures/Iron.png");
-	i_copper.loadFromFile("Textures/Copper.png");
+	i_red_wood.loadFromFile("Textures/Red_Wood.png");
+	i_hell_steel_ore.loadFromFile("Textures/Hell_Steel_Ore.png");
+	i_crystal_ore.loadFromFile("Textures/Crystal_Ore.png");
+	i_malachite_ore.loadFromFile("Textures/Malachite_Ore.png");
+	i_ruby_ore.loadFromFile("Textures/Ruby_Ore.png");
+	i_iron_ore.loadFromFile("Textures/Iron_Ore.png");
+	i_copper_ore.loadFromFile("Textures/Copper_Ore.png");
+	i_void_ore.loadFromFile("Textures/Void_Ore.png");
 
 
 	/* Create Structures */
@@ -142,10 +143,14 @@ void WorldManager::create()
 		pos.y = m_heights[m_trees[i]] - 1;
 
 		// Randomise Tree Type
-		if (m_random.random(0, 5) >= 1) {
-			s_tree.Build(m_image, pos);
-		} else {
-			s_tree2.Build(m_image, pos);
+		if (m_image.getPixel(pos.x, pos.y+1) == BlockManager::hex_to_color((unsigned int)Block::Grass))
+		{
+			if (m_random.random(0, 5) >= 1) {
+				s_tree.Build(m_image, pos);
+			}
+			else {
+				s_tree2.Build(m_image, pos);
+			}
 		}
 	}
 
@@ -191,8 +196,8 @@ std::vector<Block> WorldManager::ore_spawn_in_range(sf::Vector2i pos)
 	Copper
 	*/
 
-	if (pos.y > m_height * 0.6 && pos.y < m_height * 0.8 && m_heights[pos.x] < pos.y) { ores.push_back(Block::Diamond); }
-	if (pos.y > m_height * 0.56 && pos.y < m_height * 0.9 && m_heights[pos.x] < pos.y) { ores.push_back(Block::Ruby); }
+	if (pos.y > m_height * 0.6 && pos.y < m_height * 0.8 && m_heights[pos.x] < pos.y) { ores.push_back(Block::Diamond_Ore); }
+	if (pos.y > m_height * 0.56 && pos.y < m_height * 0.9 && m_heights[pos.x] < pos.y) { ores.push_back(Block::Ruby_Ore); }
 	
 	return ores;
 }
@@ -260,70 +265,71 @@ void WorldManager::get_view_sprite()
 		for (int y = top_left.y; y < loop_max_y; y++) {
 			if (x >= 0 && x < m_width && y >= 0 && y < m_height) {
 				Block block = get_block({ x, y });
-				if (block != Block::Void) {
 
-					switch (block)
-					{
-					case Stone:
-						_block = &i_stone;
-						break;
-					case Dirt:
-						_block = &i_dirt;
-						break;
-					case Wood:
-						_block = &i_wood;
-						break;
-					case Diamond:
-						_block = &i_diamond;
-						break;
-					case Grass:
-						_block = &i_grass;
-						break;
-					case Water:
-						_block = &i_water;
-						break;
-					case Lava:
-						_block = &i_lava;
-						break;
-					case Leaf:
-						_block = &i_leaf;
-						break;
-					case Brick:
-						_block = &i_brick;
-						break;
-					case Red_Wood:
-						_block = &i_red_wood;
-						break;
-					case Hell_Steel:
-						_block = &i_hell_steel;
-						break;
-					case Crystal:
-						_block = &i_crystal;
-						break;
-					case Malachite:
-						_block = &i_malachite;
-						break;
-					case Ruby:
-						_block = &i_ruby;
-						break;
-					case Iron:
-						_block = &i_iron;
-						break;
-					case Copper:
-						_block = &i_copper;
-						break;
-					case Bedrock:
-						_block = &i_bedrock;
-					default:
-						break;
-					}
-
-					m_view_image.copy(*_block, i_x * 8, i_y * 8);
-				}
-				else
+				switch (block)
 				{
-					m_view_image.copy(i_void, i_x * 8, i_y * 8);
+				case Void:
+					_block = &i_void;
+					break;
+				case Stone:
+					_block = &i_stone;
+					break;
+				case Dirt:
+					_block = &i_dirt;
+					break;
+				case Wood:
+					_block = &i_wood;
+					break;
+				case Diamond_Ore:
+					_block = &i_diamond_ore;
+					break;
+				case Grass:
+					_block = &i_grass;
+					break;
+				case Water:
+					_block = &i_water;
+					break;
+				case Lava:
+					_block = &i_lava;
+					break;
+				case Leaf:
+					_block = &i_leaf;
+					break;
+				case Brick:
+					_block = &i_brick;
+					break;
+				case Red_Wood:
+					_block = &i_red_wood;
+					break;
+				case Hell_Steel_Ore:
+					_block = &i_hell_steel_ore;
+					break;
+				case Crystal_Ore:
+					_block = &i_crystal_ore;
+					break;
+				case Malachite_Ore:
+					_block = &i_malachite_ore;
+					break;
+				case Ruby_Ore:
+					_block = &i_ruby_ore;
+					break;
+				case Iron_Ore:
+					_block = &i_iron_ore;
+					break;
+				case Copper_Ore:
+					_block = &i_copper_ore;
+					break;
+				case Bedrock:
+					_block = &i_bedrock;
+					break;
+				case Void_Ore:
+					_block = &i_void_ore;
+					break;
+				default:
+					break;
 				}
+
+				m_view_image.copy(*_block, i_x * 8, i_y * 8);
 			}
 			i_y++;
 		}

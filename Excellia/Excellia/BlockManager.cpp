@@ -36,7 +36,7 @@ std::string BlockManager::block_name(Block b)
 		return "Lava";
 	case Block::Dirt:
 		return "Dirt";
-	case Block::Diamond:
+	case Block::Diamond_Ore:
 		return "Diamond";
 	case Block::Grass:
 		return "Grass";
@@ -65,7 +65,7 @@ Block BlockManager::block_value(std::string& name)
 		return Block::Wood;
 	}
 	else if (name == "Diamond") {
-		return Block::Diamond;
+		return Block::Diamond_Ore;
 	}
 	else if (name == "Grass") {
 		return Block::Grass;
