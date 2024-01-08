@@ -17,7 +17,7 @@ void Camera::attach(Actor& actor)
 
 void Camera::update(float dt)
 {
-	m_position += (m_follow.get_position() - m_position) * m_cam_speed * dt;
+	m_position += (m_follow.get_position() - m_position) * std::min(m_cam_speed * dt, 1.0f);
 	m_view.setCenter(m_position);
 }
 
