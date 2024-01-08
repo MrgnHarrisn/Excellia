@@ -4,6 +4,31 @@
 WorldManager::WorldManager(sf::RenderWindow& window, sf::Vector2u size, long int seed) : m_window(window)
 {
 
+	// Set World Size
+	if (size.x != 0 && size.y != 0)
+	{
+		m_width = size.x;
+		m_height = size.y;
+	}
+
+	// Set World Seed
+	if (seed != -1)
+	{
+		Random r(seed);
+		m_random = r;
+	}
+
+	// Setup View Image
+	m_view_image.create(265.0f / window.getSize().y * window.getSize().x, 265, sf::Color(0, 0, 0, 0));
+	m_view_sprite.setOrigin(0, 0);
+	m_view_sprite.setScale(0.125, 0.125);
+	m_view_texture.loadFromImage(m_view_image);
+}
+
+void WorldManager::create()
+{
+	sf::Clock clock;
+
 	/* Create Blocks */
 	i_void.create(8, 8, sf::Color(0, 0, 0, 0));
 	i_dirt.loadFromFile("Textures/Dirt.png");
@@ -32,32 +57,9 @@ WorldManager::WorldManager(sf::RenderWindow& window, sf::Vector2u size, long int
 	s_tree2.Load_Image("Structures/Tree2.png");
 	s_tree2.Set_Origin(7, 14);
 
-	// Set World Size
-	if (size.x != 0 && size.y != 0)
-	{
-		m_width = size.x;
-		m_height = size.y;
-	}
-
-	// Set World Seed
-	if (seed != -1)
-	{
-		Random r(seed);
-		m_random = r;
-	}
-
 	// Create Blank World
 	m_image.create(m_width, m_height, BlockManager::hex_to_color(Block::Void));
 
-	// Setup View Image
-	m_view_image.create(265.0f / window.getSize().y * window.getSize().x, 265, sf::Color(0, 0, 0, 0));
-	m_view_sprite.setOrigin(0, 0);
-	m_view_sprite.setScale(0.125, 0.125);
-	m_view_texture.loadFromImage(m_view_image);
-}
-
-void WorldManager::create()
-{
 	// Place Stone
 	m_heights = TerrainGeneration::generate_heights(m_width, 0.005f, m_height, m_random);
 
@@ -161,7 +163,8 @@ void WorldManager::create()
 			m_image.setPixel(i, j, BlockManager::hex_to_color(Block::Bedrock));
 		}
 	}
-
+	
+	printf("World Loaded in %.2fs", clock.restart().asSeconds());
 }
 
 int WorldManager::place_player(int x)
