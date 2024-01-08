@@ -21,6 +21,7 @@ Player::Player(sf::Vector2f position, WorldManager& wm) : m_wm(wm)
 
 void Player::update(float dt)
 {
+	m_velocity.x = 0;
 
 	// Check Sprinting
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift)) {
@@ -72,14 +73,12 @@ void Player::update(float dt)
 	// Apply Gravity
 	m_velocity.y += gravity * dt;
 
-	// Update Velocity
-	// m_velocity *= dt;
-
 	// Call Collision
 	sf::Vector2f pos = get_position();
-	sf::Vector2f temp_v = sf::Vector2f(m_velocity.x * 0.0001, m_velocity.y * 0.0001);
+	int loop_count = dt * 1000 + 1;
+	sf::Vector2f temp_v = sf::Vector2f(m_velocity.x * dt / loop_count, m_velocity.y * dt / loop_count);
 
-	while (dt > 0.0001)
+	for (int i = 0; i < loop_count; i++)
 	{
 		sf::Vector2f temp_pos = can_move_pos(pos, sf::Vector2f{ temp_v.x, temp_v.y });
 
@@ -99,21 +98,14 @@ void Player::update(float dt)
 		pos.x += temp_pos.x;
 		pos.y += temp_pos.y;
 		set_position(pos);
-		dt -= 0.0001;
 
 		if (temp_pos.y == 0 && m_velocity.y > 0)
 		{
 			m_can_jump = true;
 		}
-
 	}
 
 	// Update shape position
-	// set_position(pos);
-	m_velocity.x *= dt;
-	if (std::abs(m_velocity.x) <= 0.02) {
-		m_velocity.x = 0;
-	}
 	m_shape.setPosition(get_position());
 
 }
