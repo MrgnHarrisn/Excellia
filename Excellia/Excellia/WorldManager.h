@@ -66,7 +66,8 @@ public:
 	/// </summary>
 	/// <param name="mouse_pos">Position of mouse</param>
 	/// <param name="material">Block type to place</param>
-	void place_block(Block material, sf::Vector2i mouse_pos);
+	/// <param name="player_pos">Position of player</param>
+	void place_block(Block material, sf::Vector2i mouse_pos, sf::Vector2f player_pos);
 
 	/// <summary>
 	/// Forces a block to be placed at position

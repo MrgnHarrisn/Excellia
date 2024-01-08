@@ -167,7 +167,7 @@ int main()
 		if (is_block_placed) {
 			wm.break_block(sf::Mouse::getPosition(window));
 		} else if (is_placing_block) {
-			wm.place_block(current_block, sf::Mouse::getPosition(window));
+			wm.place_block(current_block, sf::Mouse::getPosition(window), player.get_position());
 		}
 
 

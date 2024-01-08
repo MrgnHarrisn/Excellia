@@ -219,9 +219,15 @@ void WorldManager::break_block(sf::Vector2i mouse_pos)
 	}
 }
 
-void WorldManager::place_block(Block material, sf::Vector2i mouse_pos)
+void WorldManager::place_block(Block material, sf::Vector2i mouse_pos, sf::Vector2f player_pos)
 {
+
 	sf::Vector2u block = (sf::Vector2u)screen_pos_to_world_pos(mouse_pos);
+
+	if (std::abs((float)block.x - player_pos.x) < 1.0f && std::abs((float)block.y - player_pos.y + 1.995f) < 1.995f)
+	{
+		return;
+	}
 
 	// Check world bounds
 	if (block.x >= 0 && block.x <= (unsigned int)m_width && block.y >= 0 && block.y < (unsigned int)m_height) {
