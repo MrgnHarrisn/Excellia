@@ -90,7 +90,7 @@ void Player::update(float dt)
 		{
 			temp_pos.y = 0;
 		}
-		if (pos.x + temp_v.x < 1 && temp_v.x < 0)
+		if (pos.x + temp_v.x < 0 && temp_v.x < 0)
 		{
 			temp_pos.x = 0;
 		}

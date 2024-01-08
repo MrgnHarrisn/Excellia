@@ -171,7 +171,14 @@ int WorldManager::place_player(int x)
 
 Block WorldManager::get_block(sf::Vector2i pos)
 {
-	return BlockManager::color_to_block(m_image.getPixel(pos.x, pos.y));
+	if (pos.x >= 0 && pos.x < m_width && pos.y >= 0 && pos.y < m_height)
+	{
+		return BlockManager::color_to_block(m_image.getPixel(pos.x, pos.y));
+	}
+	else
+	{
+		return Block::Void;
+	}
 }
 
 sf::Vector2f WorldManager::screen_pos_to_world_pos(sf::Vector2i mouse_pos)
@@ -263,81 +270,77 @@ void WorldManager::get_view_sprite()
 	int loop_max_x = (top_left.x + half_size.x * 2) + 3;
 	int loop_max_y = (top_left.y + half_size.y * 2) + 3;
 
-	sf::Image* _block = &i_stone;
+	sf::Image* _block = &i_void;
 
 	// Loop over image
 	int i_x = 0;
 	for (int x = top_left.x; x < loop_max_x; x++) {
 		int i_y = 0;
 		for (int y = top_left.y; y < loop_max_y; y++) {
-			if (x >= 0 && x < m_width && y >= 0 && y < m_height) {
-				Block block = get_block({ x, y });
+			Block block = get_block({ x, y });
 
-				switch (block)
-				{
-				case Void:
-					_block = &i_void;
-					break;
-				case Stone:
-					_block = &i_stone;
-					break;
-				case Dirt:
-					_block = &i_dirt;
-					break;
-				case Wood:
-					_block = &i_wood;
-					break;
-				case Diamond_Ore:
-					_block = &i_diamond_ore;
-					break;
-				case Grass:
-					_block = &i_grass;
-					break;
-				case Water:
-					_block = &i_water;
-					break;
-				case Lava:
-					_block = &i_lava;
-					break;
-				case Leaf:
-					_block = &i_leaf;
-					break;
-				case Brick:
-					_block = &i_brick;
-					break;
-				case Red_Wood:
-					_block = &i_red_wood;
-					break;
-				case Hell_Steel_Ore:
-					_block = &i_hell_steel_ore;
-					break;
-				case Crystal_Ore:
-					_block = &i_crystal_ore;
-					break;
-				case Malachite_Ore:
-					_block = &i_malachite_ore;
-					break;
-				case Ruby_Ore:
-					_block = &i_ruby_ore;
-					break;
-				case Iron_Ore:
-					_block = &i_iron_ore;
-					break;
-				case Copper_Ore:
-					_block = &i_copper_ore;
-					break;
-				case Bedrock:
-					_block = &i_bedrock;
-					break;
-				case Void_Ore:
-					_block = &i_void_ore;
-					break;
-				default:
-					break;
-				}
-
-				m_view_image.copy(*_block, i_x * 8, i_y * 8);
+			switch (block)
+			{
+			case Stone:
+				_block = &i_stone;
+				break;
+			case Dirt:
+				_block = &i_dirt;
+				break;
+			case Wood:
+				_block = &i_wood;
+				break;
+			case Diamond_Ore:
+				_block = &i_diamond_ore;
+				break;
+			case Grass:
+				_block = &i_grass;
+				break;
+			case Water:
+				_block = &i_water;
+				break;
+			case Lava:
+				_block = &i_lava;
+				break;
+			case Leaf:
+				_block = &i_leaf;
+				break;
+			case Brick:
+				_block = &i_brick;
+				break;
+			case Red_Wood:
+				_block = &i_red_wood;
+				break;
+			case Hell_Steel_Ore:
+				_block = &i_hell_steel_ore;
+				break;
+			case Crystal_Ore:
+				_block = &i_crystal_ore;
+				break;
+			case Malachite_Ore:
+				_block = &i_malachite_ore;
+				break;
+			case Ruby_Ore:
+				_block = &i_ruby_ore;
+				break;
+			case Iron_Ore:
+				_block = &i_iron_ore;
+				break;
+			case Copper_Ore:
+				_block = &i_copper_ore;
+				break;
+			case Bedrock:
+				_block = &i_bedrock;
+				break;
+			case Void_Ore:
+				_block = &i_void_ore;
+				break;
+			default:
+				_block = &i_void;
+				break;
 			}
+
+			m_view_image.copy(*_block, i_x * 8, i_y * 8);
 			i_y++;
 		}
 		i_x++;
