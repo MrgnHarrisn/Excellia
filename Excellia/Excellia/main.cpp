@@ -50,7 +50,7 @@ int main()
 
 
 	// Create Player
-	sf::Vector2f position((float)settings.get_world_size().x / 2.0f, (float)wm.place_player(settings.get_world_size().x / 2.0f));
+	sf::Vector2f position((int)settings.get_world_size().x / 2, (float)wm.place_player(settings.get_world_size().x / 2.0f));
 	Player player(position, wm);
 	
 	 
