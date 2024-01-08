@@ -134,6 +134,7 @@ void WorldManager::create()
 
 	/* Generates trees */
 	m_trees = TerrainGeneration::generate_trees(m_width, m_random);
+	int halfx = m_width / 2;
 
 	// For Each Tree
 	for (size_t i = 0; i < m_trees.size(); i++)
@@ -165,7 +166,7 @@ void WorldManager::create()
 
 int WorldManager::place_player(int x)
 {
-	return m_heights[x - 1] - 1; // -1 is to avoid collision problems
+	return m_heights[x];
 }
 
 Block WorldManager::get_block(sf::Vector2i pos)

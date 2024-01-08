@@ -91,14 +91,16 @@ std::vector<int> TerrainGeneration::generate_trees(int map_width, Random& r)
 
 	// Stops first tree from being on the edge
 	int tree_pos = (int)r.random(5, 15);
+	
 
 	// Randomise position
 	while (tree_pos < map_width - 5)
 	{
-		if (true) // WIP: will check it can spawn there
+		if (std::abs(tree_pos - map_width / 2) < 4)
 		{
-			trees.push_back(tree_pos);
+			tree_pos += (int)r.random(3, 10);
 		}
+			trees.push_back(tree_pos);
 		
 		// Move along
 		tree_pos += (int)r.random(10, 50);
