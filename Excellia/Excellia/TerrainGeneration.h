@@ -5,8 +5,6 @@
 #include "Random.h"
 #include "Utils.h"
 
-#include <cmath>
-
 /// <summary>
 /// Generates world and stores it
 /// </summary>

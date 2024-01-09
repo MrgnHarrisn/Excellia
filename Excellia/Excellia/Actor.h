@@ -41,6 +41,6 @@ public:
 	sf::Vector2f get_position();
 
 private:
-
+	sf::CircleShape a_shape;
 	sf::Vector2f m_position;
 };

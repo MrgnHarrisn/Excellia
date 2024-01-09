@@ -35,9 +35,9 @@ void Structure::Build(sf::Image& world, sf::Vector2i position)
 {
 	position -= m_origin;
 
-	for (size_t x = 0; x < m_image.getSize().x; x++)
+	for (unsigned int x = 0; x < m_image.getSize().x; x++)
 	{
-		for (size_t y = 0; y < m_image.getSize().y; y++)
+		for (unsigned int y = 0; y < m_image.getSize().y; y++)
 		{
 			if (m_image.getPixel(x, y) != sf::Color(0U, 0U, 0U, 0U))
 			{

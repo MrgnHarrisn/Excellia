@@ -19,10 +19,13 @@ WorldManager::WorldManager(sf::RenderWindow& window, sf::Vector2u size, long int
 	}
 
 	// Setup View Image
-	m_view_image.create(265.0f / window.getSize().y * window.getSize().x, 265, sf::Color(0, 0, 0, 0));
+	m_view_image.create(265.0f / window.getSize().y * window.getSize().x, 265U, sf::Color(0, 0, 0, 0));
 	m_view_sprite.setOrigin(0, 0);
 	m_view_sprite.setScale(0.125, 0.125);
 	m_view_texture.loadFromImage(m_view_image);
+
+	// Create World
+	create();
 }
 
 void WorldManager::create()
@@ -73,7 +76,7 @@ void WorldManager::create()
 	m_ores = TerrainGeneration::generate_ores(min, max, m_random);
 
 	// Loop Over Columns
-	for (size_t i = 0; i < m_heights.size(); i++) {
+	for (unsigned int i = 0; i < m_heights.size(); i++) {
 
 		// Draw Stone
 		for (int j = m_heights[i] + m_dirt_heights[i]; j < m_height; j++) {
@@ -91,7 +94,7 @@ void WorldManager::create()
 	}
 
 	/* Generate caves with random walking */
-	for (size_t i = 0; i < m_caves.size(); i++) {
+	for (unsigned int i = 0; i < m_caves.size(); i++) {
 
 		sf::Vector2i position_a = m_caves[i];
 		int cave_size = (m_caves[i].y > m_height * 0.75 ? 1000 : 400);
@@ -124,7 +127,7 @@ void WorldManager::create()
 		
 		std::vector<Block> blocks = ore_spawn_in_range(position_a);
 		if (blocks.size() == 0) { continue;  }
-		int index = (int)m_random.random(0, blocks.size() - 1);
+		int index = (int)m_random.random(0.0f, (float)blocks.size() - 1.0f);
 		block = blocks[index];
 		// Draw Square
 		for (int d_x = 0; d_x < 3; d_x++) {
@@ -260,7 +263,7 @@ void WorldManager::force_place_block(Block material, sf::Vector2i pos)
 	}
 }
 
-void WorldManager::get_view_sprite()
+sf::Drawable &WorldManager::get_view_sprite()
 {
 	/* The size of the actual view is being changed but we aren't */
 
@@ -352,7 +355,7 @@ void WorldManager::get_view_sprite()
 	m_view_texture.update(m_view_image, 0, 0);
 	m_view_sprite.setTexture(m_view_texture);
 	m_view_sprite.setPosition((sf::Vector2f)(top_left));
-	m_window.draw(m_view_sprite);
+	return m_view_sprite;
 }
 
 int WorldManager::find_highest_point()

@@ -7,8 +7,7 @@ void Actor::update(float dt) {}
 
 sf::Drawable& Actor::render_shape()
 {
-	sf::CircleShape shape;
-	return shape;
+	return a_shape;
 }
 
 void Actor::set_position(sf::Vector2f position)

@@ -1,18 +1,14 @@
 #pragma once
 
-#include <SFML/Graphics/RectangleShape.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Graphics/Texture.hpp>
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Graphics/Image.hpp>
 #include <SFML/Graphics/Color.hpp>
 
-#include <SFML/System/Vector2.hpp>
-
 #include "TerrainGeneration.h"
 #include "BlockManager.h"
 #include "Structure.h"
-#include "Random.h"
 
 /// <summary>
 /// Manages a world
@@ -80,7 +76,7 @@ public:
 	/// Creates a sprite of the current view
 	/// </summary>
 	/// <returns>Sprite of the current view</returns>
-	void get_view_sprite();
+	sf::Drawable &get_view_sprite();
 
 	int find_highest_point();
 

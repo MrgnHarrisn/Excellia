@@ -1,17 +1,47 @@
 
-#include <SFML/Graphics.hpp>
+#include <SFML/Graphics/Shader.hpp>
+#include <SFML/Window/Event.hpp>
 
 #include "WorldManager.h"
-#include "BlockManager.h"
 #include "Settings.h"
 #include "Player.h"
 #include "Camera.h"
-#include "Utils.h"
 
 int main()
 {
 
-	// Load Shader
+	// Create Settings
+	Settings settings;
+	
+
+	// Create Clock
+	sf::Clock clock;
+	float dt = 0;
+
+
+	// Create window
+	sf::RenderWindow window(sf::VideoMode(settings.get_screen_size().x, settings.get_screen_size().y), "Pixellia", sf::Style::None);
+
+
+	// Creates world
+	WorldManager world(window, settings.get_world_size(), 573849); // 5 needs fixing, 573849 test seed
+
+
+	// Create Player
+	Player player(sf::Vector2f((int)settings.get_world_size().x / 2, (float)world.place_player(settings.get_world_size().x / 2.0f)), world);
+	
+	 
+	// Create Camera
+	Camera cam(player.get_position(), sf::Vector2u{1080 * settings.get_screen_size().x / settings.get_screen_size().y, 1080}, player, 35);
+
+
+	// Create Cursor
+	sf::RectangleShape cursor;
+	cursor.setSize({ 1, 1 });
+	cursor.setFillColor(sf::Color(255, 255, 255, 50));
+
+
+	// Create Shader
 	sf::Shader shader;
 	if (!shader.loadFromFile("Shaders/vertex_shader.vert", "Shaders/fragment_shader.frag")) {
 		printf("Something went wrong!");
@@ -19,53 +49,19 @@ int main()
 	}
 
 
-	// Load Settings
-	Settings settings;
-	settings.update();
-	
-
-	// Delta Time
-	sf::Clock clock;
-	float dt = 0;
-
-
-	// Day/Night Cycle
+	// Set Day/Night Cycle Defaults
+	bool is_transitioning = true;
 	float end_of_day_time = 5 * 60;
 	float current_time = 0;
-
 	sf::Color night_color(0, 0, 40);		// Dark blue for night sky
 	sf::Color day_color(135, 206, 235);		// Light blue for daylight sky
 	sf::Color current_color = night_color;
-	bool is_transitioning = true;
-
-
-	// Create window
-	sf::RenderWindow window(sf::VideoMode(settings.get_screen_size().x, settings.get_screen_size().y), "Pixellia", sf::Style::None);
-	// window.setFramerateLimit(30);
-
-
-	// Creates world
-	WorldManager wm(window, settings.get_world_size(), 573849); // 5 needs fixing, 573849 test seed
-	wm.create();
-
-
-	// Create Player
-	sf::Vector2f position((int)settings.get_world_size().x / 2, (float)wm.place_player(settings.get_world_size().x / 2.0f));
-	Player player(position, wm);
 	
-	 
-	// Create Camera
-	Camera cam(position, sf::Vector2u{1080 * settings.get_screen_size().x / settings.get_screen_size().y, 1080}, player, 35);
-
 
 	// Set Build/Destroy Defaults
 	bool is_block_placed = false;
 	bool is_placing_block = false;
 	Block current_block = Block::Wood;
-
-
-	// Create Cursor
-	sf::RectangleShape cursor;
 
 
 	// Main loop
@@ -109,7 +105,7 @@ int main()
 				}
 				else if (event.mouseButton.button == sf::Mouse::Middle)
 				{
-					Block temp_block = wm.get_block(static_cast<sf::Vector2i>(wm.screen_pos_to_world_pos(sf::Mouse::getPosition(window))));
+					Block temp_block = world.get_block(static_cast<sf::Vector2i>(world.screen_pos_to_world_pos(sf::Mouse::getPosition(window))));
 					if (temp_block != Block::Void) current_block = temp_block;
 				}
 			}
@@ -165,16 +161,14 @@ int main()
 
 		// Place/Break Block
 		if (is_block_placed) {
-			wm.break_block(sf::Mouse::getPosition(window));
+			world.break_block(sf::Mouse::getPosition(window));
 		} else if (is_placing_block) {
-			wm.place_block(current_block, sf::Mouse::getPosition(window), player.get_position());
+			world.place_block(current_block, sf::Mouse::getPosition(window), player.get_position());
 		}
 
 
 		// Update Cursor
-		cursor.setPosition((sf::Vector2f)(sf::Vector2i)(wm.screen_pos_to_world_pos(sf::Mouse::getPosition(window))));
-		cursor.setSize({ 1, 1 });
-		cursor.setFillColor(sf::Color(255, 255, 255, 50));
+		cursor.setPosition((sf::Vector2f)(sf::Vector2i)(world.screen_pos_to_world_pos(sf::Mouse::getPosition(window))));
 
 
 		// Update Player
@@ -220,7 +214,7 @@ int main()
 
 
 		// Render View
-		wm.get_view_sprite();
+		window.draw(world.get_view_sprite());
 
 
 		// Draw Player
