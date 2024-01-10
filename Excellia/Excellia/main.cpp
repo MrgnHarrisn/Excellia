@@ -83,79 +83,106 @@ int main()
 				window.close();
 			}
 
-			// Zoom In/Out
-			if (event.type == sf::Event::MouseWheelScrolled) {
+			// Scroll Input
+			if (event.type == sf::Event::MouseWheelScrolled)
+			{
 				if (event.mouseWheelScroll.wheel == sf::Mouse::VerticalWheel) {
+					// Zoom In
 					if (event.mouseWheelScroll.delta > 0) {
 						cam.zoom_in();
 					}
+					// Zoom Out
 					else if (event.mouseWheelScroll.delta < 0) {
 						cam.zoom_out();
 					}
 				}
 			}
 
-			// Start Placing/Breaking
-			if (event.type == sf::Event::MouseButtonPressed) {
+			// Mouse Input
+			if (event.type == sf::Event::MouseButtonPressed)
+			{
+				// Start Placing
 				if (event.mouseButton.button == sf::Mouse::Left) {
 					is_block_placed = true;
 				}
+				// Start Breaking
 				else if (event.mouseButton.button == sf::Mouse::Right) {
 					is_placing_block = true;
 				}
+				// Select Block
 				else if (event.mouseButton.button == sf::Mouse::Middle)
 				{
 					Block temp_block = world.get_block(static_cast<sf::Vector2i>(world.screen_pos_to_world_pos(sf::Mouse::getPosition(window))));
 					if (temp_block != Block::Void) current_block = temp_block;
 				}
 			}
-
-			// Stop Placing/Breaking
-			 if (event.type == sf::Event::MouseButtonReleased) {
+			if (event.type == sf::Event::MouseButtonReleased) {
+				// Stop Placing
 				if (event.mouseButton.button == sf::Mouse::Left) {
 					is_block_placed = false;
 				}
+				// Stop Breaking
 				else if (event.mouseButton.button == sf::Mouse::Right) {
 					is_placing_block = false;
 				}
 			}
 
-			// Change Selected Block
-			 if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num1)) {
-				 current_block = Block::Stone;
-			 } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num2)) {
-				 current_block = Block::Dirt;
-			 } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num3)) {
-				 current_block = Block::Wood;
-			 } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num4)) {
-				 current_block = Block::Water;
-			 } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num5)) {
-				 current_block = Block::Lava;
-			 } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num6)) {
-				 current_block = Block::Diamond_Ore;
-			 } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num7)) {
-				 current_block = Block::Grass;
-			 } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num8)) {
-				 current_block = Block::Leaf;
-			 } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num9)) {
-				 current_block = Block::Brick;
-			 } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num0)) {
-				 current_block = Block::Red_Wood;
-			 } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::F1)) {
-				 current_block = Block::Hell_Steel_Ore;
-			 } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::F2)) {
-				 current_block = Block::Crystal_Ore;
-			 } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::F3)) {
-				 current_block = Block::Malachite_Ore;
-			 } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::F4)) {
-				 current_block = Block::Ruby_Ore;
-			 } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::F5)) {
-				 current_block = Block::Iron_Ore;
-			 } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::F6)) {
-				 current_block = Block::Copper_Ore;
-			 } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::F7)) {
-				 current_block = Block::Void_Ore;
-			 }
+			// Keyboard Input
+			if (event.type == sf::Event::KeyPressed)
+			{
+				// Change Selected Block
+				if (event.key.code == sf::Keyboard::Num1) {
+					current_block = Block::Stone;
+				}
+				else if (event.key.code == sf::Keyboard::Num2) {
+					current_block = Block::Dirt;
+				}
+				else if (event.key.code == sf::Keyboard::Num3) {
+					current_block = Block::Wood;
+				}
+				else if (event.key.code == sf::Keyboard::Num4) {
+					current_block = Block::Water;
+				}
+				else if (event.key.code == sf::Keyboard::Num5) {
+					current_block = Block::Lava;
+				}
+				else if (event.key.code == sf::Keyboard::Num6) {
+					current_block = Block::Diamond_Ore;
+				}
+				else if (event.key.code == sf::Keyboard::Num7) {
+					current_block = Block::Grass;
+				}
+				else if (event.key.code == sf::Keyboard::Num8) {
+					current_block = Block::Leaf;
+				}
+				else if (event.key.code == sf::Keyboard::Num9) {
+					current_block = Block::Brick;
+				}
+				else if (event.key.code == sf::Keyboard::Num0) {
+					current_block = Block::Red_Wood;
+				}
+				else if (event.key.code == sf::Keyboard::F1) {
+					current_block = Block::Hell_Steel_Ore;
+				}
+				else if (event.key.code == sf::Keyboard::F2) {
+					current_block = Block::Crystal_Ore;
+				}
+				else if (event.key.code == sf::Keyboard::F3) {
+					current_block = Block::Malachite_Ore;
+				}
+				else if (event.key.code == sf::Keyboard::F4) {
+					current_block = Block::Ruby_Ore;
+				}
+				else if (event.key.code == sf::Keyboard::F5) {
+					current_block = Block::Iron_Ore;
+				}
+				else if (event.key.code == sf::Keyboard::F6) {
+					current_block = Block::Copper_Ore;
+				}
+				else if (event.key.code == sf::Keyboard::F7) {
+					current_block = Block::Void_Ore;
+				}
+			}
 		}
 
 
