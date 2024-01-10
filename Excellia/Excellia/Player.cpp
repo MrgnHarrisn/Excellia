@@ -71,7 +71,8 @@ void Player::update(float dt)
 	}
 
 	// Apply Gravity
-	m_velocity.y += gravity * dt;
+	m_velocity.y += (gravity - 0.02 * m_velocity.y * m_velocity.y) * dt;
+	printf("%f\n", m_velocity.y);
 
 	// Call Collision
 	sf::Vector2f pos = get_position();
