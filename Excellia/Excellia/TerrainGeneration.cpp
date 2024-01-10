@@ -122,6 +122,8 @@ std::vector<sf::Vector2i> TerrainGeneration::generate_ores(sf::Vector2i min, sf:
 		// Randomise position
 		ore_pos.x = (int)r.random(min.x + 10.0f, max.x - 10.0f);
 		ore_pos.y = (int)r.random(min.y + 10.0f, max.y - 10.0f);
+		ore_pos.x = (int)r.random(min.x + 10.0f, max.x - 10.0f);
+		ore_pos.y = (int)r.random(min.y + 10.0f, max.y - 10.0f);
 
 		// Store positions
 		ores.push_back(ore_pos);
