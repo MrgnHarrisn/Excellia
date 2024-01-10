@@ -120,15 +120,14 @@ void WorldManager::create()
 
 	for (size_t i = 0; i < m_ores.size(); i++) {
 
-		sf::Vector2i position_a = m_caves[i];
-		int cave_size = (m_caves[i].y > m_height * 0.75 ? 1000 : 400);
+		sf::Vector2i position_a = m_ores[i];
 
 		/* Define the type of ore */
 		Block block;
 		
 		std::vector<Block> blocks = ore_spawn_in_range(position_a);
 		if (blocks.size() == 0) { continue;  }
-		int index = (int)m_random.random(0.0f, (float)blocks.size() - 1.0f);
+		int index = (int)m_random.random(0.0f, (float)blocks.size() - 0.01);
 		block = blocks[index];
 		// Draw Square
 		for (int d_x = 0; d_x < 3; d_x++) {
@@ -202,17 +201,13 @@ std::vector<Block> WorldManager::ore_spawn_in_range(sf::Vector2i pos)
 {
 
 	std::vector<Block> ores;
-	/*
-	Crystal
-	Malachite
-	Ruby
-	Diamond
-	Iron
-	Copper
-	*/
-
+	if (pos.y > m_height * 0.2 && pos.y < m_height * 0.4 && m_heights[pos.x] < pos.y) { ores.push_back(Block::Copper_Ore); }
+	if (pos.y > m_height * 0.4 && pos.y < m_height * 0.7 && m_heights[pos.x] < pos.y) { ores.push_back(Block::Iron_Ore); }
+	if (pos.y > m_height * 0.5 && pos.y < m_height * 0.7 && m_heights[pos.x] < pos.y) { ores.push_back(Block::Crystal_Ore); }
+	if (pos.y > m_height * 0.6 && pos.y < m_height * 0.8 && m_heights[pos.x] < pos.y) { ores.push_back(Block::Malachite_Ore); }
 	if (pos.y > m_height * 0.6 && pos.y < m_height * 0.8 && m_heights[pos.x] < pos.y) { ores.push_back(Block::Diamond_Ore); }
-	if (pos.y > m_height * 0.56 && pos.y < m_height * 0.9 && m_heights[pos.x] < pos.y) { ores.push_back(Block::Ruby_Ore); }
+	if (pos.y > m_height * 0.7 && pos.y < m_height * 0.9 && m_heights[pos.x] < pos.y) { ores.push_back(Block::Ruby_Ore); }
+	if (pos.y > m_height * 0.95 && pos.y < m_height * 1.0 && m_heights[pos.x] < pos.y) { ores.push_back(Block::Void_Ore); }
 	
 	return ores;
 }

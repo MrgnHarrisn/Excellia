@@ -72,7 +72,6 @@ void Player::update(float dt)
 
 	// Apply Gravity
 	m_velocity.y += (gravity - 0.02 * m_velocity.y * m_velocity.y) * dt;
-	printf("%f\n", m_velocity.y);
 
 	// Call Collision
 	sf::Vector2f pos = get_position();
@@ -132,7 +131,7 @@ sf::Vector2f Player::can_move_pos(sf::Vector2f &position, sf::Vector2f velocity)
 
 	// Left
 	if (velocity.x < 0.0f) {
-		if (!BlockManager::can_move_through(m_wm.get_block((sf::Vector2i)(get_position() + sf::Vector2f(velocity.x - e, -0.01f)))) ||
+		if (!BlockManager::can_move_through(m_wm.get_block((sf::Vector2i)(get_position() + sf::Vector2f(velocity.x - e, -E)))) ||
 			!BlockManager::can_move_through(m_wm.get_block((sf::Vector2i)(get_position() + sf::Vector2f(velocity.x, -1.0f)))) ||
 			!BlockManager::can_move_through(m_wm.get_block((sf::Vector2i)(get_position() + sf::Vector2f(velocity.x, -2.0f)))) ||
 			!BlockManager::can_move_through(m_wm.get_block((sf::Vector2i)(get_position() + sf::Vector2f(velocity.x, e - 3.0f))))) {
@@ -142,7 +141,7 @@ sf::Vector2f Player::can_move_pos(sf::Vector2f &position, sf::Vector2f velocity)
 	}
 	// Right
 	else if (velocity.x > 0.0f) {
-		if (!BlockManager::can_move_through(m_wm.get_block((sf::Vector2i)(get_position() + sf::Vector2f(velocity.x + e + 1.0f, -0.01f)))) ||
+		if (!BlockManager::can_move_through(m_wm.get_block((sf::Vector2i)(get_position() + sf::Vector2f(velocity.x + e + 1.0f, -E)))) ||
 			!BlockManager::can_move_through(m_wm.get_block((sf::Vector2i)(get_position() + sf::Vector2f(velocity.x + 1.0f, -1.0f)))) ||
 			!BlockManager::can_move_through(m_wm.get_block((sf::Vector2i)(get_position() + sf::Vector2f(velocity.x + 1.0f, -2.0f)))) ||
 			!BlockManager::can_move_through(m_wm.get_block((sf::Vector2i)(get_position() + sf::Vector2f(velocity.x + 1.0f, e - 3.0f))))) { 
