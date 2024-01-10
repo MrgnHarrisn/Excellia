@@ -94,6 +94,35 @@ void WorldManager::create()
 
 	}
 
+	for (size_t i = 0; i < m_ores.size(); i++) {
+
+		sf::Vector2i position_a = m_ores[i];
+
+		/* Define the type of ore */
+		Block block;
+		
+		std::vector<Block> blocks = ore_spawn_in_range(position_a);
+		if (blocks.size() == 0) { continue;  }
+		int index = (int)m_random.random(0.0f, (float)blocks.size() - 0.01);
+		block = blocks[index];
+		// Draw Square
+
+		for (int i = 0; i < 5; i++)
+		{
+			for (int d_x = 0; d_x < 2; d_x++) {
+				for (int d_y = 0; d_y < 2; d_y++) {
+					force_place_block(block, position_a + sf::Vector2i(d_x, d_y));
+				}
+			}
+
+			// Walk
+			sf::Vector2i delta;
+			delta.x = m_random.random(-1, 1) < 0 ? -1 : 1;
+			delta.y = m_random.random(-1, 1) < 0 ? -1 : 1;
+			position_a += delta;
+		}
+	}
+
 	/* Generate caves with random walking */
 	for (unsigned int i = 0; i < m_caves.size(); i++) {
 
@@ -115,25 +144,6 @@ void WorldManager::create()
 			delta.x = m_random.random(-1, 1) < 0 ? -1 : 1;
 			delta.y = m_random.random(-1, 1) < 0 ? -1 : 1;
 			position_a += delta;
-		}
-	}
-
-	for (size_t i = 0; i < m_ores.size(); i++) {
-
-		sf::Vector2i position_a = m_ores[i];
-
-		/* Define the type of ore */
-		Block block;
-		
-		std::vector<Block> blocks = ore_spawn_in_range(position_a);
-		if (blocks.size() == 0) { continue;  }
-		int index = (int)m_random.random(0.0f, (float)blocks.size() - 0.01);
-		block = blocks[index];
-		// Draw Square
-		for (int d_x = 0; d_x < 3; d_x++) {
-			for (int d_y = 0; d_y < 3; d_y++) {
-				force_place_block(block, position_a + sf::Vector2i(d_x, d_y));
-			}
 		}
 	}
 
