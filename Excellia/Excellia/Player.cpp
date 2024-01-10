@@ -127,6 +127,7 @@ void Player::jump(float dt)
 sf::Vector2f Player::can_move_pos(sf::Vector2f &position, sf::Vector2f velocity)
 {
 	const float e = 0.01f;
+	m_can_jump = false;
 
 	// Left
 	if (velocity.x < 0.0f) {
