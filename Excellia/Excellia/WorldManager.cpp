@@ -72,7 +72,7 @@ void WorldManager::create()
 	// Place Caves
 	sf::Vector2i min = sf::Vector2i(0, (int)(find_highest_point() * 1.3));
 	sf::Vector2i max = sf::Vector2i(m_width, m_height);
-	m_caves = TerrainGeneration::generate_caves(min, max, m_random);
+	m_caves = TerrainGeneration::generate_caves(min, max, m_random, m_heights);
 	m_ores = TerrainGeneration::generate_ores(min, max, m_random);
 
 	// Loop Over Columns

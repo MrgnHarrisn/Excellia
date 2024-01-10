@@ -64,7 +64,7 @@ std::vector<int> TerrainGeneration::generate_dirt(int map_width, Random& r)
 	return depths;
 }
 
-std::vector<sf::Vector2i> TerrainGeneration::generate_caves(sf::Vector2i min, sf::Vector2i max, Random& r)
+std::vector<sf::Vector2i> TerrainGeneration::generate_caves(sf::Vector2i min, sf::Vector2i max, Random& r, std::vector<int>& heights)
 {
 	std::vector<sf::Vector2i> caves;
 	sf::Vector2i cave_pos;
@@ -76,7 +76,7 @@ std::vector<sf::Vector2i> TerrainGeneration::generate_caves(sf::Vector2i min, sf
 
 		// Randomise position
 		cave_pos.x = (int)r.random(min.x + 10.0f, max.x - 10.0f);
-		cave_pos.y = (int)r.random(min.y + 10.0f, max.y - 10.0f);
+		cave_pos.y = (int)r.random(heights[cave_pos.x] + max.y * 0.002, max.y - 10.0f);
 
 		// Store positions
 		caves.push_back(cave_pos);

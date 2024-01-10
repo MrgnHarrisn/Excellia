@@ -24,7 +24,7 @@ int main()
 
 
 	// Creates world
-	WorldManager world(window, settings.get_world_size(), 573849); // 5 needs fixing, 573849 test seed
+	WorldManager world(window, settings.get_world_size(), 573849); // 573849 test seed
 
 
 	// Create Player
