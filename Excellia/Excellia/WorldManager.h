@@ -122,6 +122,7 @@ private:
 	sf::Image i_iron_ore;
 	sf::Image i_copper_ore;
 	sf::Image i_void_ore;
+	sf::Image i_sand;
 
 	// Premade Structures
 	Structure s_tree;

@@ -132,7 +132,7 @@ int main()
 			{
 				// Change Selected Block
 				if (event.key.code == sf::Keyboard::Num1) {
-					current_block = Block::Stone;
+					current_block = Block::Sand;
 				}
 				else if (event.key.code == sf::Keyboard::Num2) {
 					current_block = Block::Dirt;

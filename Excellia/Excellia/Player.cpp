@@ -127,14 +127,15 @@ void Player::jump(float dt)
 sf::Vector2f Player::can_move_pos(sf::Vector2f &position, sf::Vector2f velocity)
 {
 	const float e = 0.01f;
+	const float E = 0.1;
 	m_can_jump = false;
 
 	// Left
 	if (velocity.x < 0.0f) {
 		if (!BlockManager::can_move_through(m_wm.get_block((sf::Vector2i)(get_position() + sf::Vector2f(velocity.x - e, -0.01f)))) ||
-			!BlockManager::can_move_through(m_wm.get_block((sf::Vector2i)(get_position() + sf::Vector2f(velocity.x, -1.0f))))      ||
-			!BlockManager::can_move_through(m_wm.get_block((sf::Vector2i)(get_position() + sf::Vector2f(velocity.x, -2.0f))))      ||
-			!BlockManager::can_move_through(m_wm.get_block((sf::Vector2i)(get_position() + sf::Vector2f(velocity.x, e - 3.0f)))))  {
+			!BlockManager::can_move_through(m_wm.get_block((sf::Vector2i)(get_position() + sf::Vector2f(velocity.x, -1.0f)))) ||
+			!BlockManager::can_move_through(m_wm.get_block((sf::Vector2i)(get_position() + sf::Vector2f(velocity.x, -2.0f)))) ||
+			!BlockManager::can_move_through(m_wm.get_block((sf::Vector2i)(get_position() + sf::Vector2f(velocity.x, e - 3.0f))))) {
 			velocity.x = 0.0f;
 			position.x = std::floor(position.x + 0.5f - e);
 		}
@@ -142,19 +143,17 @@ sf::Vector2f Player::can_move_pos(sf::Vector2f &position, sf::Vector2f velocity)
 	// Right
 	else if (velocity.x > 0.0f) {
 		if (!BlockManager::can_move_through(m_wm.get_block((sf::Vector2i)(get_position() + sf::Vector2f(velocity.x + e + 1.0f, -0.01f)))) ||
-			!BlockManager::can_move_through(m_wm.get_block((sf::Vector2i)(get_position() + sf::Vector2f(velocity.x + 1.0f, -1.0f))))      ||
-			!BlockManager::can_move_through(m_wm.get_block((sf::Vector2i)(get_position() + sf::Vector2f(velocity.x + 1.0f, -2.0f))))      ||
-			!BlockManager::can_move_through(m_wm.get_block((sf::Vector2i)(get_position() + sf::Vector2f(velocity.x + 1.0f, e - 3.0f)))))  { 
+			!BlockManager::can_move_through(m_wm.get_block((sf::Vector2i)(get_position() + sf::Vector2f(velocity.x + 1.0f, -1.0f)))) ||
+			!BlockManager::can_move_through(m_wm.get_block((sf::Vector2i)(get_position() + sf::Vector2f(velocity.x + 1.0f, -2.0f)))) ||
+			!BlockManager::can_move_through(m_wm.get_block((sf::Vector2i)(get_position() + sf::Vector2f(velocity.x + 1.0f, e - 3.0f))))) { 
 			velocity.x = 0;
 			position.x = std::floor(position.x + 0.5f - e);
 		}
 	}
 	// Down
 	if (velocity.y > 0.0f) {
-		if (!BlockManager::can_move_through(m_wm.get_block((sf::Vector2i)(get_position() + sf::Vector2f(0.1f, velocity.y))))             ||
-			!BlockManager::can_move_through(m_wm.get_block((sf::Vector2i)(get_position() + sf::Vector2f(0.9f, velocity.y))))             ||
-			!BlockManager::can_move_through(m_wm.get_block((sf::Vector2i)(get_position() + sf::Vector2f(0.1f, velocity.y + e - 3.0f))))  ||
-			!BlockManager::can_move_through(m_wm.get_block((sf::Vector2i)(get_position() + sf::Vector2f(0.9f, velocity.y + e - 3.0f))))) {
+		if (!BlockManager::can_move_through(m_wm.get_block((sf::Vector2i)(get_position() + sf::Vector2f(E, velocity.y)))) ||
+			!BlockManager::can_move_through(m_wm.get_block((sf::Vector2i)(get_position() + sf::Vector2f(1.0f - E, velocity.y))))) {
 			velocity.y = 0.0f;
 			position.y = std::floor(position.y + 0.5f - e) - e;
 			m_velocity.y = 0.0f;
@@ -163,10 +162,8 @@ sf::Vector2f Player::can_move_pos(sf::Vector2f &position, sf::Vector2f velocity)
 	}
 	// Up
 	else if (velocity.y < 0.0f) {
-		if (!BlockManager::can_move_through(m_wm.get_block((sf::Vector2i)(get_position() + sf::Vector2f(e, velocity.y - e))))                ||
-			!BlockManager::can_move_through(m_wm.get_block((sf::Vector2i)(get_position() + sf::Vector2f(1.0f - e, velocity.y - e))))         ||
-			!BlockManager::can_move_through(m_wm.get_block((sf::Vector2i)(get_position() + sf::Vector2f(e, velocity.y + e - 3.0f))))         ||
-			!BlockManager::can_move_through(m_wm.get_block((sf::Vector2i)(get_position() + sf::Vector2f(1.0f - e, velocity.y + e - 3.0f))))) {
+		if (!BlockManager::can_move_through(m_wm.get_block((sf::Vector2i)(get_position() + sf::Vector2f(E, velocity.y + e - 3.0f)))) ||
+			!BlockManager::can_move_through(m_wm.get_block((sf::Vector2i)(get_position() + sf::Vector2f(1.0f - E, velocity.y + e - 3.0f))))) {
 			velocity.y = 0.0f;
 			position.y = std::floor(position.y + 0.5f - e) - e;
 			m_velocity.y = 0.0f;

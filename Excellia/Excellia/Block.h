@@ -18,6 +18,7 @@ enum Block
 	Iron_Ore		= 0xAFAFAFFF,
 	Copper_Ore		= 0xCA937BFF,
 	Void_Ore		= 0x4DB999FF,
+	Sand            = 0xE8CD73FF,
 
 
 	Water			= 0x32A6DFFF,		// Bluey Color

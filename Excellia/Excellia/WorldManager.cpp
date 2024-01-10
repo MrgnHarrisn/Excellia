@@ -52,6 +52,7 @@ void WorldManager::create()
 	i_iron_ore.loadFromFile("Textures/Iron_Ore.png");
 	i_copper_ore.loadFromFile("Textures/Copper_Ore.png");
 	i_void_ore.loadFromFile("Textures/Void_Ore.png");
+	i_sand.loadFromFile("Textures/Sand.png");
 
 
 	/* Create Structures */
@@ -340,6 +341,9 @@ sf::Drawable &WorldManager::get_view_sprite()
 				break;
 			case Void_Ore:
 				_block = &i_void_ore;
+				break;
+			case Sand:
+				_block = &i_sand;
 				break;
 			default:
 				_block = &i_void;
