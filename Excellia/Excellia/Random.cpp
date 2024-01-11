@@ -19,10 +19,3 @@ float Random::random(float min, float max)
 	std::uniform_real_distribution<float> dist(min, max);
 	return dist(m_gen);
 }
-
-float Random::random(float min, float max, long int seed)
-{
-	std::mt19937 gen(seed);
-	std::uniform_real_distribution<float> dist(min, max);
-	return dist(gen);
-}

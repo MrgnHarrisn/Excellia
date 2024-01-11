@@ -40,15 +40,7 @@ public:
 	/// <returns>if the block is free</returns>
 	sf::Vector2f can_move_pos(sf::Vector2f &position, sf::Vector2f velocity);
 
-	/// <summary>
-	/// Gets the world sprite
-	/// </summary>
-	/// <returns>World sprite</returns>
-	sf::Sprite get_sprite();
-
 private:
-
-	void jump(float dt);
 
 	sf::RectangleShape m_shape;
 	float m_move_speed = 13;
@@ -57,7 +49,6 @@ private:
 	float m_speed = m_move_speed;
 	float m_jump_force = 30;
 	sf::Texture m_texture;
-	sf::Sprite m_sprite;
 	WorldManager& m_wm;
 	float gravity = 120;
 	bool m_can_jump = true;

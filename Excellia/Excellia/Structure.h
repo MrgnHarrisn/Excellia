@@ -4,8 +4,6 @@
 
 #include "SFML/System/Vector2.hpp"
 
-#include <string>
-
 class Structure
 {
 public:

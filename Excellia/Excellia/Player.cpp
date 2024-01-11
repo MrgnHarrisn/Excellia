@@ -3,24 +3,17 @@
 
 Player::Player(sf::Vector2f position, WorldManager& wm) : m_wm(wm)
 {
-    sf::RectangleShape shape;
-
+	m_shape.setSize(sf::Vector2f(1, 3));
+	m_shape.setOrigin(0, 3);
 	set_position(position);
-
-    m_texture.loadFromFile("Textures/Frankly.png");
-
-    // Create shape
-	shape.setSize(sf::Vector2f(1, 3));
-	shape.setOrigin(0, 3);
-	shape.setPosition(get_position());
-	shape.setTexture(&m_texture);
-    
-    // Store shape
-	m_shape = shape;
+	m_shape.setPosition(get_position());
+	m_texture.loadFromFile("Textures/Frankly.png");
+	m_shape.setTexture(&m_texture);
 }
 
 void Player::update(float dt)
 {
+	// Reset x velocity
 	m_velocity.x = 0;
 
 	// Check Sprinting
@@ -67,7 +60,8 @@ void Player::update(float dt)
 	}
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && m_can_jump) {
-		jump(dt);
+		m_velocity.y = -m_jump_force;
+		m_can_jump = false;
 	}
 
 	// Apply Gravity
@@ -107,20 +101,6 @@ void Player::update(float dt)
 
 	// Update shape position
 	m_shape.setPosition(get_position());
-
-}
-
-sf::Sprite Player::get_sprite()
-{
-    return m_sprite;
-}
-
-void Player::jump(float dt)
-{
-	/* Downward is positive, upwards is negative */
-	m_velocity.y = -m_jump_force;
-	m_jump_timer = 0.5;
-	m_can_jump = false;
 }
 
 sf::Vector2f Player::can_move_pos(sf::Vector2f &position, sf::Vector2f velocity)

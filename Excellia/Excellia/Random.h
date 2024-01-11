@@ -28,15 +28,6 @@ public:
 	/// <returns>random number</returns>
 	float random(float min, float max);
 
-	/// <summary>
-	/// Generates a random number with a given seed (not stored)
-	/// </summary>
-	/// <param name="min">smallest number</param>
-	/// <param name="max">largest number</param>
-	/// <param name="seed">seed to use</param>
-	/// <returns>random number</returns>
-	float random(float min, float max, long int seed);
-
 private:
 
 	long int m_seed;
