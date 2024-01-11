@@ -50,7 +50,8 @@ private:
 	float m_jump_force = 30;
 	sf::Texture m_texture;
 	WorldManager& m_wm;
-	float gravity = 120;
+	float m_gravity = 120;
+	float m_drag = 0.02;
 	bool m_can_jump = true;
 	float m_jump_timer = 0.0f;
 	sf::Vector2f m_velocity{ 0,0 };
