@@ -175,6 +175,10 @@ void WorldManager::create()
 		for (int j = m_height - 1; j > m_height - 1 - m_dirt_heights[i]; j--) {
 			m_image.setPixel(i, j, BlockManager::hex_to_color(Block::Bedrock));
 		}
+		/* Draw Lava*/
+		for (int j = m_height - 1; j > m_height - 10; j--) {
+			place_block(Block::Lava, sf::Vector2i(i, j), sf::Vector2f(0.0f, 0.0f));
+		}
 	}
 	
 	printf("World Loaded in %.2fs", clock.restart().asSeconds());
