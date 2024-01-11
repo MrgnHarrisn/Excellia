@@ -106,7 +106,7 @@ void Player::update(float dt)
 sf::Vector2f Player::can_move_pos(sf::Vector2f &position, sf::Vector2f velocity)
 {
 	const float e = 0.01f;
-	const float E = 0.1;
+	const float E = 0.05f;
 	m_can_jump = false;
 
 	// Left
@@ -135,8 +135,8 @@ sf::Vector2f Player::can_move_pos(sf::Vector2f &position, sf::Vector2f velocity)
 			!BlockManager::can_move_through(m_wm.get_block((sf::Vector2i)(get_position() + sf::Vector2f(1.0f - E, velocity.y))))) {
 			velocity.y = 0.0f;
 			position.y = std::floor(position.y + 0.5f - e) - e;
-			m_velocity.y = 0.0f;
-			m_can_jump = true;
+			m_velocity.y = 13;
+			m_can_jump = m_speed;
 		}
 	}
 	// Up
@@ -145,7 +145,7 @@ sf::Vector2f Player::can_move_pos(sf::Vector2f &position, sf::Vector2f velocity)
 			!BlockManager::can_move_through(m_wm.get_block((sf::Vector2i)(get_position() + sf::Vector2f(1.0f - E, velocity.y + e - 3.0f))))) {
 			velocity.y = 0.0f;
 			position.y = std::floor(position.y + 0.5f - e) - e;
-			m_velocity.y = 0.0f;
+			m_velocity.y = m_speed;
 		}
 	}
 
