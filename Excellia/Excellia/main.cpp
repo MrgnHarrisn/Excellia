@@ -7,7 +7,7 @@
 #include "Player.h"
 #include "Camera.h"
 
-int main()
+int WinMain()
 {
 
 	// Create Settings
@@ -130,8 +130,27 @@ int main()
 			// Keyboard Input
 			if (event.type == sf::Event::KeyPressed)
 			{
+				// Player Movement
+				if (event.key.code == sf::Keyboard::A)
+				{
+					player.set_moving_left(true);
+				}
+				else if (event.key.code == sf::Keyboard::D)
+				{
+					player.set_moving_right(true);
+				}
+				else if (event.key.code == sf::Keyboard::Space)
+				{
+					player.set_jumping(true);
+				}
+				else if (event.key.code == sf::Keyboard::LShift)
+				{
+					player.set_sprinting(true);
+				}
+
+
 				// Change Selected Block
-				if (event.key.code == sf::Keyboard::Num1) {
+				else if (event.key.code == sf::Keyboard::Num1) {
 					current_block = Block::Sand;
 				}
 				else if (event.key.code == sf::Keyboard::Num2) {
@@ -181,6 +200,26 @@ int main()
 				}
 				else if (event.key.code == sf::Keyboard::F7) {
 					current_block = Block::Void_Ore;
+				}
+			}
+			else if (event.type == sf::Event::KeyReleased)
+			{
+				// Player Movement
+				if (event.key.code == sf::Keyboard::A)
+				{
+					player.set_moving_left(false);
+				}
+				else if (event.key.code == sf::Keyboard::D)
+				{
+					player.set_moving_right(false);
+				}
+				else if (event.key.code == sf::Keyboard::Space)
+				{
+					player.set_jumping(false);
+				}
+				else if (event.key.code == sf::Keyboard::LShift)
+				{
+					player.set_sprinting(false);
 				}
 			}
 		}

@@ -40,6 +40,14 @@ public:
 	/// <returns>if the block is free</returns>
 	sf::Vector2f can_move_pos(sf::Vector2f &position, sf::Vector2f velocity);
 
+	void set_moving_left(bool left);
+
+	void set_moving_right(bool right);
+
+	void set_jumping(bool jump);
+	
+	void set_sprinting(bool sprint);
+
 private:
 
 	sf::RectangleShape m_shape;
@@ -53,7 +61,10 @@ private:
 	float m_gravity = 120;
 	float m_drag = 0.02;
 	bool m_can_jump = true;
-	float m_jump_timer = 0.0f;
 	sf::Vector2f m_velocity{ 0,0 };
-	bool facing_right = false;
+	bool m_facing_right = false;
+	bool m_moving_left = false;
+	bool m_moving_right = false;
+	bool m_jumping = false;
+	bool m_sprinting = false;
 };

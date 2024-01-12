@@ -17,46 +17,36 @@ void Player::update(float dt)
 	m_velocity.x = 0;
 
 	// Check Sprinting
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift)) {
+	if (m_sprinting) {
 		m_speed = m_sprint_speed;
-	}
-	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::LAlt)) {
-		m_speed = m_slow_move_speed;
 	}
 	else {
 		m_speed = m_move_speed;
 	}
 
 	// Check Movement
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A) && sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
+	if (m_moving_left && m_moving_right) {
 		m_velocity.x = 0;
 	}
-	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
+	else if (m_moving_right) {
 		m_velocity.x = m_speed;
-		if (facing_right) {
+		if (m_facing_right) {
 			m_shape.setOrigin(0, 3);
 			m_shape.setScale(1, 1);
-			facing_right = false;
+			m_facing_right = false;
 		}
 	}
-	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
+	else if (m_moving_left) {
 		m_velocity.x = -m_speed;
-		if (!facing_right) {
+		if (!m_facing_right) {
 			m_shape.setOrigin(1, 3);
 			m_shape.setScale(-1, 1);
-			facing_right = true;
+			m_facing_right = true;
 		}
 	}
 
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
-		m_velocity.y = -m_speed;
-	}
-
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
-		m_velocity.y = m_speed;
-	}
-
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && m_can_jump) {
+	if (m_jumping && m_can_jump)
+	{
 		m_velocity.y = -m_jump_force;
 		m_can_jump = false;
 	}
@@ -153,4 +143,24 @@ sf::Vector2f Player::can_move_pos(sf::Vector2f &position, sf::Vector2f displacem
 sf::Drawable& Player::render_shape()
 {
     return m_shape;
+}
+
+void Player::set_moving_left(bool left)
+{
+	m_moving_left = left;
+}
+
+void Player::set_moving_right(bool right)
+{
+	m_moving_right = right;
+}
+
+void Player::set_jumping(bool jump)
+{
+	m_jumping = jump;
+}
+
+void Player::set_sprinting(bool sprint)
+{
+	m_sprinting = sprint;
 }
