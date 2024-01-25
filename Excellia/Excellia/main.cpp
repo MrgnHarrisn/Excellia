@@ -21,6 +21,7 @@ int main()
 	blocks.create_block("Diamond_Ore", 0x49E0FBFF, 1, true);
 	blocks.create_block("Crystal_Ore", 0xA87DD8FF, 1, true);
 	blocks.create_block("Copper_Ore", 0xCA937BFF, 1, true);
+	blocks.create_block("Demon_Goo", 0x600000FF, 1, false);
 	blocks.create_block("Bedrock", 0x646466FF, -1, true);
 	blocks.create_block("Red_Wood", 0xA4593CFF, 1, true);
 	blocks.create_block("Red_Wood", 0xA4593CFF, 1, true);
@@ -179,7 +180,7 @@ int main()
 					current_block = blocks.get_by_name("Sand");
 				}
 				else if (event.key.code == sf::Keyboard::Num2) {
-					current_block = blocks.get_by_name("Dirt");
+					current_block = blocks.get_by_name("Demon_Goo");
 				}
 				else if (event.key.code == sf::Keyboard::Num3) {
 					current_block = blocks.get_by_name("Wood");
