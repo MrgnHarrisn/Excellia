@@ -7,7 +7,7 @@
 #include "Player.h"
 #include "Camera.h"
 
-int WinMain()
+int main()
 {
 
 	// Create Settings
@@ -137,7 +137,7 @@ int WinMain()
 				// Select Block
 				else if (event.mouseButton.button == sf::Mouse::Middle)
 				{
-					Block temp_block = world.get_block(static_cast<sf::Vector2i>(world.screen_pos_to_world_pos(sf::Mouse::getPosition(window))));
+					Block& temp_block = world.get_block(static_cast<sf::Vector2i>(world.screen_pos_to_world_pos(sf::Mouse::getPosition(window))));
 					if (temp_block.get_name() != "Void") current_block = temp_block;
 				}
 			}

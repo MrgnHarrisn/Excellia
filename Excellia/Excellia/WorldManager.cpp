@@ -56,21 +56,27 @@ void WorldManager::create()
 	m_caves = TerrainGeneration::generate_caves(min, max, m_random, m_heights);
 	m_ores = TerrainGeneration::generate_ores(min, max, m_random);
 
+	// Temp color
+	sf::Color _color;
+
 	// Loop Over Columns
 	for (unsigned int i = 0; i < m_heights.size(); i++) {
 
 		// Draw Stone
+		_color = m_blocks->get_by_name("Stone").get_color();
 		for (int j = m_heights[i] + m_dirt_heights[i]; j < m_height; j++) {
-			m_image.setPixel(i, j, m_blocks->get_by_name("Stone").get_color());
+			m_image.setPixel(i, j, _color);
 		}
 
 		// Draw Dirt
+		_color = m_blocks->get_by_name("Dirt").get_color();
 		for (int j = m_heights[i]; j < m_heights[i] + m_dirt_heights[i]; j++) {
-			m_image.setPixel(i, j, m_blocks->get_by_name("Dirt").get_color());
+			m_image.setPixel(i, j, _color);
 		}
 
 		// Draw Grass
-		m_image.setPixel(i, m_heights[i], m_blocks->get_by_name("Grass").get_color());
+		_color = m_blocks->get_by_name("Grass").get_color();
+		m_image.setPixel(i, m_heights[i], _color);
 
 	}
 
@@ -78,10 +84,10 @@ void WorldManager::create()
 
 		sf::Vector2i position_a = m_ores[i];
 		
-		std::vector<Block> blocks = ore_spawn_in_range(position_a);
+		std::vector<std::string> blocks = ore_spawn_in_range(position_a);
 		if (blocks.size() == 0) { continue;  }
 		int index = (int)m_random.random(0.0f, (float)blocks.size() - 0.01f);
-		Block block = blocks[index];
+		Block& block = m_blocks->get_by_name(blocks[index]);
 		// Draw Square
 
 		for (int i = 0; i < 5; i++)
@@ -105,6 +111,7 @@ void WorldManager::create()
 
 		sf::Vector2i position_a = m_caves[i];
 		int cave_size = (m_caves[i].y > m_height * 0.75 ? 1000 : 400);
+		Block& _block = m_blocks->get_by_name("Void");
 
 		// Loop Over Caves
 		for (int j = 0; j < cave_size; j++) {
@@ -112,7 +119,7 @@ void WorldManager::create()
 			// Draw Square
 			for (int d_x = 0; d_x < 3; d_x++) {
 				for (int d_y = 0; d_y < 3; d_y++) {
-					force_place_block(m_blocks->get_by_name("Void"), position_a + sf::Vector2i(d_x, d_y));
+					force_place_block(_block, position_a + sf::Vector2i(d_x, d_y));
 				}
 			}
 
@@ -166,7 +173,7 @@ int WorldManager::place_player(int x)
 	return m_heights[x];
 }
 
-Block WorldManager::get_block(sf::Vector2i pos)
+Block& WorldManager::get_block(sf::Vector2i pos)
 {
 	if (pos.x >= 0 && pos.x < m_width && pos.y >= 0 && pos.y < m_height)
 	{
@@ -188,17 +195,17 @@ sf::Vector2i WorldManager::game_pos_to_screen_pos(sf::Vector2f mouse_pos)
 	return m_window.mapCoordsToPixel(mouse_pos, m_window.getView());
 }
 
-std::vector<Block> WorldManager::ore_spawn_in_range(sf::Vector2i pos)
+std::vector<std::string> WorldManager::ore_spawn_in_range(sf::Vector2i pos)
 {
 
-	std::vector<Block> ores;
-	if (pos.y > m_height * 0.20 && pos.y < m_height * 0.4 && m_heights[pos.x] < pos.y) { ores.push_back(m_blocks->get_by_name("Copper_Ore")); }
-	if (pos.y > m_height * 0.40 && pos.y < m_height * 0.7 && m_heights[pos.x] < pos.y) { ores.push_back(m_blocks->get_by_name("Iron_Ore")); }
-	if (pos.y > m_height * 0.50 && pos.y < m_height * 0.7 && m_heights[pos.x] < pos.y) { ores.push_back(m_blocks->get_by_name("Crystal_Ore")); }
-	if (pos.y > m_height * 0.60 && pos.y < m_height * 0.8 && m_heights[pos.x] < pos.y) { ores.push_back(m_blocks->get_by_name("Malachite_Ore")); }
-	if (pos.y > m_height * 0.60 && pos.y < m_height * 0.8 && m_heights[pos.x] < pos.y) { ores.push_back(m_blocks->get_by_name("Diamond_Ore")); }
-	if (pos.y > m_height * 0.70 && pos.y < m_height * 0.9 && m_heights[pos.x] < pos.y) { ores.push_back(m_blocks->get_by_name("Ruby_Ore")); }
-	if (pos.y > m_height * 0.95 && pos.y < m_height * 1.0 && m_heights[pos.x] < pos.y) { ores.push_back(m_blocks->get_by_name("Void_Ore")); }
+	std::vector<std::string> ores;
+	if (pos.y > m_height * 0.20 && pos.y < m_height * 0.4 && m_heights[pos.x] < pos.y) { ores.push_back("Copper_Ore"); }
+	if (pos.y > m_height * 0.40 && pos.y < m_height * 0.7 && m_heights[pos.x] < pos.y) { ores.push_back("Iron_Ore"); }
+	if (pos.y > m_height * 0.50 && pos.y < m_height * 0.7 && m_heights[pos.x] < pos.y) { ores.push_back("Crystal_Ore"); }
+	if (pos.y > m_height * 0.60 && pos.y < m_height * 0.8 && m_heights[pos.x] < pos.y) { ores.push_back("Malachite_Ore"); }
+	if (pos.y > m_height * 0.60 && pos.y < m_height * 0.8 && m_heights[pos.x] < pos.y) { ores.push_back("Diamond_Ore"); }
+	if (pos.y > m_height * 0.70 && pos.y < m_height * 0.9 && m_heights[pos.x] < pos.y) { ores.push_back("Ruby_Ore"); }
+	if (pos.y > m_height * 0.95 && pos.y < m_height * 1.0 && m_heights[pos.x] < pos.y) { ores.push_back("Void_Ore"); }
 	
 	return ores;
 }
@@ -219,7 +226,7 @@ void WorldManager::break_block(sf::Vector2i mouse_pos)
 	}
 }
 
-void WorldManager::place_block(Block material, sf::Vector2i mouse_pos, sf::Vector2f player_pos)
+void WorldManager::place_block(Block& material, sf::Vector2i mouse_pos, sf::Vector2f player_pos)
 {
 
 	sf::Vector2u block = (sf::Vector2u)screen_pos_to_world_pos(mouse_pos);
@@ -241,7 +248,7 @@ void WorldManager::place_block(Block material, sf::Vector2i mouse_pos, sf::Vecto
 	}
 }
 
-void WorldManager::force_place_block(Block material, sf::Vector2i pos)
+void WorldManager::force_place_block(Block& material, sf::Vector2i pos)
 {
 	// Check world bounds
 	if (pos.x >= 0 && pos.x <= m_width && pos.y >= 0 && pos.y < m_height) {
@@ -268,7 +275,7 @@ sf::Drawable &WorldManager::get_view_sprite()
 	for (int x = top_left.x; x < loop_max_x; x++) {
 		int i_y = 0;
 		for (int y = top_left.y; y < loop_max_y; y++) {
-			Block block = get_block(sf::Vector2i(x, y));
+			Block& block = get_block(sf::Vector2i(x, y));
 			m_view_image.copy(block.get_image(), i_x * 8, i_y * 8);
 			i_y++;
 		}

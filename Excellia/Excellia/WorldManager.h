@@ -39,7 +39,7 @@ public:
 	/// </summary>
 	/// <param name="block">The position we want to check</param>
 	/// <returns>the integer value of the block</returns>
-	Block get_block(sf::Vector2i block);
+	Block& get_block(sf::Vector2i block);
 
 	/// <summary>
 	/// Converts a screen position to a world position
@@ -63,14 +63,14 @@ public:
 	/// <param name="mouse_pos">Position of mouse</param>
 	/// <param name="material">Block type to place</param>
 	/// <param name="player_pos">Position of player</param>
-	void place_block(Block material, sf::Vector2i mouse_pos, sf::Vector2f player_pos);
+	void place_block(Block& material, sf::Vector2i mouse_pos, sf::Vector2f player_pos);
 
 	/// <summary>
 	/// Forces a block to be placed at position
 	/// </summary>
 	/// <param name="pos">Position on texture</param>
 	/// <param name="material">Block type to place</param>
-	void force_place_block(Block material, sf::Vector2i pos);
+	void force_place_block(Block& material, sf::Vector2i pos);
 
 	/// <summary>
 	/// Creates a sprite of the current view
@@ -82,7 +82,7 @@ public:
 
 	sf::Vector2i game_pos_to_screen_pos(sf::Vector2f pos);
 
-	std::vector<Block> ore_spawn_in_range(sf::Vector2i pos);
+	std::vector<std::string> ore_spawn_in_range(sf::Vector2i pos);
 
 private:
 
