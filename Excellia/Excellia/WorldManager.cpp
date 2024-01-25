@@ -218,8 +218,7 @@ void WorldManager::break_block(sf::Vector2i mouse_pos)
 	if (block.x >= 0u && block.x <= (unsigned int)m_width && block.y >= 0u && block.y < (unsigned int)m_height) {
 
 		// Check theres block to break
-		if (m_image.getPixel(block.x, block.y) != m_blocks->get_by_name("Void").get_color() && m_image.getPixel(block.x, block.y) != m_blocks->get_by_name("Bedrock").get_color()) {
-
+		if (m_blocks->get_by_color(m_image.getPixel(block.x, block.y)).get_toughness() != -1) {
 			// Update Image
 			m_image.setPixel(block.x, block.y, m_blocks->get_by_name("Void").get_color());
 		}
