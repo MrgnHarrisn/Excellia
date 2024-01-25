@@ -56,7 +56,7 @@ void Player::update(float dt)
 
 	// Call Collision
 	sf::Vector2f pos = get_position();
-	int loop_count = dt * 1000 + 1;
+	int loop_count = (int)(dt * 1000 + 1);
 	sf::Vector2f test_displacement = sf::Vector2f(m_velocity.x * dt / loop_count, m_velocity.y * dt / loop_count);
 
 	for (int i = 0; i < loop_count; i++)
@@ -98,28 +98,28 @@ sf::Vector2f Player::can_move_pos(sf::Vector2f &position, sf::Vector2f displacem
 
 	// Left
 	if (displacement.x < 0.0f) {
-		if (!BlockManager::can_move_through(m_wm.get_block((sf::Vector2i)(get_position() + sf::Vector2f(displacement.x - e, -E)))) ||
-			!BlockManager::can_move_through(m_wm.get_block((sf::Vector2i)(get_position() + sf::Vector2f(displacement.x, -1.0f)))) ||
-			!BlockManager::can_move_through(m_wm.get_block((sf::Vector2i)(get_position() + sf::Vector2f(displacement.x, -2.0f)))) ||
-			!BlockManager::can_move_through(m_wm.get_block((sf::Vector2i)(get_position() + sf::Vector2f(displacement.x, e - 3.0f))))) {
+		if (m_wm.get_block((sf::Vector2i)(get_position() + sf::Vector2f(displacement.x - e, -E))).get_is_solid() ||
+			m_wm.get_block((sf::Vector2i)(get_position() + sf::Vector2f(displacement.x, -1.0f))).get_is_solid() ||
+			m_wm.get_block((sf::Vector2i)(get_position() + sf::Vector2f(displacement.x, -2.0f))).get_is_solid() ||
+			m_wm.get_block((sf::Vector2i)(get_position() + sf::Vector2f(displacement.x, e - 3.0f))).get_is_solid()) {
 			displacement.x = 0.0f;
 			position.x = std::floor(position.x + 0.5f - e);
 		}
 	}
 	// Right
 	else if (displacement.x > 0.0f) {
-		if (!BlockManager::can_move_through(m_wm.get_block((sf::Vector2i)(get_position() + sf::Vector2f(displacement.x + e + 1.0f, -E)))) ||
-			!BlockManager::can_move_through(m_wm.get_block((sf::Vector2i)(get_position() + sf::Vector2f(displacement.x + 1.0f, -1.0f)))) ||
-			!BlockManager::can_move_through(m_wm.get_block((sf::Vector2i)(get_position() + sf::Vector2f(displacement.x + 1.0f, -2.0f)))) ||
-			!BlockManager::can_move_through(m_wm.get_block((sf::Vector2i)(get_position() + sf::Vector2f(displacement.x + 1.0f, e - 3.0f))))) { 
+		if (m_wm.get_block((sf::Vector2i)(get_position() + sf::Vector2f(displacement.x + e + 1.0f, -E))).get_is_solid() ||
+			m_wm.get_block((sf::Vector2i)(get_position() + sf::Vector2f(displacement.x + 1.0f, -1.0f))).get_is_solid() ||
+			m_wm.get_block((sf::Vector2i)(get_position() + sf::Vector2f(displacement.x + 1.0f, -2.0f))).get_is_solid() ||
+			m_wm.get_block((sf::Vector2i)(get_position() + sf::Vector2f(displacement.x + 1.0f, e - 3.0f))).get_is_solid()) {
 			displacement.x = 0;
 			position.x = std::floor(position.x + 0.5f - e);
 		}
 	}
 	// Down
 	if (displacement.y > 0.0f) {
-		if (!BlockManager::can_move_through(m_wm.get_block((sf::Vector2i)(get_position() + sf::Vector2f(E, displacement.y)))) ||
-			!BlockManager::can_move_through(m_wm.get_block((sf::Vector2i)(get_position() + sf::Vector2f(1.0f - E, displacement.y))))) {
+		if (m_wm.get_block((sf::Vector2i)(get_position() + sf::Vector2f(E, displacement.y))).get_is_solid() ||
+			m_wm.get_block((sf::Vector2i)(get_position() + sf::Vector2f(1.0f - E, displacement.y))).get_is_solid()) {
 			displacement.y = 0.0f;
 			position.y = std::floor(position.y + 0.5f - e) - e;
 			m_velocity.y = 13;
@@ -128,8 +128,8 @@ sf::Vector2f Player::can_move_pos(sf::Vector2f &position, sf::Vector2f displacem
 	}
 	// Up
 	else if (displacement.y < 0.0f) {
-		if (!BlockManager::can_move_through(m_wm.get_block((sf::Vector2i)(get_position() + sf::Vector2f(E, displacement.y + e - 3.0f)))) ||
-			!BlockManager::can_move_through(m_wm.get_block((sf::Vector2i)(get_position() + sf::Vector2f(1.0f - E, displacement.y + e - 3.0f))))) {
+		if (m_wm.get_block((sf::Vector2i)(get_position() + sf::Vector2f(E, displacement.y + e - 3.0f))).get_is_solid() ||
+			m_wm.get_block((sf::Vector2i)(get_position() + sf::Vector2f(1.0f - E, displacement.y + e - 3.0f))).get_is_solid()) {
 			displacement.y = 0.0f;
 			position.y = std::floor(position.y + 0.5f - e) - e;
 			m_velocity.y = m_speed;

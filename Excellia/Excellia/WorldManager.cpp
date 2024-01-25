@@ -1,7 +1,7 @@
 
 #include "WorldManager.h"
 
-WorldManager::WorldManager(sf::RenderWindow& window, sf::Vector2u size, long int seed) : m_window(window)
+WorldManager::WorldManager(sf::RenderWindow& window, sf::Vector2u size, BlockManager& blocks, long int seed) : m_window(window)
 {
 
 	// Set World Size
@@ -19,10 +19,13 @@ WorldManager::WorldManager(sf::RenderWindow& window, sf::Vector2u size, long int
 	}
 
 	// Setup View Image
-	m_view_image.create(265.0f / window.getSize().y * window.getSize().x, 265U, sf::Color(0, 0, 0, 0));
+	m_view_image.create((unsigned int)(265.0f / window.getSize().y * window.getSize().x), 265U, sf::Color(0, 0, 0, 0));
 	m_view_sprite.setOrigin(0, 0);
 	m_view_sprite.setScale(0.125, 0.125);
 	m_view_texture.loadFromImage(m_view_image);
+
+	// Save blocks
+	m_blocks = &blocks;
 
 	// Create World
 	create();
@@ -32,29 +35,6 @@ void WorldManager::create()
 {
 	sf::Clock clock;
 
-	/* Create Blocks */
-	i_void.create(8, 8, sf::Color(0, 0, 0, 0));
-	i_dirt.loadFromFile("Textures/Dirt.png");
-	i_diamond_ore.loadFromFile("Textures/Diamond_Ore.png");
-	i_grass.loadFromFile("Textures/Grass.png");
-	i_stone.loadFromFile("Textures/Stone.png");
-	i_lava.loadFromFile("Textures/Lava.png");
-	i_wood.loadFromFile("Textures/Wood.png");
-	i_water.loadFromFile("Textures/Water.png");
-	i_leaf.loadFromFile("Textures/Leaf.png");
-	i_bedrock.loadFromFile("Textures/Bedrock.png");
-	i_brick.loadFromFile("Textures/Brick.png");
-	i_red_wood.loadFromFile("Textures/Red_Wood.png");
-	i_hell_steel_ore.loadFromFile("Textures/Hell_Steel_Ore.png");
-	i_crystal_ore.loadFromFile("Textures/Crystal_Ore.png");
-	i_malachite_ore.loadFromFile("Textures/Malachite_Ore.png");
-	i_ruby_ore.loadFromFile("Textures/Ruby_Ore.png");
-	i_iron_ore.loadFromFile("Textures/Iron_Ore.png");
-	i_copper_ore.loadFromFile("Textures/Copper_Ore.png");
-	i_void_ore.loadFromFile("Textures/Void_Ore.png");
-	i_sand.loadFromFile("Textures/Sand.png");
-
-
 	/* Create Structures */
 	s_tree.Load_Image("Structures/Tree.png");
 	s_tree.Set_Origin(2, 8);
@@ -62,7 +42,7 @@ void WorldManager::create()
 	s_tree2.Set_Origin(7, 14);
 
 	// Create Blank World
-	m_image.create(m_width, m_height, BlockManager::hex_to_color(Block::Void));
+	m_image.create(m_width, m_height, m_blocks->get_by_name("Void").get_color());
 
 	// Place Stone
 	m_heights = TerrainGeneration::generate_heights(m_width, 0.005f, m_height, m_random);
@@ -81,30 +61,27 @@ void WorldManager::create()
 
 		// Draw Stone
 		for (int j = m_heights[i] + m_dirt_heights[i]; j < m_height; j++) {
-			m_image.setPixel(i, j, BlockManager::hex_to_color(Block::Stone));
+			m_image.setPixel(i, j, m_blocks->get_by_name("Stone").get_color());
 		}
 
 		// Draw Dirt
 		for (int j = m_heights[i]; j < m_heights[i] + m_dirt_heights[i]; j++) {
-			m_image.setPixel(i, j, BlockManager::hex_to_color(Block::Dirt));
+			m_image.setPixel(i, j, m_blocks->get_by_name("Dirt").get_color());
 		}
 
 		// Draw Grass
-		m_image.setPixel(i, m_heights[i], BlockManager::hex_to_color(Block::Grass));
+		m_image.setPixel(i, m_heights[i], m_blocks->get_by_name("Grass").get_color());
 
 	}
 
 	for (size_t i = 0; i < m_ores.size(); i++) {
 
 		sf::Vector2i position_a = m_ores[i];
-
-		/* Define the type of ore */
-		Block block;
 		
 		std::vector<Block> blocks = ore_spawn_in_range(position_a);
 		if (blocks.size() == 0) { continue;  }
-		int index = (int)m_random.random(0.0f, (float)blocks.size() - 0.01);
-		block = blocks[index];
+		int index = (int)m_random.random(0.0f, (float)blocks.size() - 0.01f);
+		Block block = blocks[index];
 		// Draw Square
 
 		for (int i = 0; i < 5; i++)
@@ -135,7 +112,7 @@ void WorldManager::create()
 			// Draw Square
 			for (int d_x = 0; d_x < 3; d_x++) {
 				for (int d_y = 0; d_y < 3; d_y++) {
-					force_place_block(Block::Void, position_a + sf::Vector2i(d_x, d_y));
+					force_place_block(m_blocks->get_by_name("Void"), position_a + sf::Vector2i(d_x, d_y));
 				}
 			}
 
@@ -159,7 +136,7 @@ void WorldManager::create()
 		pos.y = m_heights[m_trees[i]] - 1;
 
 		// Randomise Tree Type
-		if (m_image.getPixel(pos.x, pos.y+1) == BlockManager::hex_to_color((unsigned int)Block::Grass))
+		if (m_image.getPixel(pos.x, pos.y+1) == m_blocks->get_by_name("Grass").get_color())
 		{
 			if (m_random.random(0, 5) >= 1) {
 				s_tree.Build(m_image, pos);
@@ -173,11 +150,11 @@ void WorldManager::create()
 	for (int i = 0; i < m_width; i++) {
 		/* Draw bedrock */
 		for (int j = m_height - 1; j > m_height - 1 - m_dirt_heights[i]; j--) {
-			m_image.setPixel(i, j, BlockManager::hex_to_color(Block::Bedrock));
+			m_image.setPixel(i, j, m_blocks->get_by_name("Bedrock").get_color());
 		}
 		/* Draw Lava*/
 		for (int j = m_height - 1; j > m_height - 10; j--) {
-			place_block(Block::Lava, sf::Vector2i(i, j), sf::Vector2f(0.0f, 0.0f));
+			place_block(m_blocks->get_by_name("Lava"), sf::Vector2i(i, j), sf::Vector2f(0.0f, 0.0f));
 		}
 	}
 	
@@ -193,11 +170,11 @@ Block WorldManager::get_block(sf::Vector2i pos)
 {
 	if (pos.x >= 0 && pos.x < m_width && pos.y >= 0 && pos.y < m_height)
 	{
-		return BlockManager::color_to_block(m_image.getPixel(pos.x, pos.y));
+		return m_blocks->get_by_color(m_image.getPixel(pos.x, pos.y));
 	}
 	else
 	{
-		return Block::Void;
+		return m_blocks->get_by_name("Void");
 	}
 }
 
@@ -215,13 +192,13 @@ std::vector<Block> WorldManager::ore_spawn_in_range(sf::Vector2i pos)
 {
 
 	std::vector<Block> ores;
-	if (pos.y > m_height * 0.2 && pos.y < m_height * 0.4 && m_heights[pos.x] < pos.y) { ores.push_back(Block::Copper_Ore); }
-	if (pos.y > m_height * 0.4 && pos.y < m_height * 0.7 && m_heights[pos.x] < pos.y) { ores.push_back(Block::Iron_Ore); }
-	if (pos.y > m_height * 0.5 && pos.y < m_height * 0.7 && m_heights[pos.x] < pos.y) { ores.push_back(Block::Crystal_Ore); }
-	if (pos.y > m_height * 0.6 && pos.y < m_height * 0.8 && m_heights[pos.x] < pos.y) { ores.push_back(Block::Malachite_Ore); }
-	if (pos.y > m_height * 0.6 && pos.y < m_height * 0.8 && m_heights[pos.x] < pos.y) { ores.push_back(Block::Diamond_Ore); }
-	if (pos.y > m_height * 0.7 && pos.y < m_height * 0.9 && m_heights[pos.x] < pos.y) { ores.push_back(Block::Ruby_Ore); }
-	if (pos.y > m_height * 0.95 && pos.y < m_height * 1.0 && m_heights[pos.x] < pos.y) { ores.push_back(Block::Void_Ore); }
+	if (pos.y > m_height * 0.20 && pos.y < m_height * 0.4 && m_heights[pos.x] < pos.y) { ores.push_back(m_blocks->get_by_name("Copper_Ore")); }
+	if (pos.y > m_height * 0.40 && pos.y < m_height * 0.7 && m_heights[pos.x] < pos.y) { ores.push_back(m_blocks->get_by_name("Iron_Ore")); }
+	if (pos.y > m_height * 0.50 && pos.y < m_height * 0.7 && m_heights[pos.x] < pos.y) { ores.push_back(m_blocks->get_by_name("Crystal_Ore")); }
+	if (pos.y > m_height * 0.60 && pos.y < m_height * 0.8 && m_heights[pos.x] < pos.y) { ores.push_back(m_blocks->get_by_name("Malachite_Ore")); }
+	if (pos.y > m_height * 0.60 && pos.y < m_height * 0.8 && m_heights[pos.x] < pos.y) { ores.push_back(m_blocks->get_by_name("Diamond_Ore")); }
+	if (pos.y > m_height * 0.70 && pos.y < m_height * 0.9 && m_heights[pos.x] < pos.y) { ores.push_back(m_blocks->get_by_name("Ruby_Ore")); }
+	if (pos.y > m_height * 0.95 && pos.y < m_height * 1.0 && m_heights[pos.x] < pos.y) { ores.push_back(m_blocks->get_by_name("Void_Ore")); }
 	
 	return ores;
 }
@@ -234,10 +211,10 @@ void WorldManager::break_block(sf::Vector2i mouse_pos)
 	if (block.x >= 0u && block.x <= (unsigned int)m_width && block.y >= 0u && block.y < (unsigned int)m_height) {
 
 		// Check theres block to break
-		if (BlockManager::color_to_hex(m_image.getPixel(block.x, block.y)) != Block::Void && BlockManager::color_to_hex(m_image.getPixel(block.x, block.y)) != Block::Bedrock) {
+		if (m_image.getPixel(block.x, block.y) != m_blocks->get_by_name("Void").get_color() && m_image.getPixel(block.x, block.y) != m_blocks->get_by_name("Bedrock").get_color()) {
 
 			// Update Image
-			m_image.setPixel(block.x, block.y, BlockManager::hex_to_color(Block::Void));
+			m_image.setPixel(block.x, block.y, m_blocks->get_by_name("Void").get_color());
 		}
 	}
 }
@@ -256,10 +233,10 @@ void WorldManager::place_block(Block material, sf::Vector2i mouse_pos, sf::Vecto
 	if (block.x >= 0 && block.x <= (unsigned int)m_width && block.y >= 0 && block.y < (unsigned int)m_height) {
 
 		// Check there is nothing there
-		if (BlockManager::color_to_hex(m_image.getPixel(block.x, block.y)) == Block::Void) {
+		if (m_image.getPixel(block.x, block.y) == m_blocks->get_by_name("Void").get_color()) {
 
 			// Update Image
-			m_image.setPixel(block.x, block.y, BlockManager::hex_to_color(material));
+			m_image.setPixel(block.x, block.y, material.get_color());
 		}
 	}
 }
@@ -269,7 +246,7 @@ void WorldManager::force_place_block(Block material, sf::Vector2i pos)
 	// Check world bounds
 	if (pos.x >= 0 && pos.x <= m_width && pos.y >= 0 && pos.y < m_height) {
 
-		m_image.setPixel(pos.x, pos.y, BlockManager::hex_to_color(material));
+		m_image.setPixel(pos.x, pos.y, material.get_color());
 	}
 }
 
@@ -286,80 +263,13 @@ sf::Drawable &WorldManager::get_view_sprite()
 	int loop_max_x = (top_left.x + half_size.x * 2) + 3;
 	int loop_max_y = (top_left.y + half_size.y * 2) + 3;
 
-	sf::Image* _block = &i_void;
-
 	// Loop over image
 	int i_x = 0;
 	for (int x = top_left.x; x < loop_max_x; x++) {
 		int i_y = 0;
 		for (int y = top_left.y; y < loop_max_y; y++) {
-			Block block = get_block({ x, y });
-
-			switch (block)
-			{
-			case Stone:
-				_block = &i_stone;
-				break;
-			case Dirt:
-				_block = &i_dirt;
-				break;
-			case Wood:
-				_block = &i_wood;
-				break;
-			case Diamond_Ore:
-				_block = &i_diamond_ore;
-				break;
-			case Grass:
-				_block = &i_grass;
-				break;
-			case Water:
-				_block = &i_water;
-				break;
-			case Lava:
-				_block = &i_lava;
-				break;
-			case Leaf:
-				_block = &i_leaf;
-				break;
-			case Brick:
-				_block = &i_brick;
-				break;
-			case Red_Wood:
-				_block = &i_red_wood;
-				break;
-			case Hell_Steel_Ore:
-				_block = &i_hell_steel_ore;
-				break;
-			case Crystal_Ore:
-				_block = &i_crystal_ore;
-				break;
-			case Malachite_Ore:
-				_block = &i_malachite_ore;
-				break;
-			case Ruby_Ore:
-				_block = &i_ruby_ore;
-				break;
-			case Iron_Ore:
-				_block = &i_iron_ore;
-				break;
-			case Copper_Ore:
-				_block = &i_copper_ore;
-				break;
-			case Bedrock:
-				_block = &i_bedrock;
-				break;
-			case Void_Ore:
-				_block = &i_void_ore;
-				break;
-			case Sand:
-				_block = &i_sand;
-				break;
-			default:
-				_block = &i_void;
-				break;
-			}
-
-			m_view_image.copy(*_block, i_x * 8, i_y * 8);
+			Block block = get_block(sf::Vector2i(x, y));
+			m_view_image.copy(block.get_image(), i_x * 8, i_y * 8);
 			i_y++;
 		}
 		i_x++;

@@ -20,7 +20,7 @@ public:
 	/// <summary>
 	/// Constructor for WorldManager
 	/// </summary>
-	WorldManager(sf::RenderWindow& window, sf::Vector2u size = sf::Vector2u(0, 0), long int seed = -1);
+	WorldManager(sf::RenderWindow& window, sf::Vector2u size, BlockManager& blocks, long int seed = -1);
 
 	/// <summary>
 	/// Creates a world with a random seed
@@ -76,7 +76,7 @@ public:
 	/// Creates a sprite of the current view
 	/// </summary>
 	/// <returns>Sprite of the current view</returns>
-	sf::Drawable &get_view_sprite();
+	sf::Drawable& get_view_sprite();
 
 	int find_highest_point();
 
@@ -102,27 +102,8 @@ private:
 	sf::Sprite m_view_sprite;
 	sf::Image m_view_image;
 
-	// Premade Blocks
-	sf::Image i_stone;
-	sf::Image i_dirt;
-	sf::Image i_wood;
-	sf::Image i_diamond_ore;
-	sf::Image i_grass;
-	sf::Image i_water;
-	sf::Image i_lava;
-	sf::Image i_void;
-	sf::Image i_leaf;
-	sf::Image i_bedrock;
-	sf::Image i_brick;
-	sf::Image i_red_wood;
-	sf::Image i_hell_steel_ore;
-	sf::Image i_crystal_ore;
-	sf::Image i_malachite_ore;
-	sf::Image i_ruby_ore;
-	sf::Image i_iron_ore;
-	sf::Image i_copper_ore;
-	sf::Image i_void_ore;
-	sf::Image i_sand;
+	// Blocks
+	BlockManager* m_blocks;
 
 	// Premade Structures
 	Structure s_tree;

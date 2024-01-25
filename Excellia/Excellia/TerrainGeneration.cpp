@@ -76,7 +76,7 @@ std::vector<sf::Vector2i> TerrainGeneration::generate_caves(sf::Vector2i min, sf
 
 		// Randomise position
 		cave_pos.x = (int)r.random(min.x + 10.0f, max.x - 10.0f);
-		cave_pos.y = (int)r.random(heights[cave_pos.x] + max.y * 0.002, max.y - 10.0f);
+		cave_pos.y = (int)r.random(heights[cave_pos.x] + max.y * 0.002f, max.y - 10.0f);
 
 		// Store positions
 		caves.push_back(cave_pos);

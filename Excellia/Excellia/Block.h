@@ -1,27 +1,28 @@
 #pragma once
 
-enum Block
+#include "SFML/Graphics/Image.hpp"
+#include "SFML/Graphics/Color.hpp"
+
+#include <unordered_map>
+
+class Block
 {
-	Stone			= 0x928C8CFF,		// Grey	Color
-	Dirt			= 0x985E41FF,		// Orange-Brown
-	Wood			= 0xB15E35FF,		// Skin Tone?
-	Diamond_Ore		= 0x49E0FBFF,		// Light Blue
-	Grass			= 0x478142FF,		// Green Color
-	Leaf			= 0x6E9C6AFF,		// Leaf Color
-	Bedrock			= 0x646466FF,		// Black
-	Brick			= 0x7C634AFF,		// Brown Color
-	Red_Wood		= 0xA4593CFF,
-	Hell_Steel_Ore	= 0xB54546FF,
-	Crystal_Ore		= 0xA87DD8FF,
-	Malachite_Ore	= 0x44CC83FF,
-	Ruby_Ore		= 0xE96665FF,
-	Iron_Ore		= 0xAFAFAFFF,
-	Copper_Ore		= 0xCA937BFF,
-	Void_Ore		= 0x4DB999FF,
-	Sand            = 0xE8CD73FF,
-
-
-	Water			= 0x32A6DFFF,		// Bluey Color
-	Lava			= 0xE45746FF,		// OrangeyRed color
-	Void			= 0x000000FF,		// Emptyness
+public:
+	Block();
+	Block(std::string name, unsigned int id, float toughness, bool is_solid = true);
+	std::string get_name();
+	bool get_is_solid();
+	unsigned int get_id();
+	float get_toughness();
+	// Add tool
+	sf::Image& get_image();
+	sf::Color get_color();
+private:
+	std::string m_name;
+	bool m_is_solid;
+	unsigned int m_id;
+	float m_toughness;
+	// Add tool
+	sf::Image m_image;
+	sf::Color m_color;
 };

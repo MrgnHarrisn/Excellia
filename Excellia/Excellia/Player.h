@@ -5,7 +5,7 @@
 #include <SFML/Window/Keyboard.hpp>
 #include <SFML/Window/Mouse.hpp>
 #include "WorldManager.h"
-#include "BlockManager.h"
+#include "Block.h"
 #include "Actor.h"
 
 /// <summary>
@@ -58,8 +58,8 @@ private:
 	float m_jump_force = 30;
 	sf::Texture m_texture;
 	WorldManager& m_wm;
-	float m_gravity = 120;
-	float m_drag = 0.02;
+	float m_gravity = 120.0f;
+	float m_drag = 0.02f;
 	bool m_can_jump = true;
 	sf::Vector2f m_velocity{ 0,0 };
 	bool m_facing_right = false;

@@ -12,6 +12,31 @@ int WinMain()
 
 	// Create Settings
 	Settings settings;
+
+
+	// Create Blocks
+	BlockManager blocks;
+	blocks.create_block("Hell_Steel_Ore", 0xB54546FF, 1, true);
+	blocks.create_block("Malachite_Ore", 0x44CC83FF, 1, true);
+	blocks.create_block("Diamond_Ore", 0x49E0FBFF, 1, true);
+	blocks.create_block("Crystal_Ore", 0xA87DD8FF, 1, true);
+	blocks.create_block("Copper_Ore", 0xCA937BFF, 1, true);
+	blocks.create_block("Bedrock", 0x646466FF, -1, true);
+	blocks.create_block("Red_Wood", 0xA4593CFF, 1, true);
+	blocks.create_block("Red_Wood", 0xA4593CFF, 1, true);
+	blocks.create_block("Iron_Ore", 0xAFAFAFFF, 1, true);
+	blocks.create_block("Void_Ore", 0x4DB999FF, 1, true);
+	blocks.create_block("Void", 0x000000FF, -1, false);
+	blocks.create_block("Water", 0x32A6DFFF, 1, false);
+	blocks.create_block("Brick", 0x7C634AFF, 1, true);
+	blocks.create_block("Stone", 0x928C8CFF, 1, true);
+	blocks.create_block("Grass", 0x478142FF, 1, true);
+	blocks.create_block("Lava", 0xE45746FF, 1, false);
+	blocks.create_block("Dirt", 0x985E41FF, 1, true);
+	blocks.create_block("Dirt", 0x985E41FF, 1, true);
+	blocks.create_block("Wood", 0xB15E35FF, 1, true);
+	blocks.create_block("Leaf", 0x6E9C6AFF, 1, true);
+	blocks.create_block("Sand", 0xE8CD73FF, 1, true);
 	
 
 	// Create Clock
@@ -24,11 +49,11 @@ int WinMain()
 
 
 	// Creates world
-	WorldManager world(window, settings.get_world_size(), 573849); // 573849 test seed
+	WorldManager world(window, settings.get_world_size(), blocks, 573849); // 573849 test seed
 
 
 	// Create Player
-	Player player(sf::Vector2f((int)settings.get_world_size().x / 2, (float)world.place_player(settings.get_world_size().x / 2.0f)), world);
+	Player player(sf::Vector2f((float)((int)settings.get_world_size().x / 2), (float)world.place_player((int)settings.get_world_size().x / 2)), world);
 	
 	 
 	// Create Camera
@@ -61,7 +86,7 @@ int WinMain()
 	// Set Build/Destroy Defaults
 	bool is_block_placed = false;
 	bool is_placing_block = false;
-	Block current_block = Block::Wood;
+	Block current_block = blocks.get_by_name("Wood");
 
 
 	// Main loop
@@ -113,7 +138,7 @@ int WinMain()
 				else if (event.mouseButton.button == sf::Mouse::Middle)
 				{
 					Block temp_block = world.get_block(static_cast<sf::Vector2i>(world.screen_pos_to_world_pos(sf::Mouse::getPosition(window))));
-					if (temp_block != Block::Void) current_block = temp_block;
+					if (temp_block.get_name() != "Void") current_block = temp_block;
 				}
 			}
 			if (event.type == sf::Event::MouseButtonReleased) {
@@ -151,55 +176,59 @@ int WinMain()
 
 				// Change Selected Block
 				else if (event.key.code == sf::Keyboard::Num1) {
-					current_block = Block::Sand;
+					current_block = blocks.get_by_name("Sand");
 				}
 				else if (event.key.code == sf::Keyboard::Num2) {
-					current_block = Block::Dirt;
+					current_block = blocks.get_by_name("Dirt");
 				}
 				else if (event.key.code == sf::Keyboard::Num3) {
-					current_block = Block::Wood;
+					current_block = blocks.get_by_name("Wood");
 				}
 				else if (event.key.code == sf::Keyboard::Num4) {
-					current_block = Block::Water;
+					current_block = blocks.get_by_name("Water");
 				}
 				else if (event.key.code == sf::Keyboard::Num5) {
-					current_block = Block::Lava;
+					current_block = blocks.get_by_name("Lava");
 				}
 				else if (event.key.code == sf::Keyboard::Num6) {
-					current_block = Block::Diamond_Ore;
+					current_block = blocks.get_by_name("Diamond_Ore");
 				}
 				else if (event.key.code == sf::Keyboard::Num7) {
-					current_block = Block::Grass;
+					current_block = blocks.get_by_name("Grass");
 				}
 				else if (event.key.code == sf::Keyboard::Num8) {
-					current_block = Block::Leaf;
+					current_block = blocks.get_by_name("Leaf");
 				}
 				else if (event.key.code == sf::Keyboard::Num9) {
-					current_block = Block::Brick;
+					current_block = blocks.get_by_name("Brick");
 				}
 				else if (event.key.code == sf::Keyboard::Num0) {
-					current_block = Block::Red_Wood;
+					current_block = blocks.get_by_name("Red_Wood");
 				}
 				else if (event.key.code == sf::Keyboard::F1) {
-					current_block = Block::Hell_Steel_Ore;
+					current_block = blocks.get_by_name("Hell_Steel_Ore");
 				}
 				else if (event.key.code == sf::Keyboard::F2) {
-					current_block = Block::Crystal_Ore;
+					current_block = blocks.get_by_name("Crystal_Ore");
 				}
 				else if (event.key.code == sf::Keyboard::F3) {
-					current_block = Block::Malachite_Ore;
+					current_block = blocks.get_by_name("Malachite_Ore");
 				}
 				else if (event.key.code == sf::Keyboard::F4) {
-					current_block = Block::Ruby_Ore;
+					current_block = blocks.get_by_name("Ruby_Ore");
+
 				}
 				else if (event.key.code == sf::Keyboard::F5) {
-					current_block = Block::Iron_Ore;
+					current_block = blocks.get_by_name("Iron_Ore");
+
 				}
 				else if (event.key.code == sf::Keyboard::F6) {
-					current_block = Block::Copper_Ore;
+					current_block = blocks.get_by_name("Copper_Ore");
+
 				}
 				else if (event.key.code == sf::Keyboard::F7) {
-					current_block = Block::Void_Ore;
+					current_block = blocks.get_by_name("Void_Ore");
+
 				}
 			}
 			else if (event.type == sf::Event::KeyReleased)
