@@ -79,11 +79,6 @@ void Player::update(float dt)
 		pos.x += displacement.x;
 		pos.y += displacement.y;
 		set_position(pos);
-
-		if (displacement.y == 0 && m_velocity.y > 0)
-		{
-			m_can_jump = true;
-		}
 	}
 
 	// Update shape position
@@ -122,8 +117,8 @@ sf::Vector2f Player::can_move_pos(sf::Vector2f &position, sf::Vector2f displacem
 			m_wm.get_block((sf::Vector2i)(get_position() + sf::Vector2f(1.0f - E, displacement.y))).get_is_solid()) {
 			displacement.y = 0.0f;
 			position.y = std::floor(position.y + 0.5f - e) - e;
-			m_velocity.y = 13;
-			m_can_jump = m_speed;
+			m_velocity.y = m_speed;
+			m_can_jump = true;
 		}
 	}
 	// Up
