@@ -1,5 +1,11 @@
 #include "BlockManager.h"
 
+BlockManager::BlockManager()
+{
+	m_blocks.max_load_factor(0.001f);
+	m_ids.max_load_factor(0.001f);
+}
+
 /// <summary>
 /// Adds a block with the given properties
 /// </summary>

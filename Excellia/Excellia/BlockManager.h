@@ -5,7 +5,7 @@
 class BlockManager
 {
 public:
-
+	BlockManager();
 	void create_block(std::string name, unsigned int id, float toughness, bool is_solid);
 	Block& get_by_id(unsigned int id);
 	Block& get_by_name(std::string name);
