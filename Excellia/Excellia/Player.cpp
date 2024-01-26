@@ -45,10 +45,20 @@ void Player::update(float dt)
 		}
 	}
 
-	if (m_jumping && m_can_jump)
+	if (!m_jumping || m_can_jump)
+	{
+		m_jump_time = 0.1f;
+	}
+
+	if (m_jump_time <= 0)
+	{
+		m_jump_time = 0;
+	}
+
+	if (m_jump_time > 0 && m_jumping)
 	{
 		m_velocity.y = -m_jump_force;
-		m_can_jump = false;
+		m_jump_time -= dt;
 	}
 
 	// Apply Gravity With Drag

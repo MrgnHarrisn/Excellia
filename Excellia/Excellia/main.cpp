@@ -6,6 +6,7 @@
 #include "Settings.h"
 #include "Player.h"
 #include "Camera.h"
+#include "Skybox.h"
 
 int main()
 {
@@ -58,36 +59,31 @@ int main()
 	
 	 
 	// Create Camera
-	Camera cam(player.get_position(), sf::Vector2u{1080 * settings.get_screen_size().x / settings.get_screen_size().y, 1080}, player, 35);
+	Camera cam(player.get_position(), sf::Vector2u{1080 * settings.get_screen_size().x / settings.get_screen_size().y, 1080}, player, settings.get_camera_zoom());
 
 
 	// Create Cursor
 	sf::RectangleShape cursor;
+	sf::Texture cursor_texture;
 	cursor.setSize({ 1, 1 });
-	cursor.setFillColor(sf::Color(255, 255, 255, 50));
+	cursor.setFillColor(sf::Color(255, 255, 255, 150));
 
 
 	// Create Shader
 	sf::Shader shader;
 	if (!shader.loadFromFile("Shaders/vertex_shader.vert", "Shaders/fragment_shader.frag")) {
-		printf("Something went wrong!");
 		return -1;
 	}
 
 
-	// Set Day/Night Cycle Defaults
-	bool is_transitioning = true;
-	float end_of_day_time = 5 * 60;
-	float current_time = 0;
-	sf::Color night_color(0, 0, 40);		// Dark blue for night sky
-	sf::Color day_color(135, 206, 235);		// Light blue for daylight sky
-	sf::Color current_color = night_color;
+	// Create Skybox
+	Skybox skybox;
 	
 
 	// Set Build/Destroy Defaults
-	bool is_block_placed = false;
-	bool is_placing_block = false;
-	Block current_block = blocks.get_by_name("Wood");
+	bool is_placing_placed = false;
+	bool is_breaking_block = false;
+	Block current_block;
 
 
 	// Main loop
@@ -97,6 +93,11 @@ int main()
 		// Reset Delta Time
 		dt = clock.restart().asSeconds();
 		
+
+		// Show blocks on cursor
+		cursor_texture.loadFromImage(current_block.get_image());
+		cursor.setTexture(&cursor_texture);
+
 
 		// Events And Inputs
 		sf::Event event;
@@ -114,11 +115,13 @@ int main()
 			{
 				if (event.mouseWheelScroll.wheel == sf::Mouse::VerticalWheel) {
 					// Zoom In
-					if (event.mouseWheelScroll.delta > 0) {
+					if (event.mouseWheelScroll.delta > 0)
+					{
 						cam.zoom_in();
 					}
 					// Zoom Out
-					else if (event.mouseWheelScroll.delta < 0) {
+					else if (event.mouseWheelScroll.delta < 0)
+					{
 						cam.zoom_out();
 					}
 				}
@@ -128,12 +131,14 @@ int main()
 			if (event.type == sf::Event::MouseButtonPressed)
 			{
 				// Start Placing
-				if (event.mouseButton.button == sf::Mouse::Left) {
-					is_block_placed = true;
+				if (event.mouseButton.button == sf::Mouse::Left)
+				{
+					is_placing_placed = true;
 				}
 				// Start Breaking
-				else if (event.mouseButton.button == sf::Mouse::Right) {
-					is_placing_block = true;
+				else if (event.mouseButton.button == sf::Mouse::Right)
+				{
+					is_breaking_block = true;
 				}
 				// Select Block
 				else if (event.mouseButton.button == sf::Mouse::Middle)
@@ -145,11 +150,11 @@ int main()
 			if (event.type == sf::Event::MouseButtonReleased) {
 				// Stop Placing
 				if (event.mouseButton.button == sf::Mouse::Left) {
-					is_block_placed = false;
+					is_placing_placed = false;
 				}
 				// Stop Breaking
 				else if (event.mouseButton.button == sf::Mouse::Right) {
-					is_placing_block = false;
+					is_breaking_block = false;
 				}
 			}
 
@@ -183,53 +188,19 @@ int main()
 					current_block = blocks.get_by_name("Demon_Goo");
 				}
 				else if (event.key.code == sf::Keyboard::Num3) {
-					current_block = blocks.get_by_name("Wood");
-				}
-				else if (event.key.code == sf::Keyboard::Num4) {
 					current_block = blocks.get_by_name("Water");
 				}
-				else if (event.key.code == sf::Keyboard::Num5) {
+				else if (event.key.code == sf::Keyboard::Num4) {
 					current_block = blocks.get_by_name("Lava");
 				}
-				else if (event.key.code == sf::Keyboard::Num6) {
-					current_block = blocks.get_by_name("Diamond_Ore");
-				}
-				else if (event.key.code == sf::Keyboard::Num7) {
-					current_block = blocks.get_by_name("Grass");
-				}
-				else if (event.key.code == sf::Keyboard::Num8) {
-					current_block = blocks.get_by_name("Leaf");
-				}
-				else if (event.key.code == sf::Keyboard::Num9) {
+				else if (event.key.code == sf::Keyboard::Num5) {
 					current_block = blocks.get_by_name("Brick");
 				}
-				else if (event.key.code == sf::Keyboard::Num0) {
+				else if (event.key.code == sf::Keyboard::Num6) {
 					current_block = blocks.get_by_name("Red_Wood");
 				}
-				else if (event.key.code == sf::Keyboard::F1) {
-					current_block = blocks.get_by_name("Hell_Steel_Ore");
-				}
-				else if (event.key.code == sf::Keyboard::F2) {
-					current_block = blocks.get_by_name("Crystal_Ore");
-				}
-				else if (event.key.code == sf::Keyboard::F3) {
-					current_block = blocks.get_by_name("Malachite_Ore");
-				}
-				else if (event.key.code == sf::Keyboard::F4) {
-					current_block = blocks.get_by_name("Ruby_Ore");
-
-				}
-				else if (event.key.code == sf::Keyboard::F5) {
-					current_block = blocks.get_by_name("Iron_Ore");
-
-				}
-				else if (event.key.code == sf::Keyboard::F6) {
-					current_block = blocks.get_by_name("Copper_Ore");
-
-				}
 				else if (event.key.code == sf::Keyboard::F7) {
-					current_block = blocks.get_by_name("Void_Ore");
-
+					current_block = blocks.get_by_name("Hell_Steel_Ore");
 				}
 			}
 			else if (event.type == sf::Event::KeyReleased)
@@ -256,12 +227,15 @@ int main()
 
 
 		// Place/Break Block
-		if (is_block_placed) {
-			world.break_block(sf::Mouse::getPosition(window));
-		} else if (is_placing_block) {
+		if (is_breaking_block)
+		{
 			world.place_block(current_block, sf::Mouse::getPosition(window), player.get_position());
 		}
-
+		if (is_placing_placed)
+		{
+			world.break_block(sf::Mouse::getPosition(window));
+		} 
+		
 
 		// Update Cursor
 		cursor.setPosition((sf::Vector2f)(sf::Vector2i)(world.screen_pos_to_world_pos(sf::Mouse::getPosition(window))));
@@ -277,39 +251,21 @@ int main()
 
 		// Update Camera
 		cam.update(dt);
+
+
+		// Update View
 		window.setView(cam.get_view());
 
 
 		// Update Skybox
-		current_time += dt;
-		
-		float transition_percentage = current_time / end_of_day_time;
-
-		if (transition_percentage > 1.0f) {
-			transition_percentage = 1.0f;
-		}
-
-		if (current_time <= end_of_day_time / 2) {
-			current_color.r = static_cast<sf::Uint8>((1.0f - transition_percentage) * night_color.r + transition_percentage * day_color.r);
-			current_color.g = static_cast<sf::Uint8>((1.0f - transition_percentage) * night_color.g + transition_percentage * day_color.g);
-			current_color.b = static_cast<sf::Uint8>((1.0f - transition_percentage) * night_color.b + transition_percentage * day_color.b);
-		}
-		else {
-			current_color.r = static_cast<sf::Uint8>((1.0f - transition_percentage) * day_color.r + transition_percentage * night_color.r);
-			current_color.g = static_cast<sf::Uint8>((1.0f - transition_percentage) * day_color.g + transition_percentage * night_color.g);
-			current_color.b = static_cast<sf::Uint8>((1.0f - transition_percentage) * day_color.b + transition_percentage * night_color.b);
-		}
-
-		if (current_time >= end_of_day_time) {
-			current_time = 0.0f;
-		}
+		skybox.update(dt);
 
 
 		// Clear Window
-		window.clear(current_color);
+		window.clear(skybox.get_sky_color());
 
 
-		// Render View
+		// Draw View
 		window.draw(world.get_view_sprite());
 
 

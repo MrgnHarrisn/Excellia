@@ -8,6 +8,8 @@
 /// Imports settings from file
 /// screenw -> width of screen
 /// screenh -> height of screen
+/// 
+/// camzoom -> default zoom of camera
 /// </summary>
 class Settings
 {
@@ -16,12 +18,17 @@ public:
 	Settings() { update(); };
 	sf::Vector2u get_screen_size()	{ return m_screen_size; };
 	sf::Vector2u get_world_size ()	{ return m_world_size ; };
+
+	float get_camera_zoom() { return m_camera_zoom; };
 	void update();
 
 private:
-
+	// Player settings
 	sf::Vector2u m_screen_size = sf::Vector2u(800, 800);
-	sf::Vector2u m_world_size  = sf::Vector2u(800, 800);
+
+	// Game settings
+	sf::Vector2u m_world_size  = sf::Vector2u(30000, 800);
+	float m_camera_zoom = 35;
 };
 
 /// <summary>

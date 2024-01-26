@@ -21,8 +21,8 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{3f78bdbf-0c8a-42bf-bad7-49c47d25422a}</ProjectGuid>
-    <RootNamespace>Excellia</RootNamespace>
+    <ProjectGuid>{3f1eec80-c6f8-4e44-a2d7-20e958ec4c66}</ProjectGuid>
+    <RootNamespace>StructureDesigner</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -120,57 +120,20 @@
       <ConformanceMode>true</ConformanceMode>
     </ClCompile>
     <Link>
-      <SubSystem>NotSet</SubSystem>
+      <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Actor.cpp" />
-    <ClCompile Include="Block.cpp" />
     <ClCompile Include="BlockManager.cpp" />
-    <ClCompile Include="Camera.cpp" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="Player.cpp" />
-    <ClCompile Include="Random.cpp" />
-    <ClCompile Include="Skybox.cpp" />
-    <ClCompile Include="Structure.cpp" />
-    <ClCompile Include="TerrainGeneration.cpp" />
-    <ClCompile Include="Utils.cpp" />
-    <ClCompile Include="WorldManager.cpp" />
+    <ClCompile Include="Blocks.cpp" />
+    <ClCompile Include="Blocks.h" />
+    <ClCompile Include="Main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Actor.h" />
-    <ClInclude Include="Block.h" />
     <ClInclude Include="BlockManager.h" />
-    <ClInclude Include="Camera.h" />
-    <ClInclude Include="Player.h" />
-    <ClInclude Include="Random.h" />
-    <ClInclude Include="Settings.h" />
-    <ClInclude Include="Skybox.h" />
-    <ClInclude Include="Structure.h" />
-    <ClInclude Include="TerrainGeneration.h" />
-    <ClInclude Include="Utils.h" />
-    <ClInclude Include="WorldManager.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Config\Settings.conf" />
-    <None Include="Shaders\fragment_shader.frag" />
-    <None Include="Shaders\vertex_shader.vert" />
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="..\Release\Structures\Tree.png" />
-    <Image Include="Structures\Tree2.png" />
-    <Image Include="Textures\Diamond.png" />
-    <Image Include="Textures\Dirt.png" />
-    <Image Include="Textures\Frankly.png" />
-    <Image Include="Textures\Grass.png" />
-    <Image Include="Textures\Lava.png" />
-    <Image Include="Textures\Leaf.png" />
-    <Image Include="Textures\Stone.png" />
-    <Image Include="Textures\Water.png" />
-    <Image Include="Textures\Wood.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
