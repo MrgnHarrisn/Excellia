@@ -18,6 +18,7 @@ int main()
 
 	// Create Blocks
 	BlockManager blocks;
+	Block current_block;
 	blocks.create_block("Hell_Steel_Ore", 0xB54546FF, 1, true);
 	blocks.create_block("Malachite_Ore", 0x44CC83FF, 1, true);
 	blocks.create_block("Diamond_Ore", 0x49E0FBFF, 1, true);
@@ -46,11 +47,11 @@ int main()
 	float dt = 0;
 
 
-	// Create window
+	// Create Window
 	sf::RenderWindow window(sf::VideoMode(settings.get_screen_size().x, settings.get_screen_size().y), "Pixellia", sf::Style::None);
 
 
-	// Creates world
+	// Create World
 	WorldManager world(window, settings.get_world_size(), blocks, 573849); // 573849 test seed
 
 
@@ -63,9 +64,8 @@ int main()
 
 
 	// Create Cursor
-	sf::RectangleShape cursor;
+	sf::RectangleShape cursor({ 1, 1 });
 	sf::Texture cursor_texture;
-	cursor.setSize({ 1, 1 });
 	cursor.setFillColor(sf::Color(255, 255, 255, 150));
 
 
@@ -78,42 +78,37 @@ int main()
 
 	// Create Skybox
 	Skybox skybox;
-	
 
-	// Set Build/Destroy Defaults
+
+	// Create Event Manager
 	bool is_placing_placed = false;
 	bool is_breaking_block = false;
-	Block current_block;
-
 	EventManager ev_manager(is_placing_placed, is_breaking_block, current_block, cam, player, world);
 
-	// Main loop
+
+	// Main Loop
 	while (window.isOpen())
 	{
 
-		// Reset Delta Time
+		// Update Delta Time
 		dt = clock.restart().asSeconds();
-		
-
-		// Show blocks on cursor
-		cursor_texture.loadFromImage(current_block.get_image());
-		cursor.setTexture(&cursor_texture);
 
 		
-
-		// Events And Inputs
+		// Update Events
 		ev_manager.poll_events();
 
 
-		// Place/Break Block
-		if (is_breaking_block)
-		{
-			world.place_block(current_block, sf::Mouse::getPosition(window), player.get_position());
-		}
-		if (is_placing_placed)
-		{
-			world.break_block(sf::Mouse::getPosition(window));
-		} 
+		// Break Block
+		if (is_breaking_block) world.place_block(current_block, sf::Mouse::getPosition(window), player.get_position());
+
+
+		// Place Block
+		if (is_placing_placed) world.break_block(sf::Mouse::getPosition(window));
+
+
+		// Update Current Block
+		cursor_texture.loadFromImage(current_block.get_image());
+		cursor.setTexture(&cursor_texture);
 		
 
 		// Update Cursor
@@ -146,7 +141,6 @@ int main()
 
 		// Draw View
 		window.draw(world.get_view_sprite(), &shader);
-		// window.draw(world.get_view_sprite());
 
 
 		// Draw Player
