@@ -55,8 +55,7 @@ private:
 	float m_slow_move_speed = 4;
 	float m_sprint_speed = 25;
 	float m_speed = m_move_speed;
-	float m_jump_force = 20;
-	float m_jump_time = 0;
+	float m_jump_force = 30;
 	sf::Texture m_texture;
 	WorldManager& m_wm;
 	float m_gravity = 120.0f;

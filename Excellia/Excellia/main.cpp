@@ -199,7 +199,7 @@ int main()
 				else if (event.key.code == sf::Keyboard::Num6) {
 					current_block = blocks.get_by_name("Red_Wood");
 				}
-				else if (event.key.code == sf::Keyboard::F7) {
+				else if (event.key.code == sf::Keyboard::Num7) {
 					current_block = blocks.get_by_name("Hell_Steel_Ore");
 				}
 			}

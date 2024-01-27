@@ -45,20 +45,10 @@ void Player::update(float dt)
 		}
 	}
 
-	if (!m_jumping || m_can_jump)
-	{
-		m_jump_time = 0.1f;
-	}
-
-	if (m_jump_time <= 0)
-	{
-		m_jump_time = 0;
-	}
-
-	if (m_jump_time > 0 && m_jumping)
+	// Jumping
+	if (m_can_jump && m_jumping)
 	{
 		m_velocity.y = -m_jump_force;
-		m_jump_time -= dt;
 	}
 
 	// Apply Gravity With Drag
@@ -129,6 +119,11 @@ sf::Vector2f Player::can_move_pos(sf::Vector2f &position, sf::Vector2f displacem
 			position.y = std::floor(position.y + 0.5f - e) - e;
 			m_velocity.y = m_speed;
 			m_can_jump = true;
+		}
+		else
+		{
+			m_can_jump = false;
+			if (m_jump_time == 0.1) m_jump_time = 0;
 		}
 	}
 	// Up

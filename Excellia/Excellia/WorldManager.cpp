@@ -230,6 +230,7 @@ void WorldManager::place_block(Block& material, sf::Vector2i mouse_pos, sf::Vect
 
 	sf::Vector2u block = (sf::Vector2u)screen_pos_to_world_pos(mouse_pos);
 
+	// Check player bounds
 	if (std::abs((float)block.x - player_pos.x) < 1.0f && std::abs((float)block.y - player_pos.y + 1.995f) < 1.995f)
 	{
 		return;
@@ -239,7 +240,7 @@ void WorldManager::place_block(Block& material, sf::Vector2i mouse_pos, sf::Vect
 	if (block.x >= 0 && block.x <= (unsigned int)m_width && block.y >= 0 && block.y < (unsigned int)m_height) {
 
 		// Check there is nothing there
-		if (m_image.getPixel(block.x, block.y) == m_blocks->get_by_name("Void").get_color()) {
+		if (m_image.getPixel(block.x, block.y) == m_blocks->get_by_name("Void").get_color() && material.get_name() != "null") {
 
 			// Update Image
 			m_image.setPixel(block.x, block.y, material.get_color());
