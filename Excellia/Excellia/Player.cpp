@@ -123,7 +123,6 @@ sf::Vector2f Player::can_move_pos(sf::Vector2f &position, sf::Vector2f displacem
 		else
 		{
 			m_can_jump = false;
-			if (m_jump_time == 0.1) m_jump_time = 0;
 		}
 	}
 	// Up

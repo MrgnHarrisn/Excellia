@@ -135,6 +135,54 @@ void WorldManager::create()
 	m_trees = TerrainGeneration::generate_trees(m_width, m_random);
 	int halfx = m_width / 2;
 
+	/* Generate Water */
+	std::vector<int> lakes;
+
+	int lake_pos = 0;
+
+	// Randomise position
+	while (lake_pos < m_width - 15)
+	{
+		if (std::abs(lake_pos - m_width / 2) < 30)
+		{
+			lake_pos += (int)m_random.random(20, 100);
+		}
+		lakes.push_back(lake_pos);
+
+		// Move along
+		lake_pos += (int)m_random.random(50, 100);
+	}
+
+	// Walk water
+	for (size_t i = 0; i < lakes.size(); i++)
+	{
+		sf::Vector2i pos;
+		pos.x = lakes[i];
+		pos.y = m_heights[lakes[i]] - 3;
+		int counter = 1;
+
+		while (m_image.getPixel(pos.x - 1, pos.y) == m_blocks->get_by_name("Void").get_color())
+		{
+			pos.x--;
+		}
+		while (m_image.getPixel(pos.x + counter, pos.y) == m_blocks->get_by_name("Void").get_color())
+		{
+			counter++;
+		}
+		if (counter < 30)
+		{
+			for (size_t i = 0; i <= counter; i++)
+			{
+				int j = pos.y + 1;
+				while (m_image.getPixel(pos.x + i, j) == m_blocks->get_by_name("Void").get_color())
+				{
+					m_image.setPixel(pos.x + i, j, m_blocks->get_by_name("Water").get_color());
+					j++;
+				}
+			}
+		}
+	}
+
 	// For Each Tree
 	for (size_t i = 0; i < m_trees.size(); i++)
 	{
@@ -143,7 +191,8 @@ void WorldManager::create()
 		pos.y = m_heights[m_trees[i]] - 1;
 
 		// Randomise Tree Type
-		if (m_image.getPixel(pos.x, pos.y+1) == m_blocks->get_by_name("Grass").get_color())
+		if (m_image.getPixel(pos.x, pos.y+1) == m_blocks->get_by_name("Grass").get_color() &&
+			m_image.getPixel(pos.x, pos.y) != m_blocks->get_by_name("Water").get_color())
 		{
 			if (m_random.random(0, 5) >= 1) {
 				s_tree.Build(m_image, pos);
