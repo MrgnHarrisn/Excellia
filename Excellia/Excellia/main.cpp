@@ -259,6 +259,7 @@ int main()
 
 
 		// Draw View
+		// window.draw(world.get_view_sprite(), &shader);
 		window.draw(world.get_view_sprite());
 
 

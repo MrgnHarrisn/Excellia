@@ -10,7 +10,7 @@ void main() {
     float distance = length(texCoord - playerPosition);
 
     // Darken based on distance (adjust factor to control darkness)
-    float darkenFactor = distance * 3.6; // Adjust the multiplication factor as needed
+    float darkenFactor = distance * 0.2; // Adjust the multiplication factor as needed
 
     // Get the texture color
     vec4 color = texture2D(texture, texCoord);
