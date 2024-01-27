@@ -106,6 +106,7 @@ void WorldManager::create()
 		}
 	}
 
+
 	/* Generate caves with random walking */
 	for (unsigned int i = 0; i < m_caves.size(); i++) {
 
@@ -131,9 +132,6 @@ void WorldManager::create()
 		}
 	}
 
-	/* Generates trees */
-	m_trees = TerrainGeneration::generate_trees(m_width, m_random);
-	int halfx = m_width / 2;
 
 	/* Generate Water */
 	std::vector<int> lakes;
@@ -182,6 +180,11 @@ void WorldManager::create()
 			}
 		}
 	}
+
+
+	/* Generates trees */
+	m_trees = TerrainGeneration::generate_trees(m_width, m_random);
+	int halfx = m_width / 2;
 
 	// For Each Tree
 	for (size_t i = 0; i < m_trees.size(); i++)

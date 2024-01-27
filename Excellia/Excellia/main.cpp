@@ -188,18 +188,12 @@ int main()
 					current_block = blocks.get_by_name("Demon_Goo");
 				}
 				else if (event.key.code == sf::Keyboard::Num3) {
-					current_block = blocks.get_by_name("Water");
-				}
-				else if (event.key.code == sf::Keyboard::Num4) {
-					current_block = blocks.get_by_name("Lava");
-				}
-				else if (event.key.code == sf::Keyboard::Num5) {
 					current_block = blocks.get_by_name("Brick");
 				}
-				else if (event.key.code == sf::Keyboard::Num6) {
+				else if (event.key.code == sf::Keyboard::Num4) {
 					current_block = blocks.get_by_name("Red_Wood");
 				}
-				else if (event.key.code == sf::Keyboard::Num7) {
+				else if (event.key.code == sf::Keyboard::Num5) {
 					current_block = blocks.get_by_name("Hell_Steel_Ore");
 				}
 			}
