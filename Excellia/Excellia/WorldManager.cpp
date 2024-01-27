@@ -350,3 +350,8 @@ int WorldManager::find_highest_point()
 	}
 	return lowest;
 }
+
+sf::RenderWindow& WorldManager::get_window()
+{
+	return m_window;
+}

@@ -84,6 +84,8 @@ public:
 
 	std::vector<std::string> ore_spawn_in_range(sf::Vector2i pos);
 
+	sf::RenderWindow& get_window();
+
 private:
 
 	Random m_random;

@@ -3,6 +3,7 @@
 #include <SFML/Window/Event.hpp>
 
 #include "WorldManager.h"
+#include "EventManager.h"
 #include "Settings.h"
 #include "Player.h"
 #include "Camera.h"
@@ -84,6 +85,7 @@ int main()
 	bool is_breaking_block = false;
 	Block current_block;
 
+	EventManager ev_manager(is_placing_placed, is_breaking_block, current_block, cam, player, world);
 
 	// Main loop
 	while (window.isOpen())
@@ -97,126 +99,10 @@ int main()
 		cursor_texture.loadFromImage(current_block.get_image());
 		cursor.setTexture(&cursor_texture);
 
+		
 
 		// Events And Inputs
-		sf::Event event;
-		while (window.pollEvent(event))
-		{
-
-			// Close Window
-			if (event.type == sf::Event::Closed)
-			{
-				window.close();
-			}
-
-			// Scroll Input
-			if (event.type == sf::Event::MouseWheelScrolled)
-			{
-				if (event.mouseWheelScroll.wheel == sf::Mouse::VerticalWheel) {
-					// Zoom In
-					if (event.mouseWheelScroll.delta > 0)
-					{
-						cam.zoom_in();
-					}
-					// Zoom Out
-					else if (event.mouseWheelScroll.delta < 0)
-					{
-						cam.zoom_out();
-					}
-				}
-			}
-
-			// Mouse Input
-			if (event.type == sf::Event::MouseButtonPressed)
-			{
-				// Start Placing
-				if (event.mouseButton.button == sf::Mouse::Left)
-				{
-					is_placing_placed = true;
-				}
-				// Start Breaking
-				else if (event.mouseButton.button == sf::Mouse::Right)
-				{
-					is_breaking_block = true;
-				}
-				// Select Block
-				else if (event.mouseButton.button == sf::Mouse::Middle)
-				{
-					Block& temp_block = world.get_block(static_cast<sf::Vector2i>(world.screen_pos_to_world_pos(sf::Mouse::getPosition(window))));
-					if (temp_block.get_name() != "Void") current_block = temp_block;
-				}
-			}
-			if (event.type == sf::Event::MouseButtonReleased) {
-				// Stop Placing
-				if (event.mouseButton.button == sf::Mouse::Left) {
-					is_placing_placed = false;
-				}
-				// Stop Breaking
-				else if (event.mouseButton.button == sf::Mouse::Right) {
-					is_breaking_block = false;
-				}
-			}
-
-			// Keyboard Input
-			if (event.type == sf::Event::KeyPressed)
-			{
-				// Player Movement
-				if (event.key.code == sf::Keyboard::A)
-				{
-					player.set_moving_left(true);
-				}
-				else if (event.key.code == sf::Keyboard::D)
-				{
-					player.set_moving_right(true);
-				}
-				else if (event.key.code == sf::Keyboard::Space)
-				{
-					player.set_jumping(true);
-				}
-				else if (event.key.code == sf::Keyboard::LShift)
-				{
-					player.set_sprinting(true);
-				}
-
-
-				// Change Selected Block
-				else if (event.key.code == sf::Keyboard::Num1) {
-					current_block = blocks.get_by_name("Sand");
-				}
-				else if (event.key.code == sf::Keyboard::Num2) {
-					current_block = blocks.get_by_name("Demon_Goo");
-				}
-				else if (event.key.code == sf::Keyboard::Num3) {
-					current_block = blocks.get_by_name("Brick");
-				}
-				else if (event.key.code == sf::Keyboard::Num4) {
-					current_block = blocks.get_by_name("Red_Wood");
-				}
-				else if (event.key.code == sf::Keyboard::Num5) {
-					current_block = blocks.get_by_name("Hell_Steel_Ore");
-				}
-			}
-			else if (event.type == sf::Event::KeyReleased)
-			{
-				// Player Movement
-				if (event.key.code == sf::Keyboard::A)
-				{
-					player.set_moving_left(false);
-				}
-				else if (event.key.code == sf::Keyboard::D)
-				{
-					player.set_moving_right(false);
-				}
-				else if (event.key.code == sf::Keyboard::Space)
-				{
-					player.set_jumping(false);
-				}
-				else if (event.key.code == sf::Keyboard::LShift)
-				{
-					player.set_sprinting(false);
-				}
-			}
-		}
+		ev_manager.poll_events();
 
 
 		// Place/Break Block
@@ -259,8 +145,8 @@ int main()
 
 
 		// Draw View
-		// window.draw(world.get_view_sprite(), &shader);
-		window.draw(world.get_view_sprite());
+		window.draw(world.get_view_sprite(), &shader);
+		// window.draw(world.get_view_sprite());
 
 
 		// Draw Player
