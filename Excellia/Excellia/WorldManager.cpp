@@ -112,7 +112,7 @@ void WorldManager::create()
 
 		sf::Vector2i position_a = m_caves[i];
 		int cave_size = (m_caves[i].y > m_height * 0.75 ? 1000 : 400);
-		Block& _block = m_blocks->get_by_name("Cave");
+		Block& _cave = m_blocks->get_by_name("Cave");
 
 		// Loop Over Caves
 		for (int j = 0; j < cave_size; j++) {
@@ -120,7 +120,9 @@ void WorldManager::create()
 			// Draw Square
 			for (int d_x = 0; d_x < 3; d_x++) {
 				for (int d_y = 0; d_y < 3; d_y++) {
-					force_place_block(_block, position_a + sf::Vector2i(d_x, d_y));
+					if (position_a.y + d_y >= m_heights[position_a.x + d_x]) {
+						force_place_block(_cave, position_a + sf::Vector2i(d_x, d_y));
+					}
 				}
 			}
 
@@ -292,7 +294,7 @@ void WorldManager::place_block(Block& material, sf::Vector2i mouse_pos, sf::Vect
 	if (block.x >= 0 && block.x <= (unsigned int)m_width && block.y >= 0 && block.y < (unsigned int)m_height) {
 
 		// Check there is nothing there
-		if (m_image.getPixel(block.x, block.y) == m_blocks->get_by_name("Void").get_color() && material.get_name() != "null") {
+		if (!m_blocks->get_by_color(m_image.getPixel(block.x, block.y)).get_is_solid() && material.get_name() != "null") {
 
 			// Update Image
 			m_image.setPixel(block.x, block.y, material.get_color());
