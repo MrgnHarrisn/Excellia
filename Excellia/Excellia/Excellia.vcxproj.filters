@@ -118,16 +118,16 @@
     </Image>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Config\Settings.conf">
-      <Filter>Resource Files\Game</Filter>
-    </None>
     <None Include="Shaders\fragment_shader.frag">
       <Filter>Resource Files\Shaders</Filter>
     </None>
     <None Include="Shaders\vertex_shader.vert">
       <Filter>Resource Files\Shaders</Filter>
     </None>
-    <None Include="Blocks.blk">
+    <None Include="Game\Settings.conf">
+      <Filter>Resource Files\Game</Filter>
+    </None>
+    <None Include="Game\Blocks.blk">
       <Filter>Resource Files\Game</Filter>
     </None>
   </ItemGroup>

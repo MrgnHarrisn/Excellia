@@ -112,7 +112,7 @@ void WorldManager::create()
 
 		sf::Vector2i position_a = m_caves[i];
 		int cave_size = (m_caves[i].y > m_height * 0.75 ? 1000 : 400);
-		Block& _block = m_blocks->get_by_name("Void");
+		Block& _block = m_blocks->get_by_name("Cave");
 
 		// Loop Over Caves
 		for (int j = 0; j < cave_size; j++) {
