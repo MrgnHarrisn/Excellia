@@ -1,9 +1,33 @@
 #include "BlockManager.h"
 
-BlockManager::BlockManager()
+BlockManager::BlockManager() {}
+
+BlockManager::BlockManager(std::string file_name)
 {
-	m_blocks.max_load_factor(0.001f);
-	m_ids.max_load_factor(0.001f);
+	load_from_file(file_name);
+}
+
+void BlockManager::load_from_file(std::string file_name)
+{
+	std::fstream file;
+	std::string name;
+	unsigned int id = 0;
+	int toughness;
+	bool is_solid;
+	file.open("Game/" + file_name + ".blk");
+
+	while (file >> name)
+	{
+		if (!(file >> std::hex >> id) ||
+			!(file >> toughness) ||
+			!(file >> std::boolalpha >> is_solid)) {
+			printf("Error reading in block");
+			break;
+		}
+		create_block(name, id, toughness, is_solid);
+	}
+
+	file.close();
 }
 
 /// <summary>

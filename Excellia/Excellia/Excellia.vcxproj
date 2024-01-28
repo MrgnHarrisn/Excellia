@@ -157,6 +157,7 @@
     <ClInclude Include="WorldManager.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Blocks.blk" />
     <None Include="Config\Settings.conf" />
     <None Include="Shaders\fragment_shader.frag" />
     <None Include="Shaders\vertex_shader.vert" />

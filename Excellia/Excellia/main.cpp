@@ -17,29 +17,8 @@ int main()
 
 
 	// Create Blocks
-	BlockManager blocks;
+	BlockManager blocks("Blocks");
 	Block current_block;
-	blocks.create_block("Hell_Steel_Ore", 0xB54546FF, 1, true);
-	blocks.create_block("Malachite_Ore", 0x44CC83FF, 1, true);
-	blocks.create_block("Diamond_Ore", 0x49E0FBFF, 1, true);
-	blocks.create_block("Crystal_Ore", 0xA87DD8FF, 1, true);
-	blocks.create_block("Copper_Ore", 0xCA937BFF, 1, true);
-	blocks.create_block("Demon_Goo", 0x600000FF, 1, false);
-	blocks.create_block("Bedrock", 0x646466FF, -1, true);
-	blocks.create_block("Ruby_Ore", 0xE96665FF, 1, true);
-	blocks.create_block("Red_Wood", 0xA4593CFF, 1, true);
-	blocks.create_block("Iron_Ore", 0xAFAFAFFF, 1, true);
-	blocks.create_block("Void_Ore", 0x4DB999FF, 1, true);
-	blocks.create_block("Void", 0x000000FF, -1, false);
-	blocks.create_block("Water", 0x32A6DFFF, 1, false);
-	blocks.create_block("Brick", 0x7C634AFF, 1, true);
-	blocks.create_block("Stone", 0x928C8CFF, 1, true);
-	blocks.create_block("Grass", 0x478142FF, 1, true);
-	blocks.create_block("Lava", 0xE45746FF, 1, false);
-	blocks.create_block("Dirt", 0x985E41FF, 1, true);
-	blocks.create_block("Wood", 0xB15E35FF, 1, true);
-	blocks.create_block("Leaf", 0x6E9C6AFF, 1, true);
-	blocks.create_block("Sand", 0xE8CD73FF, 1, true);
 	
 
 	// Create Clock
