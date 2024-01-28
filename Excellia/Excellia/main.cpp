@@ -23,7 +23,6 @@ int main()
 
 	// Create Clock
 	sf::Clock clock;
-	float dt = 0;
 
 
 	// Create Window
@@ -39,7 +38,7 @@ int main()
 	
 	 
 	// Create Camera
-	Camera cam(player.get_position(), sf::Vector2u{1080 * settings.get_screen_size().x / settings.get_screen_size().y, 1080}, player, settings.get_camera_zoom());
+	Camera camera(player.get_position(), sf::Vector2u{1080 * settings.get_screen_size().x / settings.get_screen_size().y, 1080}, player, settings.get_camera_zoom());
 
 
 	// Create Cursor
@@ -50,9 +49,7 @@ int main()
 
 	// Create Shader
 	sf::Shader shader;
-	if (!shader.loadFromFile("Shaders/vertex_shader.vert", "Shaders/fragment_shader.frag")) {
-		return -1;
-	}
+	shader.loadFromFile("Shaders/vertex_sader.vert", "Shaders/fragment_shaer.frag");
 
 
 	// Create Skybox
@@ -62,7 +59,7 @@ int main()
 	// Create Event Manager
 	bool is_placing_placed = false;
 	bool is_breaking_block = false;
-	EventManager ev_manager(is_placing_placed, is_breaking_block, current_block, cam, player, world);
+	EventManager ev_manager(is_placing_placed, is_breaking_block, current_block, camera, player, world);
 
 
 	// Main Loop
@@ -70,7 +67,7 @@ int main()
 	{
 
 		// Update Delta Time
-		dt = clock.restart().asSeconds();
+		float dt = clock.restart().asSeconds();
 
 		
 		// Update Events
@@ -103,11 +100,11 @@ int main()
 
 
 		// Update Camera
-		cam.update(dt);
+		camera.update(dt);
 
 
 		// Update View
-		window.setView(cam.get_view());
+		window.setView(camera.get_view());
 
 
 		// Update Skybox
