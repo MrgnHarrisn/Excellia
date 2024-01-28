@@ -120,7 +120,7 @@ void WorldManager::create()
 			// Draw Square
 			for (int d_x = 0; d_x < 3; d_x++) {
 				for (int d_y = 0; d_y < 3; d_y++) {
-					if (position_a.y + d_y >= m_heights[position_a.x + d_x]) {
+					if (position_a.y + d_y >= m_heights[std::min(std::max((float)(position_a.x + d_x), 0.0f), (float)(m_width - 1))]) {
 						force_place_block(_cave, position_a + sf::Vector2i(d_x, d_y));
 					}
 				}
