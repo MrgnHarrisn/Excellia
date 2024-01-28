@@ -49,7 +49,7 @@ int main()
 
 	// Create Shader
 	sf::Shader shader;
-	shader.loadFromFile("Shaders/vertex_sader.vert", "Shaders/fragment_shaer.frag");
+	shader.loadFromFile("Shaders/vertex_shader.vert", "Shaders/fragment_shader.frag");
 
 
 	// Create Skybox
