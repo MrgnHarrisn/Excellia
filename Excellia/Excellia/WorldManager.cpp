@@ -143,14 +143,14 @@ void WorldManager::create()
 	// Randomise position
 	while (lake_pos < m_width - 15)
 	{
-		if (std::abs(lake_pos - m_width / 2) < 30)
+		if (std::abs(lake_pos - m_width / 2) < 60)
 		{
-			lake_pos += (int)m_random.random(20, 100);
+			lake_pos += (int)m_random.random(65, 100);
 		}
 		lakes.push_back(lake_pos);
 
 		// Move along
-		lake_pos += (int)m_random.random(50, 100);
+		lake_pos += (int)m_random.random(65, 100);
 	}
 
 	// Walk water
@@ -169,15 +169,19 @@ void WorldManager::create()
 		{
 			counter++;
 		}
-		if (counter < 30)
+		if (counter < 60 && counter > 10)
 		{
-			for (int i = 0; i <= counter; i++)
+			for (int i = -1; i < counter; i++)
 			{
 				int j = pos.y + 1;
 				while (m_image.getPixel(pos.x + i, j) == m_blocks->get_by_name("Void").get_color())
 				{
 					m_image.setPixel(pos.x + i, j, m_blocks->get_by_name("Water").get_color());
 					j++;
+				}
+				for (int k = 0; k < m_dirt_heights[pos.x + i] / 2; k++)
+				{
+					m_image.setPixel(pos.x + i, j + k, m_blocks->get_by_name("Sand").get_color());
 				}
 			}
 		}
