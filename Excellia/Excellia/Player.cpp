@@ -75,6 +75,10 @@ void Player::update(float dt)
 		{
 			displacement.x = 0;
 		}
+		if (pos.x + test_displacement.x > m_wm.get_size().x - 1 && test_displacement.x > 0)
+		{
+			displacement.x = 0;
+		}
 
 		pos.x += displacement.x;
 		pos.y += displacement.y;

@@ -86,6 +86,8 @@ public:
 
 	sf::RenderWindow& get_window();
 
+	sf::Vector2u get_size();
+
 private:
 
 	Random m_random;

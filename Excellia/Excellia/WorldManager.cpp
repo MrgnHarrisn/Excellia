@@ -357,3 +357,8 @@ sf::RenderWindow& WorldManager::get_window()
 {
 	return m_window;
 }
+
+sf::Vector2u WorldManager::get_size()
+{
+	return m_image.getSize();
+}
