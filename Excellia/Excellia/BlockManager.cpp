@@ -12,7 +12,7 @@ void BlockManager::load_from_file(std::string file_name)
 	std::fstream file;
 	std::string name;
 	unsigned int id = 0;
-	int toughness;
+	float toughness;
 	bool is_solid;
 	file.open("Game/" + file_name + ".blk");
 

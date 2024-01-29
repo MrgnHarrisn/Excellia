@@ -120,7 +120,7 @@ void WorldManager::create()
 			// Draw Square
 			for (int d_x = 0; d_x < 3; d_x++) {
 				for (int d_y = 0; d_y < 3; d_y++) {
-					if (position_a.y + d_y >= m_heights[std::min(std::max((float)(position_a.x + d_x), 0.0f), (float)(m_width - 1))]) {
+					if (position_a.y + d_y >= m_heights[(unsigned int)std::min(std::max((float)(position_a.x + d_x), 0.0f), (float)(m_width - 1))]) {
 						force_place_block(_cave, position_a + sf::Vector2i(d_x, d_y));
 					}
 				}
@@ -154,7 +154,7 @@ void WorldManager::create()
 	}
 
 	// Walk water
-	for (size_t i = 0; i < lakes.size(); i++)
+	for (int i = 0; i < lakes.size(); i++)
 	{
 		sf::Vector2i pos;
 		pos.x = lakes[i];
@@ -171,7 +171,7 @@ void WorldManager::create()
 		}
 		if (counter < 30)
 		{
-			for (size_t i = 0; i <= counter; i++)
+			for (int i = 0; i <= counter; i++)
 			{
 				int j = pos.y + 1;
 				while (m_image.getPixel(pos.x + i, j) == m_blocks->get_by_name("Void").get_color())
