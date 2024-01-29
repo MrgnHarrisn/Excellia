@@ -7,20 +7,8 @@ std::vector<int> TerrainGeneration::interpolate(std::vector<sf::Vector2f> height
 	float sum;
 
 	// Loop over columns
-	for (size_t i = 0; i < heights.size(); i++) {
-
-		// Check its not an edge
-		if (i > 0 && i < heights.size() - 1) {
-			sum = Utils::dot_product(heights[i], heights[i - 1], heights[i + 1]);
-		}
-		else if (i == 0) {
-			sum = Utils::dot_product(heights[i], heights[i + 1]);
-		}
-		else {
-			sum = Utils::dot_product(heights[i], heights[i - 1]);
-		}
-
-		// Save result
+	for (size_t i = 1; i < heights.size() - 1; i++) {
+		sum = Utils::dot_product(heights[i], heights[i - 1], heights[i + 1]);
 		new_heights.push_back(static_cast<int>(sum * max_height));
 	}
 
@@ -36,7 +24,7 @@ std::vector<int> TerrainGeneration::generate_heights(int map_width, float epsilo
 	heights.push_back(first);
 
 	// Loop over columns
-	for (int i = 1; i < map_width; i++) {
+	for (int i = 1; i < map_width + 2; i++) {
 
 		// Clamp based on previous and randomise
 		float nx = r.random(Utils::clip(heights[i - 1].x - epsilon, 0.6f, 0.8f), Utils::clip(heights[i - 1].x + epsilon, 0.6f, 0.8f));
