@@ -51,7 +51,7 @@ void WorldManager::create()
 	m_dirt_heights = TerrainGeneration::generate_dirt(m_width, m_random);
 
 	// Place Caves
-	sf::Vector2i min = sf::Vector2i(0, (int)(find_highest_point() * 1.3));
+	sf::Vector2i min = sf::Vector2i(0, (int)(find_highest_point() * 1.3 + 15));
 	sf::Vector2i max = sf::Vector2i(m_width, m_height);
 	m_caves = TerrainGeneration::generate_caves(min, max, m_random, m_heights);
 	m_ores = TerrainGeneration::generate_ores(min, max, m_random);
@@ -209,6 +209,7 @@ void WorldManager::create()
 			else {
 				s_tree2.Build(m_image, pos);
 			}
+			m_image.setPixel(pos.x, pos.y+1, m_blocks->get_by_name("Dirt").get_color());
 		}
 	}
 
@@ -218,7 +219,7 @@ void WorldManager::create()
 			m_image.setPixel(i, j, m_blocks->get_by_name("Bedrock").get_color());
 		}
 		/* Draw Lava*/
-		for (int j = m_height - 1; j > m_height - 10; j--) {
+		for (int j = m_height - 1; j > m_height - 13; j--) {
 			place_block(m_blocks->get_by_name("Lava"), sf::Vector2i(i, j), sf::Vector2f(0.0f, 0.0f));
 		}
 	}

@@ -51,9 +51,9 @@ public:
 private:
 
 	sf::RectangleShape m_shape;
-	float m_move_speed = 13;
+	float m_move_speed = 11;
 	float m_slow_move_speed = 4;
-	float m_sprint_speed = 25;
+	float m_sprint_speed = 16;
 	float m_speed = m_move_speed;
 	float m_jump_force = 30;
 	sf::Texture m_texture;
