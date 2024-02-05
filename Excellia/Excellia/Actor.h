@@ -1,8 +1,15 @@
 #pragma once
 
+#include <SFML/Graphics/RectangleShape.hpp>
+#include <SFML/Graphics/CircleShape.hpp>
 #include <SFML/Graphics/Transform.hpp>
 #include <SFML/Graphics/Drawable.hpp>
-#include <SFML/Graphics/CircleShape.hpp>
+
+#include <SFML/Window/Keyboard.hpp>
+#include <SFML/Window/Mouse.hpp>
+
+#include "WorldManager.h"
+#include "Block.h"
 
 /// <summary>
 /// Player/Enemy/NPC class
@@ -52,16 +59,35 @@ public:
 	void set_sprinting(bool sprint);
 	bool get_sprinting();
 
+	void set_velocity(sf::Vector2f velocity);
+	void set_velocity_x(float x);
+	void set_velocity_y(float y);
+	sf::Vector2f get_velocity();
 
+	void set_speed(float speed);
+	float get_speed();
+
+	void set_can_jump(bool can_jump);
+	bool get_can_jump();
+
+	/// <summary>
+	/// Checks if a given block is free to move to
+	/// </summary>
+	/// <param name="position">Where the player is/param>
+	/// <param name="velocity">Where the player is going</param>
+	/// <returns>if the block is free</returns>
+	sf::Vector2f check_collision(WorldManager& world, sf::Vector2f& position, sf::Vector2f velocity, sf::Vector2f size);
 
 
 
 private:
 	sf::CircleShape a_shape;
 	sf::Vector2f m_position;
+	float m_speed = 10;
+	sf::Vector2f m_velocity{ 0,0 };
 	bool m_moving_left = false;
 	bool m_moving_right = false;
 	bool m_jumping = false;
 	bool m_sprinting = false;
-
+	bool m_can_jump = true;
 };
