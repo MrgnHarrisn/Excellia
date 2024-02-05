@@ -40,7 +40,28 @@ public:
 	/// <returns>position</returns>
 	sf::Vector2f get_position();
 
+	void set_moving_left(bool left);
+	bool get_moving_left();
+
+	void set_moving_right(bool right);
+	bool get_moving_right();
+
+	void set_jumping(bool jump);
+	bool get_jumping();
+
+	void set_sprinting(bool sprint);
+	bool get_sprinting();
+
+
+
+
+
 private:
 	sf::CircleShape a_shape;
 	sf::Vector2f m_position;
+	bool m_moving_left = false;
+	bool m_moving_right = false;
+	bool m_jumping = false;
+	bool m_sprinting = false;
+
 };

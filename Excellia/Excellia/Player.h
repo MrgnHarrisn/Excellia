@@ -38,15 +38,7 @@ public:
 	/// <param name="position">Where the player is/param>
 	/// <param name="velocity">Where the player is going</param>
 	/// <returns>if the block is free</returns>
-	sf::Vector2f can_move_pos(sf::Vector2f &position, sf::Vector2f velocity);
-
-	void set_moving_left(bool left);
-
-	void set_moving_right(bool right);
-
-	void set_jumping(bool jump);
-	
-	void set_sprinting(bool sprint);
+	sf::Vector2f check_collision(sf::Vector2f &position, sf::Vector2f velocity, sf::Vector2f size);
 
 private:
 
@@ -63,8 +55,4 @@ private:
 	bool m_can_jump = true;
 	sf::Vector2f m_velocity{ 0,0 };
 	bool m_facing_right = false;
-	bool m_moving_left = false;
-	bool m_moving_right = false;
-	bool m_jumping = false;
-	bool m_sprinting = false;
 };
