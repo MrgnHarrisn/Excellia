@@ -3,7 +3,7 @@
 
 Player::Player(sf::Vector2f position, WorldManager& wm) : m_wm(wm)
 {
-	m_shape.setSize(sf::Vector2f(8, 1));
+	m_shape.setSize(sf::Vector2f(1, 3));
 	m_shape.setOrigin(0, m_shape.getSize().y);
 	set_position(position);
 	set_speed(m_move_speed);
