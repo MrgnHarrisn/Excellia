@@ -133,22 +133,41 @@ sf::Vector2f Actor::check_collision(WorldManager& world, sf::Vector2f& position,
 	}
 	// Down
 	if (displacement.y > 0.0f) {
-		if (world.get_block((sf::Vector2i)(get_position() + sf::Vector2f(E, displacement.y))).get_is_solid() ||
-			world.get_block((sf::Vector2i)(get_position() + sf::Vector2f(size.x - E, displacement.y))).get_is_solid()) {
+		m_can_jump = false;
+
+		if (world.get_block((sf::Vector2i)(get_position() + sf::Vector2f(size.x - E, displacement.y))).get_is_solid()) {
 			displacement.y = 0.0f;
 			position.y = std::floor(position.y + 0.5f - e) - e;
 			m_velocity.y = m_speed;
 			m_can_jump = true;
 		}
-		else m_can_jump = false;
+		else {
+			for (int x = 0; x < size.x; x++) {
+				if (world.get_block((sf::Vector2i)(get_position() + sf::Vector2f(x + E, displacement.y))).get_is_solid()) {
+					displacement.y = 0.0f;
+					position.y = std::floor(position.y + 0.5f - e) - e;
+					m_velocity.y = m_speed;
+					m_can_jump = true;
+					break;
+				}
+			}
+		}
 	}
 	// Up
 	else if (displacement.y < 0.0f) {
-		if (world.get_block((sf::Vector2i)(get_position() + sf::Vector2f(E, displacement.y + e - size.y))).get_is_solid() ||
-			world.get_block((sf::Vector2i)(get_position() + sf::Vector2f(size.x - E, displacement.y + e - size.y))).get_is_solid()) {
+		if (world.get_block((sf::Vector2i)(get_position() + sf::Vector2f(size.x - E, displacement.y + e - size.y))).get_is_solid()) {
 			displacement.y = 0.0f;
 			position.y = std::floor(position.y + 0.5f - e) - e;
 			m_velocity.y = m_speed;
+		} else {
+			for (int x = 0; x < size.x; x++) {
+				if (world.get_block((sf::Vector2i)(get_position() + sf::Vector2f(x + E, displacement.y + e - size.y))).get_is_solid()) {
+					displacement.y = 0.0f;
+					position.y = std::floor(position.y + 0.5f - e) - e;
+					m_velocity.y = m_speed;
+					break;
+				}
+			}
 		}
 	}
 
