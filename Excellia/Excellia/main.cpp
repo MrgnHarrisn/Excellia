@@ -75,7 +75,7 @@ int main()
 
 
 		// Break Block
-		if (is_breaking_block) world.place_block(current_block, sf::Mouse::getPosition(window), player.get_position());
+		if (is_breaking_block) world.place_block(current_block, sf::Mouse::getPosition(window), player.get_position(), player.get_shape().getSize());
 
 
 		// Place Block
@@ -120,7 +120,7 @@ int main()
 
 
 		// Draw Player
-		window.draw(player.render_shape());
+		window.draw(player.get_shape());
 
 
 		// Draw Cursor

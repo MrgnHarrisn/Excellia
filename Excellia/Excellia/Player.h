@@ -24,21 +24,19 @@ public:
 	void update(float dt) override;
 
 	/// <summary>
-	/// Get's the render shape of the player
+	/// Gets player sprite
 	/// </summary>
-	/// <returns>sf::Drawable& of player's shape</returns>
-	sf::Drawable& render_shape() override;
+	/// <returns>rectangle shape of player</returns>
+	sf::RectangleShape& get_shape();
 
 private:
-
 	sf::RectangleShape m_shape;
-	float m_move_speed = 11;
-	float m_slow_move_speed = 4;
-	float m_sprint_speed = 16;
-	float m_jump_force = 30;
 	sf::Texture m_texture;
 	WorldManager& m_wm;
+	float m_slow_move_speed = 4;
+	float m_sprint_speed = 16;
+	float m_move_speed = 11;
+	float m_jump_force = 30;
 	float m_gravity = 120.0f;
 	float m_drag = 0.02f;
-	bool m_facing_right = false;
 };

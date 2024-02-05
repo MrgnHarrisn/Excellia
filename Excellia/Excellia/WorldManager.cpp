@@ -220,7 +220,7 @@ void WorldManager::create()
 		}
 		/* Draw Lava*/
 		for (int j = m_height - 1; j > m_height - 13; j--) {
-			place_block(m_blocks->get_by_name("Lava"), sf::Vector2i(i, j), sf::Vector2f(0.0f, 0.0f));
+			place_block(m_blocks->get_by_name("Lava"), sf::Vector2i(i, j));
 		}
 	}
 	
@@ -284,13 +284,15 @@ void WorldManager::break_block(sf::Vector2i mouse_pos)
 	}
 }
 
-void WorldManager::place_block(Block& material, sf::Vector2i mouse_pos, sf::Vector2f player_pos)
+void WorldManager::place_block(Block& material, sf::Vector2i mouse_pos, sf::Vector2f player_pos, sf::Vector2f player_size)
 {
 
 	sf::Vector2u block = (sf::Vector2u)screen_pos_to_world_pos(mouse_pos);
+	float y_val = (player_size.y + 1) / 2 - 0.005;
+	float x_val = (player_size.x + 1) / 2;
 
 	// Check player bounds
-	if (std::abs((float)block.x - player_pos.x) < 1.0f && std::abs((float)block.y - player_pos.y + 1.995f) < 1.995f)
+	if (std::abs((float)block.x - player_pos.x - x_val + 1) < x_val && std::abs((float)block.y - player_pos.y + y_val) < y_val)
 	{
 		return;
 	}

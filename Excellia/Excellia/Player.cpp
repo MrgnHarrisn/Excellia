@@ -31,18 +31,18 @@ void Player::update(float dt)
 	}
 	else if (get_moving_right()) {
 		set_velocity_x(get_speed());
-		if (m_facing_right) {
+		if (get_facing_right()) {
 			m_shape.setOrigin(0, m_shape.getSize().y);
 			m_shape.setScale(1, 1);
-			m_facing_right = false;
+			set_facing_right(false);
 		}
 	}
 	else if (get_moving_left()) {
 		set_velocity_x(-get_speed());
-		if (!m_facing_right) {
+		if (!get_facing_right()) {
 			m_shape.setOrigin(m_shape.getSize().x, m_shape.getSize().y);
 			m_shape.setScale(-1, 1);
-			m_facing_right = true;
+			set_facing_right(true);
 		}
 	}
 
@@ -90,7 +90,7 @@ void Player::update(float dt)
 	m_shape.setPosition(get_position());
 }
 
-sf::Drawable& Player::render_shape()
+sf::RectangleShape& Player::get_shape()
 {
-    return m_shape;
+	return m_shape;
 }

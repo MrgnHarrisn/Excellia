@@ -63,7 +63,7 @@ public:
 	/// <param name="mouse_pos">Position of mouse</param>
 	/// <param name="material">Block type to place</param>
 	/// <param name="player_pos">Position of player</param>
-	void place_block(Block& material, sf::Vector2i mouse_pos, sf::Vector2f player_pos);
+	void place_block(Block& material, sf::Vector2i mouse_pos, sf::Vector2f player_pos = sf::Vector2f(0.0f, 0.0f), sf::Vector2f player_size = sf::Vector2f(0.0f, 0.0f));
 
 	/// <summary>
 	/// Forces a block to be placed at position

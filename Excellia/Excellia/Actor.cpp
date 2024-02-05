@@ -5,11 +5,6 @@ Actor::Actor() {}
 
 void Actor::update(float dt) {}
 
-sf::Drawable& Actor::render_shape()
-{
-	return a_shape;
-}
-
 void Actor::set_position(sf::Vector2f position)
 {
 	this->m_position = position;
@@ -100,6 +95,16 @@ bool Actor::get_can_jump()
 	return m_can_jump;
 }
 
+void Actor::set_facing_right(bool facing_right)
+{
+	m_facing_right = facing_right;
+}
+
+bool Actor::get_facing_right()
+{
+	return m_facing_right;
+}
+
 sf::Vector2f Actor::check_collision(WorldManager& world, sf::Vector2f& position, sf::Vector2f displacement, sf::Vector2f size)
 {
 	const float e = 0.01f;
@@ -119,7 +124,7 @@ sf::Vector2f Actor::check_collision(WorldManager& world, sf::Vector2f& position,
 	// Right
 	else if (displacement.x > 0.0f) {
 		for (float y = 0; y < size.y; y++) {
-			if (world.get_block((sf::Vector2i)(get_position() + sf::Vector2f(displacement.x + e + size.x, -y - E))).get_is_solid()) {
+			if (world.get_block((sf::Vector2i)(get_position() + sf::Vector2f(displacement.x - e + size.x, -y - E))).get_is_solid()) {
 				displacement.x = 0;
 				position.x = std::floor(position.x + 0.5f - e);
 				break;

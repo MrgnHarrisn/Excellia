@@ -1,7 +1,6 @@
 #pragma once
 
 #include <SFML/Graphics/RectangleShape.hpp>
-#include <SFML/Graphics/CircleShape.hpp>
 #include <SFML/Graphics/Transform.hpp>
 #include <SFML/Graphics/Drawable.hpp>
 
@@ -28,12 +27,6 @@ public:
 	/// </summary>
 	/// <param name="dt"Delta time></param>
 	virtual void update(float dt);
-
-	/// <summary>
-	/// Creates a drawable shape for SFML
-	/// </summary>
-	/// <returns>Drawable shape for SFML</returns>
-	virtual sf::Drawable& render_shape();
 
 	/// <summary>
 	/// moves the actor
@@ -70,6 +63,9 @@ public:
 	void set_can_jump(bool can_jump);
 	bool get_can_jump();
 
+	void set_facing_right(bool facing_right);
+	bool get_facing_right();
+
 	/// <summary>
 	/// Checks if a given block is free to move to
 	/// </summary>
@@ -81,7 +77,6 @@ public:
 
 
 private:
-	sf::CircleShape a_shape;
 	sf::Vector2f m_position;
 	float m_speed = 10;
 	sf::Vector2f m_velocity{ 0,0 };
@@ -90,4 +85,5 @@ private:
 	bool m_jumping = false;
 	bool m_sprinting = false;
 	bool m_can_jump = true;
+	bool m_facing_right = false;
 };
