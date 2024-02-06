@@ -161,7 +161,7 @@ void WorldManager::create()
 		pos.y = m_heights[lakes[i]] - 3;
 		int counter = 1;
 
-		while (m_image.getPixel(pos.x - 1, pos.y) == m_blocks->get_by_name("Void").get_color())
+		while (pos.x > 0 && m_image.getPixel(pos.x - 1, pos.y) == m_blocks->get_by_name("Void").get_color())
 		{
 			pos.x--;
 		}
@@ -190,7 +190,6 @@ void WorldManager::create()
 
 	/* Generates trees */
 	m_trees = TerrainGeneration::generate_trees(m_width, m_random);
-	int halfx = m_width / 2;
 
 	// For Each Tree
 	for (size_t i = 0; i < m_trees.size(); i++)

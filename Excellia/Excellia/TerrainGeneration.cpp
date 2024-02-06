@@ -86,7 +86,7 @@ std::vector<int> TerrainGeneration::generate_trees(int map_width, Random& r)
 	{
 		if (std::abs(tree_pos - map_width / 2) < 4)
 		{
-			tree_pos += (int)r.random(3, 10);
+			tree_pos += (int)r.random(8, 10);
 		}
 			trees.push_back(tree_pos);
 		
