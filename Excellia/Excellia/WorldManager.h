@@ -115,5 +115,4 @@ private:
 	// Premade Structures
 	Structure s_tree;
 	Structure s_tree2;
-	Structure s_palette;
 };
