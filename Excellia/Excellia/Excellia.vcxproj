@@ -148,6 +148,7 @@
     <ClInclude Include="Camera.h" />
     <ClInclude Include="EventManager.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="Rabbit.h" />
     <ClInclude Include="Random.h" />
     <ClInclude Include="Settings.h" />
     <ClInclude Include="Skybox.h" />
