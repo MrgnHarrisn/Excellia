@@ -30,6 +30,8 @@ public:
 
 	sf::RectangleShape& get_shape();
 
+	void load_texture(std::string file);
+
 	void jump(float jump_force);
 
 	void apply_gravity(float acceleration, float drag, float dt);
@@ -50,22 +52,11 @@ public:
 	void set_jumping(bool jump);
 	bool get_jumping();
 
-	void set_sprinting(bool sprint);
-	bool get_sprinting();
-
 	void set_velocity(sf::Vector2f velocity);
-	void set_velocity_x(float x);
-	void set_velocity_y(float y);
 	sf::Vector2f get_velocity();
 
 	void set_speed(float speed);
 	float get_speed();
-
-	void set_can_jump(bool can_jump);
-	bool get_can_jump();
-
-	void set_facing_right(bool facing_right);
-	bool get_facing_right();
 
 	/// <summary>
 	/// Checks if a given block is free to move to
@@ -73,20 +64,31 @@ public:
 	/// <param name="position">Where the player is/param>
 	/// <param name="velocity">Where the player is going</param>
 	/// <returns>if the block is free</returns>
-	sf::Vector2f check_collision(WorldManager& world, sf::Vector2f& position, sf::Vector2f velocity, sf::Vector2f size);
+	sf::Vector2f can_move(WorldManager& world, sf::Vector2f& position, sf::Vector2f velocity, sf::Vector2f size);
 
+	/// <summary>
+	/// Moves the actor, checking for collision
+	/// </summary>
+	/// <param name="wm">World to check for collision</param>
+	/// <param name="dt">delta time</param>
+	void move_with_collision(WorldManager& wm, float dt);
 
+	/// <summary>
+	/// Moves the actor, not checking for collision
+	/// </summary>
+	/// <param name="dt">delta time</param>
+	void move_without_collision(float dt);
 
 private:
 
 	sf::RectangleShape m_shape;
+	sf::Texture m_texture;
 	sf::Vector2f m_position;
 	sf::Vector2f m_velocity{ 0,0 };
 	float m_speed = 10;
 	bool m_moving_left = false;
 	bool m_moving_right = false;
 	bool m_jumping = false;
-	bool m_sprinting = false;
 	bool m_can_jump = true;
 	bool m_facing_right = false;
 };

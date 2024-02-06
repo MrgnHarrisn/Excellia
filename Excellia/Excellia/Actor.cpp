@@ -10,6 +10,12 @@ sf::RectangleShape& Actor::get_shape()
 	return m_shape;
 }
 
+void Actor::load_texture(std::string file)
+{
+	m_texture.loadFromFile("Textures/Frankly.png");
+	m_shape.setTexture(&m_texture);
+}
+
 void Actor::jump(float jump_force)
 {
 	if (m_can_jump && m_jumping) m_velocity.y = -jump_force;
@@ -93,30 +99,10 @@ bool Actor::get_jumping()
 	return m_jumping;
 }
 
-void Actor::set_sprinting(bool sprint)
-{
-	m_sprinting = sprint;
-}
-
-bool Actor::get_sprinting()
-{
-	return m_sprinting;
-}
-
 void Actor::set_velocity(sf::Vector2f velocity)
 {
 	m_velocity = velocity;
-}
-
-void Actor::set_velocity_x(float x)
-{
-	m_velocity.x = x;
-}
-
-void Actor::set_velocity_y(float y)
-{
-	m_velocity.y = y;
-}
+} 
 
 sf::Vector2f Actor::get_velocity()
 {
@@ -133,27 +119,7 @@ float Actor::get_speed()
 	return m_speed;
 }
 
-void Actor::set_can_jump(bool can_jump)
-{
-	m_can_jump = can_jump;
-}
-
-bool Actor::get_can_jump()
-{
-	return m_can_jump;
-}
-
-void Actor::set_facing_right(bool facing_right)
-{
-	m_facing_right = facing_right;
-}
-
-bool Actor::get_facing_right()
-{
-	return m_facing_right;
-}
-
-sf::Vector2f Actor::check_collision(WorldManager& world, sf::Vector2f& position, sf::Vector2f displacement, sf::Vector2f size)
+sf::Vector2f Actor::can_move(WorldManager& world, sf::Vector2f& position, sf::Vector2f displacement, sf::Vector2f size)
 {
 	const float e = 0.01f;
 	const float E = 0.05f;
@@ -161,12 +127,12 @@ sf::Vector2f Actor::check_collision(WorldManager& world, sf::Vector2f& position,
 
 	// Left
 	if (displacement.x < 0.0f) {
-		if (world.get_block((sf::Vector2i)(get_position() + sf::Vector2f(displacement.x - e, -size.y + 2.0f * E))).get_is_solid()) {
+		if (world.get_block((sf::Vector2i)(m_position + sf::Vector2f(displacement.x - e, -size.y + 2.0f * E))).get_is_solid()) {
 			displacement.x = 0;
 			position.x = std::floor(position.x + 0.5f - e);
 		} else {
 			for (float y = 0; y < size.y; y++) {
-				if (world.get_block((sf::Vector2i)(get_position() + sf::Vector2f(displacement.x + e, -y - E))).get_is_solid()) {
+				if (world.get_block((sf::Vector2i)(m_position + sf::Vector2f(displacement.x + e, -y - E))).get_is_solid()) {
 					displacement.x = 0;
 					position.x = std::floor(position.x + 0.5f - e);
 					break;
@@ -176,12 +142,12 @@ sf::Vector2f Actor::check_collision(WorldManager& world, sf::Vector2f& position,
 	}
 	// Right
 	else if (displacement.x > 0.0f) {
-		if (world.get_block((sf::Vector2i)(get_position() + sf::Vector2f(displacement.x - e + size.x, -size.y + 2.0f * E))).get_is_solid()) {
+		if (world.get_block((sf::Vector2i)(m_position + sf::Vector2f(displacement.x - e + size.x, -size.y + 2.0f * E))).get_is_solid()) {
 			displacement.x = 0;
 			position.x = std::floor(position.x + 0.5f - e);
 		} else {
 			for (float y = 0; y < size.y; y++) {
-				if (world.get_block((sf::Vector2i)(get_position() + sf::Vector2f(displacement.x - e + size.x, -y - E))).get_is_solid()) {
+				if (world.get_block((sf::Vector2i)(m_position + sf::Vector2f(displacement.x - e + size.x, -y - E))).get_is_solid()) {
 					displacement.x = 0;
 					position.x = std::floor(position.x + 0.5f - e);
 					break;
@@ -193,7 +159,7 @@ sf::Vector2f Actor::check_collision(WorldManager& world, sf::Vector2f& position,
 	if (displacement.y > 0.0f) {
 		m_can_jump = false;
 
-		if (world.get_block((sf::Vector2i)(get_position() + sf::Vector2f(size.x - E, displacement.y))).get_is_solid()) {
+		if (world.get_block((sf::Vector2i)(m_position + sf::Vector2f(size.x - E, displacement.y))).get_is_solid()) {
 			displacement.y = 0.0f;
 			position.y = std::floor(position.y + 0.5f - e) - e;
 			m_velocity.y = m_speed;
@@ -201,7 +167,7 @@ sf::Vector2f Actor::check_collision(WorldManager& world, sf::Vector2f& position,
 		}
 		else {
 			for (int x = 0; x < size.x; x++) {
-				if (world.get_block((sf::Vector2i)(get_position() + sf::Vector2f(x + E, displacement.y))).get_is_solid()) {
+				if (world.get_block((sf::Vector2i)(m_position + sf::Vector2f(x + E, displacement.y))).get_is_solid()) {
 					displacement.y = 0.0f;
 					position.y = std::floor(position.y + 0.5f - e) - e;
 					m_velocity.y = m_speed;
@@ -213,13 +179,13 @@ sf::Vector2f Actor::check_collision(WorldManager& world, sf::Vector2f& position,
 	}
 	// Up
 	else if (displacement.y < 0.0f) {
-		if (world.get_block((sf::Vector2i)(get_position() + sf::Vector2f(size.x - E, displacement.y + e - size.y))).get_is_solid()) {
+		if (world.get_block((sf::Vector2i)(m_position + sf::Vector2f(size.x - E, displacement.y + e - size.y))).get_is_solid()) {
 			displacement.y = 0.0f;
 			position.y = std::floor(position.y + 0.5f - e) - e;
 			m_velocity.y = m_speed;
 		} else {
 			for (int x = 0; x < size.x; x++) {
-				if (world.get_block((sf::Vector2i)(get_position() + sf::Vector2f(x + E, displacement.y + e - size.y))).get_is_solid()) {
+				if (world.get_block((sf::Vector2i)(m_position + sf::Vector2f(x + E, displacement.y + e - size.y))).get_is_solid()) {
 					displacement.y = 0.0f;
 					position.y = std::floor(position.y + 0.5f - e) - e;
 					m_velocity.y = m_speed;
@@ -230,4 +196,45 @@ sf::Vector2f Actor::check_collision(WorldManager& world, sf::Vector2f& position,
 	}
 
 	return displacement;
+}
+
+void Actor::move_with_collision(WorldManager& wm, float dt)
+{
+	sf::Vector2f pos = m_position;
+	int loop_count = (int)(dt * 1000 + 1);
+	sf::Vector2f test_displacement = sf::Vector2f(m_velocity.x * dt / loop_count, m_velocity.y * dt / loop_count);
+
+	for (int i = 0; i < loop_count; i++)
+	{
+		sf::Vector2f displacement = can_move(wm, pos, sf::Vector2f(test_displacement.x, test_displacement.y), m_shape.getSize());
+
+		if (displacement == sf::Vector2f(0, 0))
+		{
+			break;
+		}
+		if (pos.y + test_displacement.y < m_shape.getSize().y && test_displacement.y < 0)
+		{
+			displacement.y = 0;
+		}
+		if (pos.x + test_displacement.x < 0 && test_displacement.x < 0)
+		{
+			displacement.x = 0;
+		}
+		if (pos.x + test_displacement.x > wm.get_size().x - m_shape.getSize().x && test_displacement.x > 0)
+		{
+			displacement.x = 0;
+		}
+
+		pos.x += displacement.x;
+		pos.y += displacement.y;
+		m_position = pos;
+	}
+
+	m_shape.setPosition(m_position);
+}
+
+void Actor::move_without_collision(float dt)
+{
+	m_position += m_velocity * dt;
+	m_shape.setPosition(m_position);
 }

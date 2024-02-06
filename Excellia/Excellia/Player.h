@@ -23,9 +23,15 @@ public:
 	/// <param name="dt">Delta time</param>
 	void update(float dt) override;
 
+	/// <summary>
+	/// Sets if the player is sprinting
+	/// </summary>
+	/// <param name="sprint">is the player sprinting</param>
+	void set_sprinting(bool sprint);
+
 private:
-	sf::Texture m_texture;
 	WorldManager& m_wm;
+	bool m_sprinting = false;
 	float m_slow_move_speed = 4;
 	float m_sprint_speed = 16;
 	float m_move_speed = 11;
