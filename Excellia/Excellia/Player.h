@@ -23,14 +23,7 @@ public:
 	/// <param name="dt">Delta time</param>
 	void update(float dt) override;
 
-	/// <summary>
-	/// Gets player sprite
-	/// </summary>
-	/// <returns>rectangle shape of player</returns>
-	sf::RectangleShape& get_shape();
-
 private:
-	sf::RectangleShape m_shape;
 	sf::Texture m_texture;
 	WorldManager& m_wm;
 	float m_slow_move_speed = 4;

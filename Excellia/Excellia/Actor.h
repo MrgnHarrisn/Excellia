@@ -28,16 +28,17 @@ public:
 	/// <param name="dt"Delta time></param>
 	virtual void update(float dt);
 
-	/// <summary>
-	/// moves the actor
-	/// </summary>
-	/// <param name="position">Where to move it</param>
-	void set_position(sf::Vector2f position);
+	sf::RectangleShape& get_shape();
 
-	/// <summary>
-	/// Gets position
-	/// </summary>
-	/// <returns>position</returns>
+	void jump(float jump_force);
+
+	void apply_gravity(float acceleration, float drag, float dt);
+
+	void update_facing();
+
+	void update_velocity();
+
+	void set_position(sf::Vector2f position);
 	sf::Vector2f get_position();
 
 	void set_moving_left(bool left);
@@ -77,9 +78,11 @@ public:
 
 
 private:
+
+	sf::RectangleShape m_shape;
 	sf::Vector2f m_position;
-	float m_speed = 10;
 	sf::Vector2f m_velocity{ 0,0 };
+	float m_speed = 10;
 	bool m_moving_left = false;
 	bool m_moving_right = false;
 	bool m_jumping = false;

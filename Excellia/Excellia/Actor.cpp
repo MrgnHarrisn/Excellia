@@ -5,6 +5,54 @@ Actor::Actor() {}
 
 void Actor::update(float dt) {}
 
+sf::RectangleShape& Actor::get_shape()
+{
+	return m_shape;
+}
+
+void Actor::jump(float jump_force)
+{
+	if (m_can_jump && m_jumping) m_velocity.y = -jump_force;
+}
+
+void Actor::apply_gravity(float acceleration, float drag, float dt)
+{
+	m_velocity.y += (acceleration - drag * m_velocity.y * m_velocity.y) * dt;
+}
+
+void Actor::update_facing()
+{
+	if (m_moving_right) {
+		if (m_facing_right) {
+			m_shape.setOrigin(0, m_shape.getSize().y);
+			m_shape.setScale(1, 1);
+			m_facing_right = false;
+		}
+	}
+	else if (m_moving_left) {
+		if (!m_facing_right) {
+			m_shape.setOrigin(m_shape.getSize().x, m_shape.getSize().y);
+			m_shape.setScale(-1, 1);
+			m_facing_right = true;
+		}
+	}
+}
+
+void Actor::update_velocity()
+{
+	if (m_moving_left && m_moving_right) {
+		m_velocity.x = 0;
+	}
+	else if (m_moving_right)
+	{
+		m_velocity.x = m_speed;
+	}
+	else if (m_moving_left)
+	{
+		m_velocity.x = -m_speed;
+	}
+}
+
 void Actor::set_position(sf::Vector2f position)
 {
 	this->m_position = position;
@@ -113,21 +161,31 @@ sf::Vector2f Actor::check_collision(WorldManager& world, sf::Vector2f& position,
 
 	// Left
 	if (displacement.x < 0.0f) {
-		for (float y = 0; y < size.y; y++) {
-			if (world.get_block((sf::Vector2i)(get_position() + sf::Vector2f(displacement.x + e, -y - E))).get_is_solid()) {
-				displacement.x = 0;
-				position.x = std::floor(position.x + 0.5f - e);
-				break;
+		if (world.get_block((sf::Vector2i)(get_position() + sf::Vector2f(displacement.x - e, -size.y + 2.0f * E))).get_is_solid()) {
+			displacement.x = 0;
+			position.x = std::floor(position.x + 0.5f - e);
+		} else {
+			for (float y = 0; y < size.y; y++) {
+				if (world.get_block((sf::Vector2i)(get_position() + sf::Vector2f(displacement.x + e, -y - E))).get_is_solid()) {
+					displacement.x = 0;
+					position.x = std::floor(position.x + 0.5f - e);
+					break;
+				}
 			}
 		}
 	}
 	// Right
 	else if (displacement.x > 0.0f) {
-		for (float y = 0; y < size.y; y++) {
-			if (world.get_block((sf::Vector2i)(get_position() + sf::Vector2f(displacement.x - e + size.x, -y - E))).get_is_solid()) {
-				displacement.x = 0;
-				position.x = std::floor(position.x + 0.5f - e);
-				break;
+		if (world.get_block((sf::Vector2i)(get_position() + sf::Vector2f(displacement.x - e + size.x, -size.y + 2.0f * E))).get_is_solid()) {
+			displacement.x = 0;
+			position.x = std::floor(position.x + 0.5f - e);
+		} else {
+			for (float y = 0; y < size.y; y++) {
+				if (world.get_block((sf::Vector2i)(get_position() + sf::Vector2f(displacement.x - e + size.x, -y - E))).get_is_solid()) {
+					displacement.x = 0;
+					position.x = std::floor(position.x + 0.5f - e);
+					break;
+				}
 			}
 		}
 	}
