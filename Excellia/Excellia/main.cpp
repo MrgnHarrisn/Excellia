@@ -95,6 +95,10 @@ int main()
 		player.update(dt);
 
 
+		// Update World
+		world.update_view();
+
+
 		// Update Shader
 		shader.setUniform("playerPosition", sf::Vector2f(player.get_position().x / settings.get_world_size().x, player.get_position().y / settings.get_world_size().y));
 
@@ -116,11 +120,11 @@ int main()
 
 
 		// Draw View
-		window.draw(world.get_view_sprite(), &shader);
+		window.draw(world, &shader);
 
 
 		// Draw Player
-		window.draw(player.get_shape());
+		window.draw(player);
 
 
 		// Draw Cursor

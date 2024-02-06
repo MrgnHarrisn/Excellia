@@ -13,7 +13,7 @@
 /// <summary>
 /// Manages a world
 /// </summary>
-class WorldManager
+class WorldManager : public sf::Drawable
 {
 public:
 
@@ -73,10 +73,9 @@ public:
 	void force_place_block(Block& material, sf::Vector2i pos);
 
 	/// <summary>
-	/// Creates a sprite of the current view
+	/// Updates view of world
 	/// </summary>
-	/// <returns>Sprite of the current view</returns>
-	sf::Drawable& get_view_sprite();
+	void update_view();
 
 	int find_highest_point();
 
@@ -89,6 +88,10 @@ public:
 	sf::Vector2u get_size();
 
 private:
+
+	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const {
+		target.draw(m_view_sprite, states);
+	}
 
 	Random m_random;
 	std::vector<int> m_dirt_heights;	/* This is how much dirt should be on top */

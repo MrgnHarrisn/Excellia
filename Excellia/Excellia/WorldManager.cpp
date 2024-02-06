@@ -318,7 +318,7 @@ void WorldManager::force_place_block(Block& material, sf::Vector2i pos)
 	}
 }
 
-sf::Drawable &WorldManager::get_view_sprite()
+void WorldManager::update_view()
 {
 	/* The size of the actual view is being changed but we aren't */
 
@@ -346,7 +346,6 @@ sf::Drawable &WorldManager::get_view_sprite()
 	m_view_texture.update(m_view_image, 0, 0);
 	m_view_sprite.setTexture(m_view_texture);
 	m_view_sprite.setPosition((sf::Vector2f)(top_left));
-	return m_view_sprite;
 }
 
 int WorldManager::find_highest_point()

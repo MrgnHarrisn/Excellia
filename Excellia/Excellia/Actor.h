@@ -13,7 +13,7 @@
 /// <summary>
 /// Player/Enemy/NPC class
 /// </summary>
-class Actor
+class Actor : public sf::Drawable
 {
 public:
 
@@ -80,6 +80,10 @@ public:
 	void move_without_collision(float dt);
 
 private:
+
+	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const {
+		target.draw(m_shape, states);
+	}
 
 	sf::RectangleShape m_shape;
 	sf::Texture m_texture;
