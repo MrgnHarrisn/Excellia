@@ -28,10 +28,9 @@ int main()
 	// Create Window
 	sf::RenderWindow window(sf::VideoMode(settings.get_screen_size().x, settings.get_screen_size().y), "Pixellia", sf::Style::None);
 
-
 	// Create World
 	WorldManager world(window, settings.get_world_size(), blocks, 573849); // 573849 test seed
-
+	
 
 	// Create Player
 	Player player(sf::Vector2f((float)((int)settings.get_world_size().x / 2), (float)world.place_player((int)settings.get_world_size().x / 2)), world);
@@ -95,10 +94,6 @@ int main()
 		player.update(dt);
 
 
-		// Update World
-		world.update_view();
-
-
 		// Update Shader
 		shader.setUniform("playerPosition", sf::Vector2f(player.get_position().x / settings.get_world_size().x, player.get_position().y / settings.get_world_size().y));
 
@@ -109,6 +104,10 @@ int main()
 
 		// Update View
 		window.setView(camera.get_view());
+
+
+		// Update World
+		world.update_view();
 
 
 		// Update Skybox

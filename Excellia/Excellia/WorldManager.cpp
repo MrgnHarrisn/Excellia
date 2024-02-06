@@ -293,7 +293,10 @@ void WorldManager::place_block(Block& material, sf::Vector2i mouse_pos, sf::Vect
 	// Check player bounds
 	if (std::abs((float)block.x - player_pos.x - x_val + 1) < x_val && std::abs((float)block.y - player_pos.y + y_val) < y_val)
 	{
-		return;
+		if (material.get_is_solid())
+		{
+			return;
+		}
 	}
 
 	// Check world bounds
