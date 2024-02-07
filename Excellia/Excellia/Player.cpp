@@ -3,12 +3,19 @@
 
 Player::Player(sf::Vector2f position, WorldManager& wm) : m_wm(wm)
 {
+	// Create shape
 	get_shape().setSize(sf::Vector2f(1, 3));
 	get_shape().setOrigin(0, get_shape().getSize().y);
 	set_position(position);
-	set_speed(m_move_speed);
 	get_shape().setPosition(position);
 	load_texture("Textures/Frankly.png");
+	m_spawn_point = position;
+
+	// Set Stats
+	set_speed(m_move_speed);
+	set_max_health(16);
+	set_current_health(get_max_health());
+
 }
 
 void Player::update(float dt)
@@ -39,7 +46,16 @@ void Player::update(float dt)
 
 
 	// Move
-	move_with_collision(m_wm, dt);
+	move_with_collision(m_wm, dt, true);
+
+
+	// Respawn
+	if (get_dead())
+	{
+		set_current_health(get_max_health());
+		set_position(m_spawn_point);
+		set_velocity(sf::Vector2f(0.0f, 0.0f));
+	}
 }
 
 void Player::set_sprinting(bool sprint)

@@ -31,6 +31,7 @@ public:
 
 private:
 	WorldManager& m_wm;
+	sf::Vector2f m_spawn_point;
 	bool m_sprinting = false;
 	float m_slow_move_speed = 4;
 	float m_sprint_speed = 16;

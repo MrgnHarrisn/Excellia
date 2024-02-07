@@ -30,7 +30,7 @@ int main()
 
 	// Create World
 	WorldManager world(window, settings.get_world_size(), blocks, 573849); // 573849 test seed
-	
+
 
 	// Create Player
 	Player player(sf::Vector2f((float)((int)settings.get_world_size().x / 2), (float)world.place_player((int)settings.get_world_size().x / 2)), world);
@@ -62,6 +62,9 @@ int main()
 	bool is_changing_block = false;
 	EventManager ev_manager(is_placing_block, is_breaking_block, is_changing_block, current_block, camera, player, world);
 
+
+	// Update Delta Time
+	float dt = clock.restart().asSeconds();
 
 	// Main Loop
 	while (window.isOpen())

@@ -29,6 +29,8 @@ WorldManager::WorldManager(sf::RenderWindow& window, sf::Vector2u size, BlockMan
 
 	// Create World
 	create();
+
+	m_image.saveToFile("Structures/World.png");
 }
 
 void WorldManager::create()

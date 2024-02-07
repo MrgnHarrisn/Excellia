@@ -58,6 +58,15 @@ public:
 	void set_speed(float speed);
 	float get_speed();
 
+	void set_max_health(int max_health);
+	int get_max_health();
+
+	void set_current_health(int current_health);
+	void dammaged(float dammage);
+	void healed(float healing);
+	int get_current_health();
+	bool get_dead();
+
 	/// <summary>
 	/// Checks if a given block is free to move to
 	/// </summary>
@@ -71,7 +80,7 @@ public:
 	/// </summary>
 	/// <param name="wm">World to check for collision</param>
 	/// <param name="dt">delta time</param>
-	void move_with_collision(WorldManager& wm, float dt);
+	void move_with_collision(WorldManager& wm, float dt, bool fall_dammage);
 
 	/// <summary>
 	/// Moves the actor, not checking for collision
@@ -88,11 +97,18 @@ private:
 	sf::RectangleShape m_shape;
 	sf::Texture m_texture;
 	sf::Vector2f m_position;
-	sf::Vector2f m_velocity{ 0,0 };
+	sf::Vector2f m_velocity{ 0, 0 };
 	float m_speed = 10;
 	bool m_moving_left = false;
 	bool m_moving_right = false;
 	bool m_jumping = false;
 	bool m_can_jump = true;
 	bool m_facing_right = false;
+	bool m_dead = false;
+	float m_distance_fallen = 0.0f;
+
+	// stats
+	int m_max_health = 16;
+	int m_current_health = m_max_health;
+	int m_armour = 0;
 };

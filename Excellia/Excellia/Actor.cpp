@@ -119,6 +119,54 @@ float Actor::get_speed()
 	return m_speed;
 }
 
+void Actor::set_max_health(int max_health)
+{
+	m_max_health = std::max(max_health, 0);
+}
+int Actor::get_max_health()
+{
+	return m_max_health;
+}
+
+void Actor::set_current_health(int current_health)
+{
+	m_current_health = std::max(std::min(current_health, m_max_health), 0);
+	m_dead = (m_current_health <= 0.0f);
+}
+
+void Actor::dammaged(float dammage)
+{
+	m_current_health -= std::max((int)(dammage - m_armour / 10.0f), 0);
+	m_dead = (m_current_health <= 0);
+}
+
+void Actor::healed(float healing)
+{
+	m_current_health += healing;
+	if (m_current_health > m_max_health) m_current_health = m_max_health;
+	m_dead = (m_current_health <= 0);
+}
+
+int Actor::get_current_health()
+{
+	return m_current_health;
+}
+
+bool Actor::get_dead()
+{
+	return m_dead;
+}
+
+void Actor::set_armour(int armour)
+{
+	m_armour = armour;
+}
+
+int Actor::get_armour()
+{
+	return m_armour;
+}
+
 sf::Vector2f Actor::can_move(WorldManager& world, sf::Vector2f& position, sf::Vector2f displacement, sf::Vector2f size)
 {
 	const float e = 0.01f;
@@ -162,7 +210,7 @@ sf::Vector2f Actor::can_move(WorldManager& world, sf::Vector2f& position, sf::Ve
 		if (world.get_block((sf::Vector2i)(m_position + sf::Vector2f(size.x - E, displacement.y))).get_is_solid()) {
 			displacement.y = 0.0f;
 			position.y = std::floor(position.y + 0.5f - e) - e;
-			m_velocity.y = m_speed;
+			m_velocity.y = 11;
 			m_can_jump = true;
 		}
 		else {
@@ -170,7 +218,7 @@ sf::Vector2f Actor::can_move(WorldManager& world, sf::Vector2f& position, sf::Ve
 				if (world.get_block((sf::Vector2i)(m_position + sf::Vector2f(x + E, displacement.y))).get_is_solid()) {
 					displacement.y = 0.0f;
 					position.y = std::floor(position.y + 0.5f - e) - e;
-					m_velocity.y = m_speed;
+					m_velocity.y = 11;
 					m_can_jump = true;
 					break;
 				}
@@ -198,7 +246,7 @@ sf::Vector2f Actor::can_move(WorldManager& world, sf::Vector2f& position, sf::Ve
 	return displacement;
 }
 
-void Actor::move_with_collision(WorldManager& wm, float dt)
+void Actor::move_with_collision(WorldManager& wm, float dt, bool fall_dammage)
 {
 	sf::Vector2f pos = m_position;
 	int loop_count = (int)(dt * 1000 + 1);
@@ -206,9 +254,21 @@ void Actor::move_with_collision(WorldManager& wm, float dt)
 
 	for (int i = 0; i < loop_count; i++)
 	{
+		float y_val = m_velocity.y;
 		sf::Vector2f displacement = can_move(wm, pos, sf::Vector2f(test_displacement.x, test_displacement.y), m_shape.getSize());
 
-		if (displacement == sf::Vector2f(0, 0))
+		if (displacement.y == 0)
+		{
+			if (fall_dammage)
+			{
+				if (m_distance_fallen > 5) {
+					dammaged(m_distance_fallen - 5 - m_can_jump);
+					printf("%i\n", m_current_health);
+				}
+				m_distance_fallen = 0.0f;
+			}
+		}
+		if (displacement == sf::Vector2f(0.0f, 0.0f))
 		{
 			break;
 		}
@@ -224,10 +284,16 @@ void Actor::move_with_collision(WorldManager& wm, float dt)
 		{
 			displacement.x = 0;
 		}
+		if (fall_dammage)
+		{
+			m_distance_fallen += displacement.y;
+		}
 
 		pos.x += displacement.x;
 		pos.y += displacement.y;
 		m_position = pos;
+
+		
 	}
 
 	m_shape.setPosition(m_position);
