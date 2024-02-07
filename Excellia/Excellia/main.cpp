@@ -75,6 +75,10 @@ int main()
 	// Main Loop
 	while (window.isOpen())
 	{
+		// Update Camera
+		camera.update(dt);
+		window.setView(camera.get_view());
+
 
 		// Update Delta Time
 		float dt = clock.restart().asSeconds();
@@ -109,7 +113,7 @@ int main()
 		
 
 		// Update Cursor
-		cursor.setPosition((sf::Vector2f)(sf::Vector2i)(world.screen_pos_to_world_pos(sf::Mouse::getPosition(window))));
+		cursor.setPosition((sf::Vector2f)(sf::Vector2i)(mouse_pos));
 
 
 		// Update Healthbar
@@ -122,14 +126,6 @@ int main()
 
 		// Update Shader
 		shader.setUniform("playerPosition", sf::Vector2f(player.get_position().x / settings.get_world_size().x, player.get_position().y / settings.get_world_size().y));
-
-
-		// Update Camera
-		camera.update(dt);
-
-
-		// Update View
-		window.setView(camera.get_view());
 
 
 		// Update World
