@@ -8,3 +8,7 @@ float Utils::clip(float n, float lower, float upper) {
 float Utils::dot_product(sf::Vector2f a, sf::Vector2f b, sf::Vector2f c) {
 	return (std::isnan(c.x) || std::isnan(c.y)) ? (a.x * b.x + a.y * b.y) : (a.x * b.x * c.x + a.y * b.y * c.y);
 }
+
+float Utils::distance(sf::Vector2f a, sf::Vector2f b) {
+	return sqrt((a.x - b.x) * (a.x - b.x) + (a.y - b.y) * (a.y - b.y));
+}

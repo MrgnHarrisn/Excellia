@@ -16,11 +16,13 @@ class Settings
 public:
 
 	Settings() { update(); };
-	sf::Vector2u get_screen_size()	{ return m_screen_size; };
-	sf::Vector2u get_world_size ()	{ return m_world_size ; };
-
-	float get_camera_zoom() { return m_camera_zoom; };
 	void update();
+
+	sf::Vector2u get_screen_size()	{ return m_screen_size; };
+
+	sf::Vector2u get_world_size ()	{ return m_world_size ; };
+	float get_camera_zoom() { return m_camera_zoom; };
+	float get_arm_length() { return m_arm_length; };
 
 private:
 	// Player settings
@@ -29,6 +31,7 @@ private:
 	// Game settings
 	sf::Vector2u m_world_size  = sf::Vector2u(30000, 800);
 	float m_camera_zoom = 35;
+	float m_arm_length = 9;
 };
 
 /// <summary>

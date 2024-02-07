@@ -182,13 +182,13 @@ sf::Vector2f Actor::can_move(WorldManager& world, sf::Vector2f& position, sf::Ve
 		if (world.get_block((sf::Vector2i)(m_position + sf::Vector2f(size.x - E, displacement.y + e - size.y))).get_is_solid()) {
 			displacement.y = 0.0f;
 			position.y = std::floor(position.y + 0.5f - e) - e;
-			m_velocity.y = m_speed;
+			m_velocity.y = 0.0f;
 		} else {
 			for (int x = 0; x < size.x; x++) {
 				if (world.get_block((sf::Vector2i)(m_position + sf::Vector2f(x + E, displacement.y + e - size.y))).get_is_solid()) {
 					displacement.y = 0.0f;
 					position.y = std::floor(position.y + 0.5f - e) - e;
-					m_velocity.y = m_speed;
+					m_velocity.y = 0.0f;
 					break;
 				}
 			}

@@ -11,7 +11,7 @@
 
 int main()
 {
-
+	
 	// Create Settings
 	Settings settings;
 
@@ -43,6 +43,7 @@ int main()
 	// Create Cursor
 	sf::RectangleShape cursor({ 1, 1 });
 	sf::Texture cursor_texture;
+	sf::Vector2f mouse_pos;
 	cursor.setFillColor(sf::Color(255, 255, 255, 150));
 
 
@@ -74,17 +75,23 @@ int main()
 		ev_manager.poll_events();
 
 
+		// Update Mouse
+		mouse_pos = world.screen_pos_to_world_pos(sf::Mouse::getPosition(world.get_window()));
+		
 		// Break Block
-		if (is_breaking_block) world.place_block(current_block, sf::Mouse::getPosition(window), player.get_position(), player.get_shape().getSize());
+		if (is_breaking_block && Utils::distance(player.get_position() - sf::Vector2f(-0.5f, 1.5f), mouse_pos) <= settings.get_arm_length()) {
+			world.place_block(current_block, sf::Mouse::getPosition(window), player.get_position(), player.get_shape().getSize());
+		}
 
 
 		// Place Block
-		if (is_placing_block) world.break_block(sf::Mouse::getPosition(window));
-
+		if (is_placing_block && Utils::distance(player.get_position() - sf::Vector2f(-0.5f, 1.5f), mouse_pos) <= settings.get_arm_length()) {
+			world.break_block(sf::Mouse::getPosition(window));
+		}
 
 		// Update Current Block
 		if (is_changing_block) {
-			 current_block = world.get_block(static_cast<sf::Vector2i>(world.screen_pos_to_world_pos(sf::Mouse::getPosition(world.get_window()))));
+			 current_block = world.get_block((sf::Vector2i)mouse_pos);
 			 if (current_block.get_name() != "Void") {
 				 cursor_texture.loadFromImage(current_block.get_image());
 				 cursor.setTexture(&cursor_texture);

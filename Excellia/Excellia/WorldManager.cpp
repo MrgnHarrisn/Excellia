@@ -79,9 +79,12 @@ void WorldManager::create()
 
 	}
 
+	/* Create Ores */
 	for (size_t i = 0; i < m_ores.size(); i++) {
 
-		sf::Vector2i position_a = m_ores[i];
+		sf::Vector2i position_a;
+		position_a.x = m_ores[i].x;
+		position_a.y = std::max((float)m_ores[i].y, m_heights[m_ores[i].x] + m_random.random(20.0f, 30.0f));
 		
 		std::vector<std::string> blocks = ore_spawn_in_range(position_a);
 		if (blocks.size() == 0) { continue;  }
@@ -110,7 +113,7 @@ void WorldManager::create()
 	for (unsigned int i = 0; i < m_caves.size(); i++) {
 
 		sf::Vector2i position_a = m_caves[i];
-		int cave_size = (m_caves[i].y > m_height * 0.75 ? 1000 : 400);
+		int cave_size = (m_caves[i].y > m_height * 0.75 ? 3000 : 1000);
 		Block& _cave = m_blocks->get_by_name("Cave");
 
 		// Loop Over Caves

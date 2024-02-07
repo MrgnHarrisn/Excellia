@@ -29,6 +29,8 @@ public:
 	/// <param name="c">Vector c (optional)</param>
 	/// <returns>Resulting float</returns>
 	static float dot_product(sf::Vector2f a, sf::Vector2f b, sf::Vector2f c = sf::Vector2f(std::numeric_limits<float>::quiet_NaN(), std::numeric_limits<float>::quiet_NaN()));
+
+	static float distance(sf::Vector2f a, sf::Vector2f b);
 };
 
 
