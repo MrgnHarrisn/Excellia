@@ -27,6 +27,7 @@ int main()
 
 	// Create Window
 	sf::RenderWindow window(sf::VideoMode(settings.get_screen_size().x, settings.get_screen_size().y), "Pixellia", sf::Style::None);
+	
 
 	// Create World
 	WorldManager world(window, settings.get_world_size(), blocks, 573849); // 573849 test seed
@@ -75,13 +76,18 @@ int main()
 	// Main Loop
 	while (window.isOpen())
 	{
-		// Update Camera
-		camera.update(dt);
-		window.setView(camera.get_view());
-
 
 		// Update Delta Time
 		float dt = clock.restart().asSeconds();
+
+
+		// Update Player
+		player.update(dt);
+
+
+		// Update Camera
+		camera.update(dt);
+		window.setView(camera.get_view());
 
 		
 		// Update Events
@@ -118,10 +124,6 @@ int main()
 
 		// Update Healthbar
 		health_bar.setSize(sf::Vector2f(100.0f * (float)player.get_current_health() / (float)player.get_max_health(), 100 / 8));
-
-
-		// Update Player
-		player.update(dt);
 
 
 		// Update Shader
