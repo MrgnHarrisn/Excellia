@@ -32,7 +32,7 @@ int main()
 
 	// Create Logo
 	sf::Image logo;
-	logo.loadFromFile("pixcellia.png");
+	logo.loadFromFile("Pixellia.png");
 	window.setIcon(logo.getSize().x, logo.getSize().y, logo.getPixelsPtr());
 	
 
