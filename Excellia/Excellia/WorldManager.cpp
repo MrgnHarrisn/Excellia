@@ -56,27 +56,26 @@ void WorldManager::create()
 	m_caves = TerrainGeneration::generate_caves(min, max, m_random, m_heights);
 	m_ores = TerrainGeneration::generate_ores(min, max, m_random);
 
-	// Temp color
-	sf::Color _color;
+	// Temp colors
+	sf::Color stone = m_blocks->get_by_name("Stone").get_color();
+	sf::Color dirt = m_blocks->get_by_name("Dirt").get_color();
+	sf::Color grass = m_blocks->get_by_name("Grass").get_color();
 
 	// Loop Over Columns
 	for (unsigned int i = 0; i < m_heights.size(); i++) {
 
 		// Draw Stone
-		_color = m_blocks->get_by_name("Stone").get_color();
 		for (int j = m_heights[i] + m_dirt_heights[i]; j < m_height; j++) {
-			m_image.setPixel(i, j, _color);
+			m_image.setPixel(i, j, stone);
 		}
 
 		// Draw Dirt
-		_color = m_blocks->get_by_name("Dirt").get_color();
 		for (int j = m_heights[i]; j < m_heights[i] + m_dirt_heights[i]; j++) {
-			m_image.setPixel(i, j, _color);
+			m_image.setPixel(i, j, dirt);
 		}
 
 		// Draw Grass
-		_color = m_blocks->get_by_name("Grass").get_color();
-		m_image.setPixel(i, m_heights[i], _color);
+		m_image.setPixel(i, m_heights[i], grass);
 
 	}
 
@@ -344,7 +343,7 @@ void WorldManager::update_view()
 		i_x++;
 	}
 	
-	m_view_texture.update(m_view_image, 0, 0);
+	m_view_texture.loadFromImage(m_view_image);
 	m_view_sprite.setTexture(m_view_texture);
 	m_view_sprite.setPosition((sf::Vector2f)(top_left));
 }
