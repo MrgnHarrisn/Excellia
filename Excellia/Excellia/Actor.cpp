@@ -263,7 +263,6 @@ void Actor::move_with_collision(WorldManager& wm, float dt, bool fall_dammage)
 			{
 				if (m_distance_fallen > 5) {
 					dammaged(m_distance_fallen - 5 - m_can_jump);
-					printf("%i\n", m_current_health);
 				}
 				m_distance_fallen = 0.0f;
 			}

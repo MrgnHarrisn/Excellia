@@ -47,6 +47,12 @@ int main()
 	cursor.setFillColor(sf::Color(255, 255, 255, 150));
 
 
+	// Create Healthbar
+	sf::RectangleShape health_bar({ 100, 20 });
+	health_bar.setPosition(sf::Vector2f(settings.get_screen_size().x - 100, 0));
+	health_bar.setFillColor(sf::Color(255, 0U, 0U, 255U));
+
+
 	// Create Shader
 	sf::Shader shader;
 	shader.loadFromFile("Shaders/vertex_shader.vert", "Shaders/fragment_shader.frag");
@@ -106,6 +112,10 @@ int main()
 		cursor.setPosition((sf::Vector2f)(sf::Vector2i)(world.screen_pos_to_world_pos(sf::Mouse::getPosition(window))));
 
 
+		// Update Healthbar
+		health_bar.setSize(sf::Vector2f(100.0f * (float)player.get_current_health() / (float)player.get_max_health(), 100 / 8));
+
+
 		// Update Player
 		player.update(dt);
 
@@ -145,6 +155,14 @@ int main()
 		// Draw Cursor
 		window.draw(cursor);
 		
+		
+		// Reset View For UI
+		window.setView(window.getDefaultView());
+
+
+		// Draw Healthbar
+		window.draw(health_bar);
+
 
 		// Display Window
 		window.display();

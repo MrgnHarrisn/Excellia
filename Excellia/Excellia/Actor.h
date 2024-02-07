@@ -67,6 +67,9 @@ public:
 	int get_current_health();
 	bool get_dead();
 
+	void set_armour(int armour);
+	int get_armour();
+
 	/// <summary>
 	/// Checks if a given block is free to move to
 	/// </summary>

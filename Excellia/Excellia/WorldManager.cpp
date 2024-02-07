@@ -29,8 +29,6 @@ WorldManager::WorldManager(sf::RenderWindow& window, sf::Vector2u size, BlockMan
 
 	// Create World
 	create();
-
-	m_image.saveToFile("Structures/World.png");
 }
 
 void WorldManager::create()
@@ -227,7 +225,7 @@ void WorldManager::create()
 		}
 	}
 	
-	printf("World Loaded in %.2fs", clock.restart().asSeconds());
+	printf("World Loaded in %.2fs\n", clock.restart().asSeconds());
 }
 
 int WorldManager::place_player(int x)
