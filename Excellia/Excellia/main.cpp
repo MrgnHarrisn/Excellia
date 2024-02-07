@@ -27,6 +27,13 @@ int main()
 
 	// Create Window
 	sf::RenderWindow window(sf::VideoMode(settings.get_screen_size().x, settings.get_screen_size().y), "Pixellia", sf::Style::None);
+	window.setMouseCursorVisible(false);
+
+
+	// Create Logo
+	sf::Image logo;
+	logo.loadFromFile("pixcellia.png");
+	window.setIcon(logo.getSize().x, logo.getSize().y, logo.getPixelsPtr());
 	
 
 	// Create World
@@ -97,6 +104,7 @@ int main()
 		// Update Mouse
 		mouse_pos = world.screen_pos_to_world_pos(sf::Mouse::getPosition(world.get_window()));
 		
+
 		// Break Block
 		if (is_breaking_block && Utils::distance(player.get_position() - sf::Vector2f(-0.5f, 1.5f), mouse_pos) <= settings.get_arm_length()) {
 			world.place_block(current_block, sf::Mouse::getPosition(window), player.get_position(), player.get_shape().getSize());
