@@ -56,9 +56,10 @@ int main()
 
 
 	// Create Event Manager
-	bool is_placing_placed = false;
+	bool is_placing_block = false;
 	bool is_breaking_block = false;
-	EventManager ev_manager(is_placing_placed, is_breaking_block, current_block, camera, player, world);
+	bool is_changing_block = false;
+	EventManager ev_manager(is_placing_block, is_breaking_block, is_changing_block, current_block, camera, player, world);
 
 
 	// Main Loop
@@ -78,12 +79,17 @@ int main()
 
 
 		// Place Block
-		if (is_placing_placed) world.break_block(sf::Mouse::getPosition(window));
+		if (is_placing_block) world.break_block(sf::Mouse::getPosition(window));
 
 
 		// Update Current Block
-		cursor_texture.loadFromImage(current_block.get_image());
-		cursor.setTexture(&cursor_texture);
+		if (is_changing_block) {
+			 current_block = world.get_block(static_cast<sf::Vector2i>(world.screen_pos_to_world_pos(sf::Mouse::getPosition(world.get_window()))));
+			 if (current_block.get_name() != "Void") {
+				 cursor_texture.loadFromImage(current_block.get_image());
+				 cursor.setTexture(&cursor_texture);
+			 }
+		}
 		
 
 		// Update Cursor

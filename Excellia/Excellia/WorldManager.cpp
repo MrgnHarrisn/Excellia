@@ -338,8 +338,7 @@ void WorldManager::update_view()
 	for (int x = top_left.x; x < loop_max_x; x++) {
 		int i_y = 0;
 		for (int y = top_left.y; y < loop_max_y; y++) {
-			Block& block = get_block(sf::Vector2i(x, y));
-			m_view_image.copy(block.get_image(), i_x * 8, i_y * 8);
+			m_view_image.copy(get_block(sf::Vector2i(x, y)).get_image(), i_x * 8, i_y * 8);
 			i_y++;
 		}
 		i_x++;

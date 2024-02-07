@@ -3,18 +3,19 @@
 EventManager::EventManager(
 							bool& is_placing_block, 
 							bool& is_breaking_block,
+							bool& is_changing_block,
 							Block& current_block,
 							Camera& camera,
 							Player& player,
 							WorldManager& wm) :
 							m_is_placing_block(is_placing_block),
 							m_is_breaking_block(is_breaking_block),
+							m_is_changing_block(is_changing_block),
 							m_current_block(current_block),
 							m_camera(camera),
 							m_player(player),
 							m_wm(wm)
-{
-}
+{}
 
 void EventManager::poll_events()
 {
@@ -50,8 +51,7 @@ void EventManager::poll_events()
 				m_is_breaking_block = true;
 				break;
 			case sf::Mouse::Middle:
-				Block& temp_block = m_wm.get_block(static_cast<sf::Vector2i>(m_wm.screen_pos_to_world_pos(sf::Mouse::getPosition(m_wm.get_window()))));
-				if (temp_block.get_name() != "Void") m_current_block = temp_block;
+				m_is_changing_block = true;
 				break;
 			}
 			break;
@@ -62,6 +62,9 @@ void EventManager::poll_events()
 				break;
 			case sf::Mouse::Right:
 				m_is_breaking_block = false;
+				break;
+			case sf::Mouse::Middle:
+				m_is_changing_block = false;
 				break;
 			}
 			break;
