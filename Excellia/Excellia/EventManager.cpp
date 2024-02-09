@@ -17,7 +17,7 @@ EventManager::EventManager(
 							m_wm(wm)
 {}
 
-void EventManager::poll_events()
+void EventManager::poll_events(Button& button)
 {
 	while (m_wm.get_window().pollEvent(m_event))
 	{
@@ -104,4 +104,5 @@ void EventManager::poll_events()
 			break;
 		}
 	}
+	button.update(m_event, m_wm.get_window());
 }

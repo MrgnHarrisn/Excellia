@@ -5,12 +5,13 @@
 #include "WorldManager.h"
 #include "Player.h"
 #include "Camera.h"
+#include "UI.h"
 
 class EventManager
 {
 public:
 	EventManager(bool& is_placing_block, bool& is_breaking_block, bool& is_changing_block, Block& current_block, Camera& camera, Player& player, WorldManager& world_manager);
-	void poll_events();
+	void poll_events(Button& button);
 private:
 	sf::Event m_event;
 	bool& m_is_placing_block;

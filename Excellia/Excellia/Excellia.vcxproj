@@ -139,6 +139,7 @@
     <ClCompile Include="Skybox.cpp" />
     <ClCompile Include="Structure.cpp" />
     <ClCompile Include="TerrainGeneration.cpp" />
+    <ClCompile Include="UI.cpp" />
     <ClCompile Include="Utils.cpp" />
     <ClCompile Include="WorldManager.cpp" />
   </ItemGroup>
@@ -156,6 +157,7 @@
     <ClInclude Include="Skybox.h" />
     <ClInclude Include="Structure.h" />
     <ClInclude Include="TerrainGeneration.h" />
+    <ClInclude Include="UI.h" />
     <ClInclude Include="Utils.h" />
     <ClInclude Include="WorldManager.h" />
   </ItemGroup>

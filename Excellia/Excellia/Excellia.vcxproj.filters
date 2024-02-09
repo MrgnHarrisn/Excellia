@@ -43,6 +43,9 @@
     <ClCompile Include="AudioManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="UI.cpp">
+      <Filter>Source Files\UI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Actor.h">
@@ -89,6 +92,9 @@
     </ClInclude>
     <ClInclude Include="AudioManager.h">
       <Filter>Header Files\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="UI.h">
+      <Filter>Header Files\UI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -170,6 +176,12 @@
     </Filter>
     <Filter Include="Header Files\Core">
       <UniqueIdentifier>{6ed07134-5490-4d0c-a760-80736dbbef38}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\UI">
+      <UniqueIdentifier>{492a6ce1-cd77-4cf6-856f-7721f778daf5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\UI">
+      <UniqueIdentifier>{8355a1c1-77e9-424e-9563-b5bba23dac0c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

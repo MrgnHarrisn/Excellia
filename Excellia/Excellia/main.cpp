@@ -9,10 +9,20 @@
 #include "Player.h"
 #include "Camera.h"
 #include "Skybox.h"
+#include "UI.h"
 
 int main()
 {
-	
+	sf::Font font;
+	if (!font.loadFromFile("Fonts/Minecraft.ttf")) {
+		printf("Error finding font\n");
+	}
+	Button button(sf::Vector2f(200, 50), "Click Me!", font);
+	button.setPosition(50, 50);
+	button.set_on_click([]() {
+		printf("Hello World\n");
+	});
+
 	// Create Settings
 	Settings settings;
 
@@ -101,7 +111,7 @@ int main()
 
 		
 		// Update Events
-		ev_manager.poll_events();
+		ev_manager.poll_events(button);
 
 
 		// Update Mouse
@@ -171,6 +181,9 @@ int main()
 
 		// Draw Healthbar
 		window.draw(health_bar);
+
+		/* Comment this out in order to not draw the button */
+		window.draw(button);
 
 
 		// Display Window
