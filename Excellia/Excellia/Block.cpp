@@ -7,7 +7,7 @@ Block::Block()
 	m_id = 0x00000000;
 	m_toughness = 0;
 	m_is_solid = 0;
-	m_color = sf::Color(255U, 255U, 255U, 50U);
+	m_color = sf::Color(100U, 100U, 100U, 255U);
 	m_image.create(8, 8, m_color);
 }
 

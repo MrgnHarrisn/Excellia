@@ -65,7 +65,9 @@ int main()
 	sf::RectangleShape cursor({ 1, 1 });
 	sf::Texture cursor_texture;
 	sf::Vector2f mouse_pos;
-	cursor.setFillColor(sf::Color(0, 0, 0, 90));
+	cursor.setFillColor(sf::Color(255, 255, 255, 150));
+	cursor_texture.loadFromImage(current_block.get_image());
+	cursor.setTexture(&cursor_texture);
 
 
 	// Create Healthbar
