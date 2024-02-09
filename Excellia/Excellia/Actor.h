@@ -7,6 +7,7 @@
 #include <SFML/Window/Keyboard.hpp>
 #include <SFML/Window/Mouse.hpp>
 
+#include "AudioManager.h"
 #include "WorldManager.h"
 #include "Block.h"
 
@@ -91,11 +92,17 @@ public:
 	/// <param name="dt">delta time</param>
 	void move_without_collision(float dt);
 
+	void set_audio_manager(AudioManager& audio_manager);
+
 private:
 
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const {
 		target.draw(m_shape, states);
 	}
+
+	
+
+	AudioManager* m_audio_manager;
 
 	sf::RectangleShape m_shape;
 	sf::Texture m_texture;

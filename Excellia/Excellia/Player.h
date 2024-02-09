@@ -15,7 +15,7 @@ public:
 	/// Constructor for player
 	/// </summary>
 	/// <param name="position">Position the player starts at</param>
-	Player(sf::Vector2f position, WorldManager& wm);
+	Player(sf::Vector2f position, WorldManager& wm, AudioManager& audio_manager);
 
 	/// <summary>
 	/// Override of the update function

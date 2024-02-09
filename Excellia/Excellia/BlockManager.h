@@ -4,6 +4,7 @@
 
 #include <fstream>
 #include <iomanip>
+#include <unordered_map>
 
 class BlockManager
 {

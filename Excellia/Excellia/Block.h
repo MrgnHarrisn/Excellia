@@ -3,8 +3,6 @@
 #include "SFML/Graphics/Image.hpp"
 #include "SFML/Graphics/Color.hpp"
 
-#include <unordered_map>
-
 class Block
 {
 public:

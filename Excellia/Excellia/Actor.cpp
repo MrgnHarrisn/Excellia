@@ -138,6 +138,7 @@ void Actor::dammaged(float dammage)
 {
 	m_current_health -= std::max((int)(dammage - m_armour / 10.0f), 0);
 	m_dead = (m_current_health <= 0);
+	m_audio_manager->play_sound(1);
 }
 
 void Actor::healed(float healing)
@@ -302,4 +303,9 @@ void Actor::move_without_collision(float dt)
 {
 	m_position += m_velocity * dt;
 	m_shape.setPosition(m_position);
+}
+
+void Actor::set_audio_manager(AudioManager& audio_manager)
+{
+	m_audio_manager = &audio_manager;
 }

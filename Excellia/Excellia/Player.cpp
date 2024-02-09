@@ -1,7 +1,7 @@
 
 #include "Player.h"
 
-Player::Player(sf::Vector2f position, WorldManager& wm) : m_wm(wm)
+Player::Player(sf::Vector2f position, WorldManager& wm, AudioManager& audio_manager) : m_wm(wm)
 {
 	// Create shape
 	get_shape().setSize(sf::Vector2f(1, 3));
@@ -15,7 +15,7 @@ Player::Player(sf::Vector2f position, WorldManager& wm) : m_wm(wm)
 	set_speed(m_move_speed);
 	set_max_health(16);
 	set_current_health(get_max_health());
-
+	set_audio_manager(audio_manager);
 }
 
 void Player::update(float dt)

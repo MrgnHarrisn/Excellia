@@ -10,12 +10,12 @@ Red_Wood 0xA4593CFF 1 true
 Iron_Ore 0xAFAFAFFF 1 true
 Void_Ore 0x4DB999FF 1 true
 Void 0x000000FF -1 false
-Water 0x32A6DFFF -1 false
+Water 0x32A6DFFF 1 false
 Cave 0x312E2EFF -1 false
 Brick 0x7C634AFF 1 true
 Stone 0x928C8CFF 1 true
 Grass 0x478142FF 1 true
-Lava 0xE45746FF -1 false
+Lava 0xE45746FF 1 false
 Dirt 0x985E41FF 1 true
 Wood 0xB15E35FF 1 true
 Leaf 0x6E9C6AFF 1 true

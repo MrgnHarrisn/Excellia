@@ -2,6 +2,7 @@
 #include <SFML/Graphics/Shader.hpp>
 #include <SFML/Window/Event.hpp>
 
+#include "AudioManager.h"
 #include "WorldManager.h"
 #include "EventManager.h"
 #include "Settings.h"
@@ -20,6 +21,8 @@ int main()
 	BlockManager blocks("Blocks");
 	Block current_block;
 	
+	AudioManager audios;
+	audios.load_from_file("Sounds");
 
 	// Create Clock
 	sf::Clock clock;
@@ -41,7 +44,7 @@ int main()
 
 
 	// Create Player
-	Player player(sf::Vector2f((float)((int)settings.get_world_size().x / 2), (float)world.place_player((int)settings.get_world_size().x / 2)), world);
+	Player player(sf::Vector2f((float)((int)settings.get_world_size().x / 2), (float)world.place_player((int)settings.get_world_size().x / 2)), world, audios);
 	
 	 
 	// Create Camera
@@ -52,7 +55,7 @@ int main()
 	sf::RectangleShape cursor({ 1, 1 });
 	sf::Texture cursor_texture;
 	sf::Vector2f mouse_pos;
-	cursor.setFillColor(sf::Color(255, 255, 255, 150));
+	cursor.setFillColor(sf::Color(0, 0, 0, 90));
 
 
 	// Create Healthbar
