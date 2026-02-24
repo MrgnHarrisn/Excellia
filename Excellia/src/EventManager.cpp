@@ -124,16 +124,6 @@ void EventManager::poll_events()
 	}
 }
 
-bool EventManager::check_ui(sf::Event& evnt) {
-	bool anyHandled = false;
-	for (Button* b : m_buttons) {
-		if (b->update(evnt, m_wm.get_window())) {
-			anyHandled = true;
-		}
-	}
-	return anyHandled;
-}
-
 void EventManager::add_button(Button& btn)
 {
 	m_buttons.push_back(&btn);
