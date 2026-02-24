@@ -91,10 +91,6 @@ int main()
 	bool is_changing_block = false;
 	EventManager ev_manager(is_placing_block, is_breaking_block, is_changing_block, current_block, camera, player, world);
 
-
-	// Update Delta Time
-	float dt = clock.restart().asSeconds();
-
 	// Main Loop
 	while (window.isOpen())
 	{
@@ -147,7 +143,8 @@ int main()
 
 		// Update Healthbar
 		health_bar.setSize(sf::Vector2f(100.0f * (float)player.get_current_health() / (float)player.get_max_health(), 100 / 8));
-
+		health_bar.setPosition(sf::Vector2f(world.game_pos_to_screen_pos(player.get_position())) - sf::Vector2f{30.f, 130.f});
+		// health_bar.setPosition(static_cast<sf::Vector2i>(world.game_pos_to_screen_pos(player.get_position())));
 
 		// Update Shader
 		shader.setUniform("playerPosition", sf::Vector2f(player.get_position().x / settings.get_world_size().x, player.get_position().y / settings.get_world_size().y));
