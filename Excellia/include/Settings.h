@@ -42,7 +42,7 @@ void Settings::update()
 	std::fstream settings_file;
 	std::string setting_name;
 
-	settings_file.open("Game/Settings.conf");
+	settings_file.open("assets/Game/Settings.conf");
 
 	// Return if failed
 	if (!settings_file.is_open()) return;
