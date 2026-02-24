@@ -70,7 +70,8 @@ project "Pixellia"
             '{COPY} "%{wks.location}vendor/sfml/bin/sfml-window-d-2.dll" "%{cfg.targetdir}"',
             '{COPY} "%{wks.location}vendor/sfml/bin/sfml-system-d-2.dll" "%{cfg.targetdir}"',
             '{COPY} "%{wks.location}vendor/sfml/bin/sfml-audio-d-2.dll" "%{cfg.targetdir}"',
-            '{COPY} "%{wks.location}vendor/sfml/bin/sfml-network-d-2.dll" "%{cfg.targetdir}"'
+            '{COPY} "%{wks.location}vendor/sfml/bin/sfml-network-d-2.dll" "%{cfg.targetdir}"',
+            '{COPY} "%{wks.location}vendor/sfml/bin/openal32.dll" "%{cfg.targetdir}"'  -- Copy OpenAL32.dll
         }
 
     filter "configurations:Release"
@@ -83,7 +84,8 @@ project "Pixellia"
             '{COPY} "%{wks.location}vendor/sfml/bin/sfml-window-2.dll" "%{cfg.targetdir}"',
             '{COPY} "%{wks.location}vendor/sfml/bin/sfml-system-2.dll" "%{cfg.targetdir}"',
             '{COPY} "%{wks.location}vendor/sfml/bin/sfml-audio-2.dll" "%{cfg.targetdir}"',
-            '{COPY} "%{wks.location}vendor/sfml/bin/sfml-network-2.dll" "%{cfg.targetdir}"'
+            '{COPY} "%{wks.location}vendor/sfml/bin/sfml-network-2.dll" "%{cfg.targetdir}"',
+            '{COPY} "%{wks.location}vendor/sfml/bin/openal32.dll" "%{cfg.targetdir}"'   -- Copy OpenAL32.dll
         }
 
     filter {}
