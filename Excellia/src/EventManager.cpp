@@ -17,17 +17,35 @@ EventManager::EventManager(
 							m_wm(wm)
 {}
 
-void EventManager::poll_events(Button& button)
+void EventManager::poll_event(Button& button)
+{
+	button.update(m_event, m_wm.get_window());
+}
+
+
+void EventManager::poll_events()
 {
 	while (m_wm.get_window().pollEvent(m_event))
 	{
+
+		bool uiHandled = false;
+		for (Button* b : m_buttons) {
+			if (b->update(m_event, m_wm.get_window())) {
+				uiHandled = true;
+			}
+		}
+
+		if (uiHandled) {
+			continue; // skip further processing if UI consumed the event
+		}
+
 		switch (m_event.type)
 		{
 		case sf::Event::Closed:
 			m_wm.get_window().close();
 			break;
 
-		/* Mouse Scroll Wheel */
+			/* Mouse Scroll Wheel */
 		case sf::Event::MouseWheelScrolled:
 			if (m_event.mouseWheelScroll.wheel == sf::Mouse::VerticalWheel) {
 				if (m_event.mouseWheelScroll.delta > 0) {
@@ -41,7 +59,7 @@ void EventManager::poll_events(Button& button)
 			}
 			break;
 
-		/* Mouse Buttons Pressed */
+			/* Mouse Buttons Pressed */
 		case sf::Event::MouseButtonPressed:
 			switch (m_event.mouseButton.button) {
 			case sf::Mouse::Left:
@@ -104,5 +122,19 @@ void EventManager::poll_events(Button& button)
 			break;
 		}
 	}
-	button.update(m_event, m_wm.get_window());
+}
+
+bool EventManager::check_ui(sf::Event& evnt) {
+	bool anyHandled = false;
+	for (Button* b : m_buttons) {
+		if (b->update(evnt, m_wm.get_window())) {
+			anyHandled = true;
+		}
+	}
+	return anyHandled;
+}
+
+void EventManager::add_button(Button& btn)
+{
+	m_buttons.push_back(&btn);
 }

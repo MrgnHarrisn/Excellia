@@ -11,8 +11,12 @@ class EventManager
 {
 public:
 	EventManager(bool& is_placing_block, bool& is_breaking_block, bool& is_changing_block, Block& current_block, Camera& camera, Player& player, WorldManager& world_manager);
-	void poll_events(Button& button);
+	void poll_event(Button& button);
+	void poll_events();
+	bool check_ui(sf::Event& evnt);
+	void add_button(Button& btn);
 private:
+	std::vector<Button*> m_buttons;
 	sf::Event m_event;
 	bool& m_is_placing_block;
 	bool& m_is_breaking_block;

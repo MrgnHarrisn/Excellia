@@ -8,7 +8,7 @@ public:
     Button(const sf::Vector2f& size, const sf::String& text, const sf::Font& font, unsigned int characterSize = 30);
 
     void set_on_click(std::function<void()> callback);
-    void update(sf::Event event, const sf::RenderWindow& window);
+    bool update(sf::Event& event, const sf::RenderWindow& window);
 
 protected:
     void draw(sf::RenderTarget& target, sf::RenderStates states) const override;

@@ -90,7 +90,7 @@ int main()
 	bool is_breaking_block = false;
 	bool is_changing_block = false;
 	EventManager ev_manager(is_placing_block, is_breaking_block, is_changing_block, current_block, camera, player, world);
-
+	ev_manager.add_button(button);
 	// Main Loop
 	while (window.isOpen())
 	{
@@ -109,8 +109,7 @@ int main()
 
 		
 		// Update Events
-		ev_manager.poll_events(button);
-
+		ev_manager.poll_events();
 
 		// Update Mouse
 		mouse_pos = world.screen_pos_to_world_pos(sf::Mouse::getPosition(world.get_window()));

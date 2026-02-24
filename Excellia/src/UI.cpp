@@ -19,15 +19,23 @@ void Button::set_on_click(std::function<void()> callback) {
     on_click = callback;
 }
 
-void Button::update(sf::Event event, const sf::RenderWindow& window) {
-    if (event.type == sf::Event::MouseButtonPressed) {
-        sf::Vector2f mousePos = window.mapPixelToCoords(sf::Mouse::getPosition(window));
-        if (m_shape.getGlobalBounds().contains(mousePos)) {
-            if (on_click) {
-                on_click(); // Execute the button's callback
-            }
+bool Button::update(sf::Event& event, const sf::RenderWindow& window) {
+    // Use the default view (UI space) for coordinate mapping
+    sf::Vector2f mousePos = window.mapPixelToCoords(
+        sf::Mouse::getPosition(window),
+        window.getDefaultView()
+    );
+
+    // Transform the shape's local bounds to global bounds (in UI space)
+    sf::FloatRect globalBounds = getTransform().transformRect(m_shape.getLocalBounds());
+
+    if (globalBounds.contains(mousePos)) {
+        if (on_click != nullptr) {
+            on_click();
         }
+        return true;
     }
+    return false;
 }
 
 void Button::draw(sf::RenderTarget& target, sf::RenderStates states) const {
